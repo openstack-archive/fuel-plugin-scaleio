@@ -1,0 +1,1 @@
+class scaleio_fuel {}

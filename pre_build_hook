@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Add here any the actions which are required before plugin build
+# like packages building, packages downloading from mirrors and so on.
+# The script should return 0 if there were no errors.
+
+set -eux
+
+ROOT="$(dirname `readlink -f $0`)"
+RPM_REPO="${ROOT}"/repositories/centos/
+
+# Download ScaleIO for RHEL6 (zip file)
+wget -nv ftp://ftp.emc.com/Downloads/ScaleIO/ScaleIO_RHEL6_Download.zip -O /tmp/ScaleIO_RHEL6_Download.zip
+# Unzip files
+unzip -o /tmp/ScaleIO_RHEL6_Download.zip -d /tmp/scaleio/
+# Copy RPM files to the repository
+cp /tmp/scaleio/ScaleIO_*_RHEL6*/*.rpm "${RPM_REPO}"
