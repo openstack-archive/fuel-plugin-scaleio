@@ -1,0 +1,62 @@
+attributes:
+
+  password:
+    type: "password"
+    weight: 10
+    value: ""
+    label: "Admin password"
+    description: "Type ScaleIO Admin password"
+    regex:
+      source: '^[\S]{4,}$'
+      error: "You must provide a password with at least 4 characters"
+
+  version:
+    type: "text"
+    weight: 20
+    value: "latest"
+    label: "Version"
+    description: "ScaleIO version"
+
+  gw_password:
+    type: "password"
+    weight: 30
+    value: ""
+    label: "Gateway password"
+    description: "Type a password for the gateway"
+    regex:
+      source: '^[\S]{4,}$'
+      error: "You must provide a password with at least 4 characters"
+
+  cluster_name:
+    type: "text"
+    weight: 40
+    value: "cluster1"
+    label: "Cluster name"
+    description: "Name of the ScaleIO cluster"
+    regex:
+      source: '\S'
+      error: "Cluster name cannot be empty"
+
+  protection_domain:
+    type: "text"
+    value: "pd1"
+    label: "ScaleIO protection domain"
+    description: "Protection domain for ScaleIO"
+    weight: 45
+
+  storage_pool:
+    type: "text"
+    value: "sp1"
+    label: "ScaleIO storage pool"
+    description: "First storage pool for ScaleIO"
+    weight: 50
+
+  pool_size:
+    type: "text"
+    value: "10GB"
+    label: "Storage pool size"
+    description: "Size of the Storage Pool."
+    weight: 55
+    # regex:
+    #   source: '(?<sizevalue>\p{N}+)(?:\s*)(?<sizetype>(?:MB|KB|GB|B)\b)'
+    #   error: 'You must provide a valid size unit (B, KB, MB, GB). E.g.: 100GB'

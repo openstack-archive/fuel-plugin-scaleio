@@ -1,0 +1,56 @@
+# This tasks will be applied on controller nodes,
+# here you can also specify several roles, for example
+# ['cinder', 'compute'] will be applied only on
+# cinder and compute nodes
+- role: ['primary-controller']
+  stage: post_deployment/2000
+  type: puppet
+  parameters:
+    puppet_manifest: puppet/manifests/check_environment_configuration.pp
+    puppet_modules: puppet/modules:/etc/puppet/modules
+    timeout: 360
+
+- role: '*'
+  stage: post_deployment/2050
+  type: puppet
+  parameters:
+    puppet_manifest: puppet/manifests/scaleio.pp
+    puppet_modules: puppet/modules:/etc/puppet/modules
+    timeout: 600
+
+# - role: ['scaleio-gw']
+#   stage: post_deployment/2050
+#   type: puppet
+#   parameters:
+#     puppet_manifest: puppet/manifests/gateway.pp
+#     puppet_modules: puppet/modules
+#     timeout: 600
+# - role: ['scaleio-mdm']
+#   stage: post_deployment/2150
+#   type: puppet
+#   parameters:
+#     puppet_manifest: puppet/manifests/mdm.pp
+#     puppet_modules: puppet/modules
+#     timeout: 600
+# - role: ['scaleio-tb']
+#   stage: post_deployment/2250
+#   type: puppet
+#   parameters:
+#     puppet_manifest: puppet/manifests/tb.pp
+#     puppet_modules: puppet/modules
+#     timeout: 600
+# - role: ['scaleio-sds']
+#   stage: post_deployment/2300
+#   type: puppet
+#   parameters:
+#     puppet_manifest: puppet/manifests/sds.pp
+#     puppet_modules: puppet/modules
+#     timeout: 600
+
+
+# "reboot" task reboots the nodes and waits until they get back online
+# - role: '*'
+#   stage: pre_deployment
+#   type: reboot
+#   parameters:
+#     timeout: 600
