@@ -1,31 +1,18 @@
-# Fuel Plugin for ScaleIO
+# Fuel Plugin for ScaleIO <a href="http://buildserver.emccode.com/viewType.html?-buildTypeId=FuelPluginsForScaleIO_FuelPluginScaleio&guest=1"><img src="http://buildserver.emccode.com/app/rest/builds/buildType:(id:FuelPluginsForScaleIO_FuelPluginScaleio)/statusIcon"/></a>
 
-**Build:** <a href="http://buildserver.emccode.com/viewType.html?-buildTypeId=FuelPluginsForScaleIO_FuelPluginScaleio&guest=1"><img src="http://buildserver.emccode.com/app/rest/builds/buildType:(id:FuelPluginsForScaleIO_FuelPluginScaleio)/statusIcon"/></a>
+## Overview
 
-### Contents
+The `ScaleIO` plugin deploys an EMC ScaleIO cluster on the available nodes and replaces the default OpenStack volume backend by ScaleIO.
 
-- [Introduction](#Introduction)
-- [Requirements](#requirements)
-- [Recommendations](#recommendations)
-- [Limitations](#limitations)
-- [Contributions](#contributions)
-- [License](#lincense)
+If you want to leverage an existing ScaleIO cluster and deploy an OpenStack cluster to use that ScaleIO cluster, please take a look at the [ScaleIO Cinder](https://github.com/openstack/fuel-plugin-scaleio-cinder) plugin.
 
-
-## Introduction
-
-This Project provides [Fuel plugins](https://www.mirantis.com/products/openstack-drivers-and-plugins/fuel-plugins/) for [EMC's ScaleIO](http://www.emc.com/storage/scaleio/index.htm). This project has 3 deployment options:
-
-- **[External ScaleIO Cluster](https://github.com/emccode/fuel-plugin-scaleio-cinder-test/tree/master "External ScaleIO Cluster repository")**
-- **New ScaleIO Cluster with a standard OpenStack Deployment**
-- **New ScaleIO Cluster with a High Availability (HA) OpenStack Deployment**
 
 
 ## Requirements
 
 | Requirement                      | Version/Comment |
 |----------------------------------|-----------------|
-| Mirantis OpenStack compatibility | 6.1 or higher   |
+| Mirantis OpenStack compatibility | 6.1             |
 
 
 ## Recommendations
@@ -34,7 +21,88 @@ TODO.
 
 ## Limitations
 
-TODO.
+ScaleIO does not support Ubuntu yet. Therefore, as Mirantis 7.0 only supports Ubuntu, this plugin is only compatible with Mirantis 6.1 with CentOS.
+
+
+# Installation Guide
+
+## ScaleIO Plugin install from RPM file
+
+To install the ScaleIO plugin, follow these steps:
+
+1. Download the plugin from the [Fuel Plugins Catalog](https://software.mirantis.com/download-mirantis-openstack-fuel-plug-ins/).
+2. Copy the plugin file to the Fuel Master node. Follow the [Quick start guide](https://software.mirantis.com/quick-start/) if you don't have a running Fuel Master node yet.
+
+        scp scaleio-0.1-0.1.5-0.noarch.rpm root@<Fuel Master node IP address>:
+
+3. Install the plugin using the fuel command line.
+
+        fuel plugins --install scaleio-0.1-0.1.5-0.noarch.rpm
+
+4. Verify that the plugin is installed correctly.
+
+        fuel plugins
+
+## ScaleIO Plugin install from source code
+
+To install the ScaleIO Plugin from source code, you first need to prepare an environment to build the RPM file of the plugin. The recommended approach is to build the RPM file directly onto the Fuel Master node so that you won't have to copy that file later.
+
+Prepare an environment for building the plugin on the **Fuel Master node**.
+
+1. Install the standard Linux development tools:
+    ```
+    yum install createrepo rpm rpm-build dpkg-devel
+    ```
+
+2. Install the Fuel Plugin Builder. To do that, you should first get pip:
+
+    ```
+    # easy_install pip
+    ```
+
+3. Then install the Fuel Plugin Builder (the `fpb` command line) with `pip`:
+
+    ```
+    # pip install fuel-plugin-builder
+    ```
+
+*Note: You may also have to build the Fuel Plugin Builder if the package version of the
+plugin is higher than package version supported by the Fuel Plugin Builder you get from `pypi`.
+In this case, please refer to the section "Preparing an environment for plugin development"
+of the [Fuel Plugins wiki](https://wiki.openstack.org/wiki/Fuel/Plugins) if you
+need further instructions about how to build the Fuel Plugin Builder.*
+
+4. Clone the ScaleIO Plugin git repository:
+
+    ```
+    # git clone git@github.com:openstack/fuel-plugin-scaleio.git
+    ```
+
+5. Check that the plugin is valid:
+
+    ```
+    # fpb --check ./fuel-plugin-scaleio
+    ```
+
+6. And finally, build the plugin:
+
+    ```
+    # fpb --build ./fuel-plugin-scaleio
+    ```
+
+7. Now you have created an RPM file that you can install using the steps described above. The RPM file will be located in:
+
+    ```
+    ./fuel-plugin-scaleio/scaleio-0.1-0.1.5-1.noarch.rpm
+    ```
+
+# User Guide
+
+## ScaleIO plugin configuration
+
+1. Create a new environment with the Fuel UI wizard.
+2. Click on the Settings tab of the Fuel web UI.
+3. Scroll down the page, check the "ScaleIO plugin" box to  enable the plugin and fill-in the required fields.
 
 
 ## Contributions
@@ -58,8 +126,3 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
-
-## Support
-
-Please file bugs and issues at the Github issues page. For more general discussions you can contact the EMC Code team at <a href="https://groups.google.com/forum/#!forum/emccode-users">Google Groups</a> or tagged with **EMC** on <a href="https://stackoverflow.com">Stackoverflow.com</a>. The code and documentation are released with no warranties or SLAs and are intended to be supported through a community driven process.

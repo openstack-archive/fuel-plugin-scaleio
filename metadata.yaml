@@ -3,7 +3,7 @@ name: scaleio
 # Human-readable name for your plugin
 title: Fuel plugin for ScaleIO
 # Plugin version
-version: '0.1.5'
+version: '0.1.14'
 # Description
 description: Enable ScaleIO as a storage backend
 # Required fuel version
@@ -13,7 +13,7 @@ licenses: ['Apache License Version 2.0']
 # Specify author or company name
 authors: ['EMC Code']
 # A link to the plugin's page
-homepage: 'https://github.com/stackforge/fuel-plugin-scaleio'
+homepage: 'https://github.com/openstack/fuel-plugin-scaleio'
 # Specify a group which your plugin implements, possible options:
 # network, storage, storage::cinder, storage::glance, hypervisor
 groups: []

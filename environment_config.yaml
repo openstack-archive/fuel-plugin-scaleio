@@ -53,7 +53,7 @@ attributes:
 
   pool_size:
     type: "text"
-    value: "10GB"
+    value: "100GB"
     label: "Storage pool size"
     description: "Size of the Storage Pool."
     weight: 55
