@@ -4,3 +4,6 @@
 [submodule "deployment_scripts/puppet/modules/scaleio"]
 	path = deployment_scripts/puppet/modules/scaleio
 	url = https://github.com/adrianmo/puppet-scaleio
+[submodule "deployment_scripts/puppet/modules/wait_for"]
+	path = deployment_scripts/puppet/modules/wait_for
+	url = https://github.com/basti1302/puppet-wait-for
