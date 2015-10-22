@@ -13,6 +13,7 @@ class scaleio_fuel::params
     $protection_domain  = $scaleio['protection_domain']
     $storage_pool       = $scaleio['storage_pool']
     $pool_size          = $scaleio['pool_size']
+    $device             = '/var/sio_device1'
 
     $nodes_hash = $::fuel_settings['nodes']
     $controller_nodes = concat(filter_nodes($nodes_hash,'role','primary-controller'), filter_nodes($nodes_hash,'role','controller'))
@@ -55,18 +56,10 @@ class scaleio_fuel::params
 
     notice("Node role: ${role}, IP: ${node_ip}, FQDN: ${::fqdn}")
 
-    $sio_sds_device = {
-      "${::fqdn}" => {
-        'ip' => $node_ip,
-        'protection_domain' => $protection_domain,
-        'devices' => {
-          '/var/sio_device1' => {
-            'size' => $pool_size,
-            'storage_pool' => $storage_pool,
-          }
-        }
-      }
-    }
+    $sio_sds_device = get_sds_devices($nodes_hash, $device, $protection_domain, $pool_size, $storage_pool)
+
+    notice("sio_sds_device: ${sio_sds_device}")
+
 
 
     #TODO: Get callhome information from UI
