@@ -17,7 +17,7 @@ If you want to leverage an existing ScaleIO cluster and deploy an OpenStack clus
 
 ## Recommendations
 
-TODO.
+None.
 
 ## Limitations
 
@@ -72,10 +72,10 @@ In this case, please refer to the section "Preparing an environment for plugin d
 of the [Fuel Plugins wiki](https://wiki.openstack.org/wiki/Fuel/Plugins) if you
 need further instructions about how to build the Fuel Plugin Builder.*
 
-4. Clone the ScaleIO Plugin git repository:
+4. Clone the ScaleIO Plugin git repository (note the `--recursive` option):
 
     ```
-    # git clone git@github.com:openstack/fuel-plugin-scaleio.git
+    # git clone --recursive git@github.com:openstack/fuel-plugin-scaleio.git
     ```
 
 5. Check that the plugin is valid:
