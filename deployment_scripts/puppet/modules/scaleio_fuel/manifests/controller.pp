@@ -1,6 +1,8 @@
 class scaleio_fuel::controller
 inherits scaleio_fuel::params {
 
+  notice("Configuring Controller node for ScaleIO integration")
+
   $services = ['openstack-cinder-volume', 'openstack-cinder-api', 'openstack-cinder-scheduler', 'openstack-nova-scheduler']
 
 #2. Copy ScaleIO Files

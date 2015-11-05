@@ -1,4 +1,7 @@
 class scaleio_fuel::compute {
+
+  notice("Configuring Compute node for ScaleIO integration")
+
   $nova_service = 'openstack-nova-compute'
 
   #Configure nova-compute

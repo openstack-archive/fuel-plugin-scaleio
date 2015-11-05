@@ -29,8 +29,8 @@ class scaleio_fuel::params
     }
 
     $mdm_ip = [$controller_ips[0], $controller_ips[1]]
-    $tb_ip = $controller_ips[2]
-    $gw_ip = $controller_ips[3]
+    $tb_ip  = $controller_ips[2]
+    $gw_ip  = $controller_ips[3]
 
     $current_node = filter_nodes($nodes_hash,'uid', $::fuel_settings['uid'])
     $node_ip = join(values(nodes_to_hash($current_node,'name','internal_address')))
