@@ -21,6 +21,10 @@ Vagrant.configure(2) do |config|
     vb.memory = "1024"
   end
 
+  config.vm.provider "vmware_appcatalyst" do |v|
+    v.memory = "1024"
+  end
+
   config.vm.provision "shell", inline: $script
 
 end

@@ -13,3 +13,19 @@
     puppet_manifest: puppet/manifests/scaleio.pp
     puppet_modules: puppet/modules:/etc/puppet/modules
     timeout: 1800
+
+# - role: ['compute']
+#   stage: post_deployment/2100
+#   type: puppet
+#   parameters:
+#     puppet_manifest: puppet/manifests/compute.pp
+#     puppet_modules: puppet/modules:/etc/puppet/modules
+#     timeout: 600
+#
+# - role: ['primary-controller', 'controller']
+#   stage: post_deployment/2150
+#   type: puppet
+#   parameters:
+#     puppet_manifest: puppet/manifests/controller.pp
+#     puppet_modules: puppet/modules:/etc/puppet/modules
+#     timeout: 600
