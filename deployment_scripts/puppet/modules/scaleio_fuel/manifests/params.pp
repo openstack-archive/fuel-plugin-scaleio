@@ -60,8 +60,6 @@ class scaleio_fuel::params
 
     notice("sio_sds_device: ${sio_sds_device}")
 
-
-
     #TODO: Get callhome information from UI
     $callhome_cfg = {
       'email_to'      => "emailto@address.com",

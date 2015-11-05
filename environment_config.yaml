@@ -43,6 +43,9 @@ attributes:
     label: "ScaleIO protection domain"
     description: "Protection domain for ScaleIO"
     weight: 45
+    regex:
+      source: '\S'
+      error: "Protection Domain cannot be empty"
 
   storage_pool:
     type: "text"
@@ -50,6 +53,9 @@ attributes:
     label: "ScaleIO storage pool"
     description: "First storage pool for ScaleIO"
     weight: 50
+    regex:
+      source: '\S'
+      error: "Storage Pool cannot be empty"
 
   pool_size:
     type: "text"
@@ -57,6 +63,6 @@ attributes:
     label: "Storage pool size"
     description: "Size of the Storage Pool."
     weight: 55
-    # regex:
-    #   source: '(?<sizevalue>\p{N}+)(?:\s*)(?<sizetype>(?:MB|KB|GB|B)\b)'
-    #   error: 'You must provide a valid size unit (B, KB, MB, GB). E.g.: 100GB'
+    regex:
+      source: '(?<sizevalue>\p{N}+)(?:\s*)(?<sizetype>(?:MB|KB|GB|B)\b)'
+      error: 'You must provide a valid size unit (B, KB, MB, GB). E.g.: 100GB'
