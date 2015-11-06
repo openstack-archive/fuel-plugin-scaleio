@@ -3,8 +3,9 @@
 
 $script = <<SCRIPT
 sudo yum update -y
-sudo yum install python-devel createrepo rpm rpm-build dpkg-devel python-pip -y
-sudo pip install fuel-plugin-builder
+sudo yum install python-devel git createrepo rpm rpm-build dpkg-devel python-pip -y
+git clone https://github.com/openstack/fuel-plugins.git /tmp/fpb
+cd /tmp/fpb && sudo python setup.py develop
 SCRIPT
 
 Vagrant.configure(2) do |config|
