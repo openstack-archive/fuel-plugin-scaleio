@@ -63,6 +63,6 @@ attributes:
     label: "Storage pool size"
     description: "Size of the Storage Pool."
     weight: 55
-    regex:
-      source: '(?<sizevalue>\p{N}+)(?:\s*)(?<sizetype>(?:MB|KB|GB|B)\b)'
-      error: 'You must provide a valid size unit (B, KB, MB, GB). E.g.: 100GB'
+    # regex:
+    #   source: '(?<sizevalue>\p{N}+)(?:\s*)(?<sizetype>(?:MB|KB|GB|B)\b)'
+    #   error: 'You must provide a valid size unit (B, KB, MB, GB). E.g.: 100GB'
