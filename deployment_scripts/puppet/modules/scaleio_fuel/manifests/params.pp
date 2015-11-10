@@ -56,7 +56,7 @@ class scaleio_fuel::params
 
     notice("Node role: ${role}, IP: ${node_ip}, FQDN: ${::fqdn}")
 
-    $sio_sds_device = get_sds_devices($nodes_hash, $device, $protection_domain, $pool_size, $storage_pool)
+    $sio_sds_device = get_sds_devices($nodes_hash, $device, $protection_domain, $pool_size, $storage_pool, $gw_ip)
 
     notice("sio_sds_device: ${sio_sds_device}")
 
