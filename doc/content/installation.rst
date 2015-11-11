@@ -18,7 +18,7 @@ To install the ScaleIO Fuel plugin:
 
    ::
 
-      [root@fuel-master ~]# fuel plugins --install /tmp/fuel-plugin-xenserver-1.0-1.0.1-1.noarch.rpm
+      [root@fuel-master ~]# fuel plugins --install /tmp/fuel-plugin-scaleio-1.0-1.0.0-1.noarch.rpm
 
 #. Verify that the plugin is installed correctly:
    ::
