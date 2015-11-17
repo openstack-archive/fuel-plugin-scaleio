@@ -6,3 +6,6 @@
 *.rpm
 Documentation/~$$fuel-plugin-scaleio.~vsd
 Documentation/OS-Deployment-with-existing-ScaleIO/~$Fuel Plugins for ScaleIO.pptx
+
+# Python virtualenv
+venv/
