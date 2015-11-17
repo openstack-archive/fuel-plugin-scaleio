@@ -24,13 +24,12 @@ class scaleio_fuel::params
     notice("controller_hashes: ${controller_hashes}")
     notice("controller_ips: ${controller_ips}")
 
-    if size($controller_nodes) < 4 {
-        fail('ScaleIO plugin needs at least 4 controller nodes')
+    if size($controller_nodes) < 3 {
+        fail('ScaleIO plugin needs at least 3 controller nodes')
     }
 
     $mdm_ip = [$controller_ips[0], $controller_ips[1]]
     $tb_ip  = $controller_ips[2]
-    $gw_ip  = $controller_ips[3]
 
     $current_node = filter_nodes($nodes_hash,'uid', $::fuel_settings['uid'])
     $node_ip = join(values(nodes_to_hash($current_node,'name','internal_address')))
@@ -46,9 +45,6 @@ class scaleio_fuel::params
     }
     elsif $node_ip == $tb_ip {
         $role = 'tb'
-    }
-    elsif $node_ip == $gw_ip {
-        $role = 'gw'
     }
     else {
         $role = 'sds'
