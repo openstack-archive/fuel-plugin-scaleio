@@ -32,7 +32,8 @@ class scaleio_fuel::params
     $tb_ip  = $controller_ips[2]
 
     $current_node = filter_nodes($nodes_hash,'uid', $::fuel_settings['uid'])
-    $node_ip = join(values(nodes_to_hash($current_node,'name','internal_address')))
+    $node_ip = join(values(
+      nodes_to_hash($current_node,'name','internal_address')))
 
     notice("Current Node: ${current_node}")
 
@@ -52,21 +53,23 @@ class scaleio_fuel::params
 
     notice("Node role: ${role}, IP: ${node_ip}, FQDN: ${::fqdn}")
 
-    $sio_sds_device = get_sds_devices($nodes_hash, $device, $protection_domain, $pool_size, $storage_pool, $gw_ip)
+    $sio_sds_device = get_sds_devices(
+      $nodes_hash, $device, $protection_domain,
+      $pool_size, $storage_pool)
 
     notice("sio_sds_device: ${sio_sds_device}")
 
     #TODO: Get callhome information from UI
     $callhome_cfg = {
-      'email_to'      => "emailto@address.com",
-      'email_from'    => "emailfrom@address.com",
-      'username'      => "monitor_username",
-      'password'      => "monitor_password",
-      'customer'      => "customer_name",
-      'smtp_host'     => "smtp_host",
-      'smtp_port'     => "smtp_port",
-      'smtp_user'     => "smtp_user",
-      'smtp_password' => "smtp_password",
-      'severity'      => "error",
+      'email_to'      => 'emailto@address.com',
+      'email_from'    => 'emailfrom@address.com',
+      'username'      => 'monitor_username',
+      'password'      => 'monitor_password',
+      'customer'      => 'customer_name',
+      'smtp_host'     => 'smtp_host',
+      'smtp_port'     => 'smtp_port',
+      'smtp_user'     => 'smtp_user',
+      'smtp_password' => 'smtp_password',
+      'severity'      => 'error',
     }
 }

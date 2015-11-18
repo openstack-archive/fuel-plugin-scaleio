@@ -1,7 +1,12 @@
 class scaleio_fuel::controller
 inherits scaleio_fuel::params {
 
-  notice("Configuring Controller node for ScaleIO integration")
+  $mdm_ip            = $scaleio_fuel::params::mdm_ip
+  $gw_password       = $scaleio_fuel::params::gw_password
+  $protection_domain = $scaleio_fuel::params::protection_domain
+  $storage_pool      = $scaleio_fuel::params::storage_pool
+
+  notice('Configuring Controller node for ScaleIO integration')
 
   $services = ['openstack-cinder-volume', 'openstack-cinder-api', 'openstack-cinder-scheduler', 'openstack-nova-scheduler']
 
@@ -25,12 +30,12 @@ inherits scaleio_fuel::params {
 
 # 3. Create config for ScaleIO
   $cinder_scaleio_config = "[scaleio]
-rest_server_ip=$gw_ip
+rest_server_ip=${mdm_ip[0]}
 rest_server_username=admin
-rest_server_password=$gw_password
-protection_domain_name=$protection_domain
-storage_pools=$protection_domain:$storage_pool
-storage_pool_name=$storage_pool
+rest_server_password=${gw_password}
+protection_domain_name=${protection_domain}
+storage_pools=${protection_domain}:${storage_pool}
+storage_pool_name=${storage_pool}
 round_volume_capacity=True
 force_delete=True
 verify_server_certificate=False
@@ -80,13 +85,14 @@ verify_server_certificate=False
     section => 'ScaleIO',
     setting => 'volume_backend_name',
     value   => 'ScaleIO',
-  }~>
+  } ~>
 
   service { $services:
     ensure => running,
-  } ->
-
-  class {'scaleio_fuel::ha':
-    controllers => $controller_nodes,
   }
+  # ->
+  #
+  # class {'scaleio_fuel::ha':
+  #   controllers => $controller_nodes,
+  # }
 }
