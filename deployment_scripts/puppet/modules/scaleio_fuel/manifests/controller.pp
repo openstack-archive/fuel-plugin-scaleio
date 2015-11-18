@@ -84,5 +84,9 @@ verify_server_certificate=False
 
   service { $services:
     ensure => running,
+  } ->
+
+  class {'scaleio_fuel::ha':
+    controllers => $controller_nodes,
   }
 }
