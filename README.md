@@ -1,5 +1,3 @@
-### WARNING! Work in progress. Use it only for testing purposes.
-
 # Fuel Plugin for ScaleIO <a href="http://buildserver.emccode.com/viewType.html?-buildTypeId=FuelPluginsForScaleIO_FuelPluginScaleio&guest=1"><img src="http://buildserver.emccode.com/app/rest/builds/buildType:(id:FuelPluginsForScaleIO_FuelPluginScaleio)/statusIcon"/></a>
 
 ## Overview
@@ -107,24 +105,14 @@ need further instructions about how to build the Fuel Plugin Builder.*
 3. Scroll down the page, check the "ScaleIO plugin" box to  enable the plugin and fill-in the required fields.
 
 
-## Contributions
+# Contributions
 
-Please read the the [CONTRIBUTIONS.md](CONTRIBUTIONS.md) document for the latest information about contributions.
+Please read the [CONTRIBUTIONS.md](CONTRIBUTIONS.md) document for the latest information about contributions.
 
-## License
+# Bugs, requests, questions
 
-The fuel plugin for ScaleIO is licensed under the  [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0") license
+Please use the [Launchpad project site](https://launchpad.net/fuel-plugin-scaleio) to report bugs, request features, ask questions, etc.
 
-Copyright (c) 2015, EMC Corporation
+# License
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+Please read the [LICENSE](LICENSE) document for the latest licensing information.
