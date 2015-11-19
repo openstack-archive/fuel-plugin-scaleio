@@ -21,7 +21,7 @@ None.
 
 ## Limitations
 
-ScaleIO does not support Ubuntu yet. Therefore, as Mirantis 7.0 only supports Ubuntu, this plugin is only compatible with Mirantis 6.1 with CentOS.
+Due to some software limitations, this plugin is currently only compatible with Mirantis 6.1 and CentOS.
 
 
 # Installation Guide
@@ -31,17 +31,21 @@ ScaleIO does not support Ubuntu yet. Therefore, as Mirantis 7.0 only supports Ub
 To install the ScaleIO plugin, follow these steps:
 
 1. Download the plugin from the [Fuel Plugins Catalog](https://software.mirantis.com/download-mirantis-openstack-fuel-plug-ins/).
+
 2. Copy the plugin file to the Fuel Master node. Follow the [Quick start guide](https://software.mirantis.com/quick-start/) if you don't have a running Fuel Master node yet.
+    ```
+    $ scp scaleio-0.1-0.1.5-0.noarch.rpm root@<Fuel Master node IP address>:/tmp/
+    ```
 
-        scp scaleio-0.1-0.1.5-0.noarch.rpm root@<Fuel Master node IP address>:
-
-3. Install the plugin using the fuel command line.
-
-        fuel plugins --install scaleio-0.1-0.1.5-0.noarch.rpm
+3. Log into the Fuel Master node and install the plugin using the fuel command line.
+    ```
+    $ fuel plugins --install /tmp/scaleio-0.1-0.1.5-0.noarch.rpm
+    ```
 
 4. Verify that the plugin is installed correctly.
-
-        fuel plugins
+    ```
+    $ fuel plugins
+    ```
 
 ## ScaleIO Plugin install from source code
 
@@ -51,19 +55,17 @@ Prepare an environment for building the plugin on the **Fuel Master node**.
 
 1. Install the standard Linux development tools:
     ```
-    yum install createrepo rpm rpm-build dpkg-devel
+    $ yum install createrepo rpm rpm-build dpkg-devel
     ```
 
 2. Install the Fuel Plugin Builder. To do that, you should first get pip:
-
     ```
-    # easy_install pip
+    $ easy_install pip
     ```
 
 3. Then install the Fuel Plugin Builder (the `fpb` command line) with `pip`:
-
     ```
-    # pip install fuel-plugin-builder
+    $ pip install fuel-plugin-builder
     ```
 
 *Note: You may also have to build the Fuel Plugin Builder if the package version of the
@@ -73,41 +75,32 @@ of the [Fuel Plugins wiki](https://wiki.openstack.org/wiki/Fuel/Plugins) if you
 need further instructions about how to build the Fuel Plugin Builder.*
 
 4. Clone the ScaleIO Plugin git repository (note the `--recursive` option):
-
     ```
-    # git clone --recursive git@github.com:openstack/fuel-plugin-scaleio.git
+    $ git clone --recursive git@github.com:openstack/fuel-plugin-scaleio.git
     ```
 
 5. Check that the plugin is valid:
-
     ```
-    # fpb --check ./fuel-plugin-scaleio
+    $ fpb --check ./fuel-plugin-scaleio
     ```
 
-6. And finally, build the plugin:
-
+6. Build the plugin:
     ```
-    # fpb --build ./fuel-plugin-scaleio
+    $ fpb --build ./fuel-plugin-scaleio
     ```
 
 7. Now you have created an RPM file that you can install using the steps described above. The RPM file will be located in:
-
     ```
-    ./fuel-plugin-scaleio/scaleio-0.1-0.1.5-1.noarch.rpm
+    $ ./fuel-plugin-scaleio/scaleio-0.1-0.1.5-1.noarch.rpm
     ```
 
 # User Guide
 
-## ScaleIO plugin configuration
-
-1. Create a new environment with the Fuel UI wizard.
-2. Click on the Settings tab of the Fuel web UI.
-3. Scroll down the page, check the "ScaleIO plugin" box to  enable the plugin and fill-in the required fields.
-
+Please read the [ScaleIO Plugin User Guide](doc/user-guide.pdf).
 
 # Contributions
 
-Please read the [CONTRIBUTIONS.md](CONTRIBUTIONS.md) document for the latest information about contributions.
+Please read the [CONTRIBUTING.md](CONTRIBUTING.md) document for the latest information about contributions.
 
 # Bugs, requests, questions
 
