@@ -1,4 +1,4 @@
-# Fuel Plugin for ScaleIO <a href="http://buildserver.emccode.com/viewType.html?-buildTypeId=FuelPluginsForScaleIO_FuelPluginScaleio&guest=1"><img src="http://buildserver.emccode.com/app/rest/builds/buildType:(id:FuelPluginsForScaleIO_FuelPluginScaleio)/statusIcon"/></a>
+# ScaleIO Plugin for Fuel <a href="http://buildserver.emccode.com/viewType.html?-buildTypeId=FuelPluginsForScaleIO_FuelPluginScaleio&guest=1"><img src="http://buildserver.emccode.com/app/rest/builds/buildType:(id:FuelPluginsForScaleIO_FuelPluginScaleio)/statusIcon"/></a>
 
 ## Overview
 
@@ -96,7 +96,7 @@ need further instructions about how to build the Fuel Plugin Builder.*
 
 # User Guide
 
-Please read the [ScaleIO Plugin User Guide](doc/user-guide.pdf).
+Please read the [ScaleIO Plugin User Guide](doc).
 
 # Contributions
 

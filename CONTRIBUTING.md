@@ -11,7 +11,7 @@ The Fuel plugin for ScaleIO project has been licensed under the  [Apache 2.0](ht
 
 As part of the contribution, in the code comments (or license file) associated with the contribution must include the following:
 
-Copyright [yyyy] [name of copyright owner]
+Copyright (c) 2015, EMC Corporation
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
