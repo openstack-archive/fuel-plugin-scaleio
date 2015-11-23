@@ -1,4 +1,4 @@
-EMC ScaleIO Plugin for Fuel 6.1
+ScaleIO Plugin for Fuel 6.1
 ===============================
 
 EMC ScaleIO is a software-only server-based storage area network (SAN) that converges storage and compute resources to form a single-layer, enterprise-grade storage product. ScaleIO storage is elastic and delivers linearly scalable performance. Its scale-out server SAN architecture can grow from a few to thousands of servers.
@@ -15,21 +15,17 @@ ScaleIO Components
 ------------------
 
 **ScaleIO Data Client (SDC)**
-
 - Acts as Block Device Driver
 - Exposes volumes to applications
 - Service must run to provide access to volumes
 - Over TCP/IP
 
-
 **ScaleIO Data Service (SDS)**
-
 - Abstracts storage media
 - Contributes to storage pools
 - Performs I/O operations
 
 **ScaleIO Metadata Manager (MDM)**
-
 - Not located in the data path
 - Provides Monitoring and Configuration management
 - Holds cluster-wide component mapping
@@ -47,13 +43,14 @@ Requirements
 ========================= ===============
 Requirement               Version/Comment
 ========================= ===============
-Fuel                      6.1
+Mirantis OpenStack        6.1
 ========================= ===============
 
 * This plugin will deploy an EMC ScaleIO 1.32 cluster on the available nodes and replace the default OpenStack volume backend by ScaleIO.
+* A minimum of 3 Controller nodes and 1 Compute node are required.
 
 
 Limitations
 -----------
 
-ScaleIO 1.32 does not support Ubuntu. Therefore, as Mirantis 7.0 only supports Ubuntu, this plugin is only compatible with Mirantis 6.1 with CentOS.
+Currently, this plugin is **only** compatible with Mirantis OpenStack 6.1 and CentOS 6.5 as the base OS.

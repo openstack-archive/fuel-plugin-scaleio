@@ -1,11 +1,12 @@
+# Mac
+.DS_Store
+
 # Vagrant
 .vagrant/
 
 # Fuel Plugin Builder
 .build/
 *.rpm
-Documentation/~$$fuel-plugin-scaleio.~vsd
-Documentation/OS-Deployment-with-existing-ScaleIO/~$Fuel Plugins for ScaleIO.pptx
 
 # Python virtualenv
 venv/

@@ -1,4 +1,4 @@
-EMC ScaleIO Fuel Plugin User Guide
+ScaleIO Fuel Plugin User Guide
 ==================================
 
 Once the Fuel ScaleIO plugin has been installed (following
@@ -8,7 +8,20 @@ uses ScaleIO as the block storage backend.
 Prepare infrastructure
 ----------------------
 
-TODO
+At least 5 nodes are required to successfully deploy Mirantis OpenStack with ScaleIO.
+
+#. Fuel master node (w/ 50GB Disk, 2 Network interfaces [Mgmt, PXE] )
+#. OpenStack Controller #1 node
+#. OpenStack Controller #2 node
+#. OpenStack Controller #3 node
+#. OpenStack Compute node
+
+Each node shall have at least 2 CPUs, 4GB RAM, 200GB disk, 4 Network interfaces. The 4 networks are:
+
+#. PXE Network
+#. Public Network
+#. Private Network
+#. Management Network
 
 
 Select Environment
@@ -16,8 +29,8 @@ Select Environment
 
 #. Create a new environment with the Fuel UI wizard. Select "Juno on CentOS 6.5" from OpenStack Release dropdown list and continue until you finish with the wizard.
 
-   .. image:: images/wizard.png
-      :width: 80%
+    .. image:: images/wizard.png
+       :width: 80%
 
 #. Add VMs to the new environment according to `Fuel User Guide <https://docs.mirantis.com/openstack/fuel/fuel-6.1/user-guide.html#add-nodes-to-the-environment>`_ and configure them properly.
 
@@ -27,8 +40,8 @@ Plugin configuration
 
 #. Go to the Settings tab and scroll down to "ScaleIO Fuel Plugin" section. You need to fill all fields with your preferred ScaleIO configuration. If you don't know the purpose of a field you can leave it with its default value.
 
-   .. image:: images/settings.png
-      :width: 80%
+    .. image:: images/settings.png
+       :width: 80%
 
 #. Take the time to review and configure other environment settings such as the DNS and NTP servers, URLs for the repositories, etc.
 
@@ -40,12 +53,18 @@ Finish environment configuration
 
 #. Run `network verification check <https://docs.mirantis.com/openstack/fuel/fuel-6.1/user-guide.html#verify-networks>`_
 
+    .. image:: images/network.png
+       :width: 80%
+
 #. Press `Deploy button <https://docs.mirantis.com/openstack/fuel/fuel-6.1/user-guide.html#deploy-changes>`_ to once you are done with environment configuration.
 
-#. After deployment is done, you will see in Horizon that all Cinder hosts use ScaleIO as a backend.
+    .. image:: images/deploy.png
+       :width: 80%
 
-   .. image:: images/horizon.png
-      :width: 80%
+#. After deployment is done, you will see a message indicating the result of the deployment.
+
+    .. image:: images/deploy_result.png
+       :width: 80%
 
 
 ScaleIO verification
@@ -55,9 +74,6 @@ Once the OpenStack cluster is setup, we can make use of ScaleIO volumes. This is
 
 #. Login into the OpenStack Cluster:
 
-    .. image:: images/horizon-login.png
-       :width: 80%
-
 #. Review the block storage services by navigating to the "Admin -> System -> System Information" section. You should see the ScaleIO volume.
 
     .. image:: images/block-storage-services.png
@@ -66,6 +82,16 @@ Once the OpenStack cluster is setup, we can make use of ScaleIO volumes. This is
 #. Review the System Volumes by navigating to "Admin -> System -> Volumes". You should see the ScaleIO volume type:
 
     .. image:: images/volume-type.png
+       :width: 80%
+
+#. Open the ScaleIO Control Panel and verify that it successfully reflects the ScaleIO resources:
+
+    .. image:: images/scaleio_cp.png
+       :width: 80%
+
+#. Click on the "Backend" tab and verify all SDS nodes:
+
+    .. image:: images/scaleio_sds.png
        :width: 80%
 
 #. Create a new OpenStack volume using the ScaleIO volume type.
