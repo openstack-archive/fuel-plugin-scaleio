@@ -6,11 +6,11 @@ class scaleio_fuel::sds {
     $sio_sds_device       = $scaleio_fuel::params::sio_sds_device
 
     class {'::scaleio':
-          password => $admin_password,
-          version => $version,
-          mdm_ip => $mdm_ip,
-          sio_sds_device => $sio_sds_device,
+          password         => $admin_password,
+          version          => $version,
+          mdm_ip           => $mdm_ip,
+          sio_sds_device   => $sio_sds_device,
           sds_ssd_env_flag => true,
-          components => ['sds','lia'],
+          components       => ['sds','sdc','lia'],
     }
 }
