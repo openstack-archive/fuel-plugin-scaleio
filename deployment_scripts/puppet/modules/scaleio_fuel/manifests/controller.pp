@@ -10,6 +10,7 @@ inherits scaleio_fuel::params {
 
   $services = ['openstack-cinder-volume', 'openstack-cinder-api', 'openstack-cinder-scheduler', 'openstack-nova-scheduler']
 
+
 #2. Copy ScaleIO Files
   file { 'scaleio.py':
     path   => '/usr/lib/python2.6/site-packages/cinder/volume/drivers/emc/scaleio.py',
@@ -90,9 +91,4 @@ verify_server_certificate=False
   service { $services:
     ensure => running,
   }
-  # ->
-  #
-  # class {'scaleio_fuel::ha':
-  #   controllers => $controller_nodes,
-  # }
 }
