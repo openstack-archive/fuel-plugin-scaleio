@@ -3,7 +3,7 @@ name: scaleio
 # Human-readable name for your plugin
 title: Fuel plugin for ScaleIO
 # Plugin version
-version: '0.2.5'
+version: '0.2.6'
 # Description
 description: Enable ScaleIO as a storage backend
 # Required fuel version
