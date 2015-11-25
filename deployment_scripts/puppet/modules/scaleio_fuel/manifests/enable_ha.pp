@@ -28,13 +28,14 @@ inherits scaleio_fuel::params {
   openstack::ha::haproxy_service { 'scaleio-gateway':
     order                  => 201,
     listen_port            => 4443,
-    balancermember_port    => 4443,
+    balancermember_port    => 443,
     define_backups         => true,
     before_start           => true,
     public                 => true,
     haproxy_config_options => {
       'balance' => 'roundrobin',
-      'option'  => ['httplog'],
+      'mode'    => 'tcp',
+      'option'  => ['tcplog'],
     },
     balancermember_options => 'check',
   }
