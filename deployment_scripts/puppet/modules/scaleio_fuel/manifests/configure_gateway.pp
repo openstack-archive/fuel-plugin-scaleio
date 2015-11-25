@@ -1,4 +1,4 @@
-class scaleio_fuel::gateway_configuration
+class scaleio_fuel::configure_gateway
 inherits scaleio_fuel::params {
 
   $role = $scaleio_fuel::params::role
@@ -35,7 +35,7 @@ inherits scaleio_fuel::params {
       enable     => true,
       hasrestart => true,
     }
-    
+
   } else {
     notify {'Gateway not installed. Not doing anything.':}
   }

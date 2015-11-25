@@ -10,7 +10,7 @@
   stage: post_deployment/2050
   type: puppet
   parameters:
-    puppet_manifest: puppet/manifests/scaleio.pp
+    puppet_manifest: puppet/manifests/install_scaleio.pp
     puppet_modules: puppet/modules:/etc/puppet/modules
     timeout: 1800
 
@@ -18,7 +18,7 @@
   stage: post_deployment/2100
   type: puppet
   parameters:
-    puppet_manifest: puppet/manifests/gateway_configuration.pp
+    puppet_manifest: puppet/manifests/configure_gateway.pp
     puppet_modules: puppet/modules:/etc/puppet/modules
     timeout: 600
 
@@ -34,7 +34,7 @@
   stage: post_deployment/2200
   type: puppet
   parameters:
-    puppet_manifest: puppet/manifests/compute.pp
+    puppet_manifest: puppet/manifests/configure_nova.pp
     puppet_modules: puppet/modules:/etc/puppet/modules
     timeout: 600
 
@@ -42,7 +42,7 @@
   stage: post_deployment/2250
   type: puppet
   parameters:
-    puppet_manifest: puppet/manifests/controller.pp
+    puppet_manifest: puppet/manifests/configure_cinder.pp
     puppet_modules: puppet/modules:/etc/puppet/modules
     timeout: 600
 

@@ -1,4 +1,4 @@
-class scaleio_fuel::compute {
+class scaleio_fuel::configure_nova {
 
   notice("Configuring Compute node for ScaleIO integration")
 

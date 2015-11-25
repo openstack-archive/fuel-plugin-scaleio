@@ -1,4 +1,4 @@
-class scaleio_fuel::controller
+class scaleio_fuel::configure_cinder
 inherits scaleio_fuel::params {
 
   $mdm_ip            = $scaleio_fuel::params::mdm_ip

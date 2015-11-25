@@ -1,12 +1,9 @@
 $scaleio = hiera('scaleio')
 
 if $scaleio['metadata']['enabled'] {
-    notice("ScaleIO plugin enabled in $deployment_mode mode")
-
-    #TODO: Add checks for ScaleIO plugin
-    #TODO: Check repo URL
-    #TODO: Check version
+    notify{'ScaleIO plugin enabled': }
+    #TODO: Check that Storage pool has enough space
 
 } else {
-    notice("ScaleIO plugin disabled")
+    notify{'ScaleIO plugin disabled': }
 }
