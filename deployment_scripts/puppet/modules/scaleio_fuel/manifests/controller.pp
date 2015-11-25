@@ -31,7 +31,8 @@ inherits scaleio_fuel::params {
 
 # 3. Create config for ScaleIO
   $cinder_scaleio_config = "[scaleio]
-rest_server_ip=${mdm_ip[0]}
+rest_server_ip=${::fuel_settings['management_vip']}
+rest_server_port=4443
 rest_server_username=admin
 rest_server_password=${gw_password}
 protection_domain_name=${protection_domain}

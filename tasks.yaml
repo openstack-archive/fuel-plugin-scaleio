@@ -22,8 +22,16 @@
     puppet_modules: puppet/modules:/etc/puppet/modules
     timeout: 600
 
-- role: ['compute']
+- role: ['primary-controller', 'controller']
   stage: post_deployment/2150
+  type: puppet
+  parameters:
+    puppet_manifest: puppet/manifests/enable_ha.pp
+    puppet_modules: puppet/modules:/etc/puppet/modules
+    timeout: 600
+
+- role: ['compute']
+  stage: post_deployment/2200
   type: puppet
   parameters:
     puppet_manifest: puppet/manifests/compute.pp
@@ -31,20 +39,12 @@
     timeout: 600
 
 - role: ['primary-controller', 'controller']
-  stage: post_deployment/2200
+  stage: post_deployment/2250
   type: puppet
   parameters:
     puppet_manifest: puppet/manifests/controller.pp
     puppet_modules: puppet/modules:/etc/puppet/modules
     timeout: 600
-
-# - role: ['primary-controller']
-#   stage: post_deployment/2250
-#   type: puppet
-#   parameters:
-#     puppet_manifest: puppet/manifests/enable_ha.pp
-#     puppet_modules: puppet/modules:/etc/puppet/modules
-#     timeout: 600
 
 - role: ['primary-controller']
   stage: post_deployment/2300
