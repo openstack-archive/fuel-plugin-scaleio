@@ -7,15 +7,8 @@ attributes:
     label: "Admin password"
     description: "Type ScaleIO Admin password"
     regex:
-      source: '^[\S]{4,}$'
-      error: "You must provide a password with at least 4 characters"
-
-  version:
-    type: "text"
-    weight: 20
-    value: "latest"
-    label: "Version"
-    description: "ScaleIO version"
+      source: '^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,15}$'
+      error: "You must provide a password with between 8 and 15 characters, one uppercase, and one number"
 
   gw_password:
     type: "password"
@@ -24,45 +17,15 @@ attributes:
     label: "Gateway password"
     description: "Type a password for the gateway"
     regex:
-      source: '^[\S]{4,}$'
-      error: "You must provide a password with at least 4 characters"
-
-  cluster_name:
-    type: "text"
-    weight: 40
-    value: "cluster1"
-    label: "Cluster name"
-    description: "Name of the ScaleIO cluster"
-    regex:
-      source: '\S'
-      error: "Cluster name cannot be empty"
-
-  protection_domain:
-    type: "text"
-    value: "pd1"
-    label: "ScaleIO protection domain"
-    description: "Protection domain for ScaleIO"
-    weight: 45
-    regex:
-      source: '\S'
-      error: "Protection Domain cannot be empty"
-
-  storage_pool:
-    type: "text"
-    value: "sp1"
-    label: "ScaleIO storage pool"
-    description: "First storage pool for ScaleIO"
-    weight: 50
-    regex:
-      source: '\S'
-      error: "Storage Pool cannot be empty"
+      source: '^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,15}$'
+      error: "You must provide a password with between 8 and 15 characters, one uppercase, and one number"
 
   pool_size:
     type: "text"
-    value: "100GB"
-    label: "Storage pool size"
-    description: "Size of the Storage Pool."
+    value: "100"
+    label: "Storage pool size (in GB)"
+    description: "Amount in GB that each node will contribute to the storage pool. Please make sure all nodes have enough disk space to allocate the provided amount."
     weight: 55
-    # regex:
-    #   source: '(?<sizevalue>\p{N}+)(?:\s*)(?<sizetype>(?:MB|KB|GB|B)\b)'
-    #   error: 'You must provide a valid size unit (B, KB, MB, GB). E.g.: 100GB'
+    regex:
+      source: '^([1-9]\d\d|[1-9]\d{3,})$'
+      error: 'You must provide a number greater than 100'

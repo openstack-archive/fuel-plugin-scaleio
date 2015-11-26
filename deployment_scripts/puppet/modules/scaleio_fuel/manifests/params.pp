@@ -1,18 +1,14 @@
 class scaleio_fuel::params
 {
-    if $::osfamily != 'RedHat' {
-        fail("Unsupported osfamily: ${::osfamily} operatingsystem: ${::operatingsystem}, module ${module_name} currently only supports osfamily RedHat")
-    }
-
-    # Get input parameters from the web UI
+    # ScaleIO config parameters
     $scaleio            = $::fuel_settings['scaleio']
     $admin_password     = $scaleio['password']
     $gw_password        = $scaleio['gw_password']
-    $version            = $scaleio['version']
-    $cluster_name       = $scaleio['cluster_name']
-    $protection_domain  = $scaleio['protection_domain']
-    $storage_pool       = $scaleio['storage_pool']
-    $pool_size          = $scaleio['pool_size']
+    $version            = 'latest'
+    $cluster_name       = 'cluster1'
+    $protection_domain  = 'pd1'
+    $storage_pool       = 'sp1'
+    $pool_size          = "${scaleio['pool_size']}GB"
     $device             = '/var/sio_device1'
 
     $nodes_hash = $::fuel_settings['nodes']
@@ -20,9 +16,8 @@ class scaleio_fuel::params
     $controller_hashes = nodes_to_hash($controller_nodes,'name','internal_address')
     $controller_ips = ipsort(values($controller_hashes))
 
-    notice("controller_nodes: ${controller_nodes}")
-    notice("controller_hashes: ${controller_hashes}")
-    notice("controller_ips: ${controller_ips}")
+    notify {"Controller Nodes: ${controller_nodes}": }
+    notify {"Controller IPs: ${controller_ips}": }
 
     if size($controller_nodes) < 3 {
         fail('ScaleIO plugin needs at least 3 controller nodes')
@@ -35,29 +30,22 @@ class scaleio_fuel::params
     $node_ip = join(values(
       nodes_to_hash($current_node,'name','internal_address')))
 
-    notice("Current Node: ${current_node}")
+    notify {"Current Node: ${current_node}": }
 
-    #TODO: refactor needed
-    if $node_ip == $mdm_ip[0] {
-        $role = 'mdm'
-    }
-    elsif $node_ip == $mdm_ip[1] {
-        $role = 'mdm'
-    }
-    elsif $node_ip == $tb_ip {
-        $role = 'tb'
-    }
-    else {
-        $role = 'sds'
+    case $node_ip {
+      $mdm_ip[0]:       { $role = 'mdm' }
+      $mdm_ip[1]:       { $role = 'mdm' }
+      $tb_ip:           { $role = 'tb' }
+      default:          { $role = 'sds' }
     }
 
-    notice("Node role: ${role}, IP: ${node_ip}, FQDN: ${::fqdn}")
+    notify {"Node role: ${role}, IP: ${node_ip}, FQDN: ${::fqdn}": }
 
     $sio_sds_device = get_sds_devices(
       $nodes_hash, $device, $protection_domain,
       $pool_size, $storage_pool)
 
-    notice("sio_sds_device: ${sio_sds_device}")
+    notify {"SDS devices: ${sio_sds_device}": }
 
     #TODO: Get callhome information from UI
     $callhome_cfg = {

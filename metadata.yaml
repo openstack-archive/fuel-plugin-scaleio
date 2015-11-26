@@ -1,22 +1,22 @@
 # Plugin name
 name: scaleio
 # Human-readable name for your plugin
-title: Fuel plugin for ScaleIO
+title: ScaleIO plugin
 # Plugin version
-version: '0.2.7'
+version: '0.2.8'
 # Description
-description: Enable ScaleIO as a storage backend
+description: Deploy and enable EMC ScaleIO as the block storage backend
 # Required fuel version
 fuel_version: ['6.1']
 # Specify license of your plugin
 licenses: ['Apache License Version 2.0']
 # Specify author or company name
-authors: ['EMC Code']
+authors: ['Adrian Moreno Martinez, EMC', 'Magdy Salem, EMC']
 # A link to the plugin's page
 homepage: 'https://github.com/openstack/fuel-plugin-scaleio'
 # Specify a group which your plugin implements, possible options:
 # network, storage, storage::cinder, storage::glance, hypervisor
-groups: []
+groups: ['storage']
 
 # The plugin is compatible with releases in the list
 releases:
