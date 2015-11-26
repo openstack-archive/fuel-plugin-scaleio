@@ -76,15 +76,15 @@ Implementation
 This plugin contains several tasks:
 
 * The first task installs the ScaleIO cluster. All nodes will contribute to the
-storage pool by the amount specified by the user in the configuration process.
-Controllers 1, 2, and 3 will contain the MDM and the Gateway in HA mode.
+  storage pool by the amount specified by the user in the configuration process.
+  Controllers 1, 2, and 3 will contain the MDM and the Gateway in HA mode.
 * The second task configures the ScaleIO gateway to avoid interference with the
-Horizon dashboard.
+  Horizon dashboard.
 * The third task enables HA in the ScaleIO gateway instances.
 * The fourth task configures all Compute nodes to use ScaleIO backend.
 * The fifth task configures all Controller nodes to use ScaleIO backend.
 * The sixth task creates and configures a Cinder volume type with the parameters
-from the ScaleIO cluster.
+  from the ScaleIO cluster.
 
 
 Assignee(s)
