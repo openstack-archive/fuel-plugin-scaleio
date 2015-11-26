@@ -1,5 +1,9 @@
-ScaleIO Fuel Plugin User Guide
-==================================
+.. raw:: pdf
+
+   PageBreak
+
+User Guide
+==========
 
 Once the Fuel ScaleIO plugin has been installed (following
 `Installation Guide`_), you can create an *OpenStack* environments that
@@ -23,6 +27,10 @@ Each node shall have at least 2 CPUs, 4GB RAM, 200GB disk, 4 Network interfaces.
 #. Private Network
 #. Management Network
 
+Controllers 1, 2, and 3 will be used as ScaleIO MDMs, being the primary, secondary, and tie-breaker, respectively. Moreover, they will also host the ScaleIO Gateway in HA mode.
+
+All nodes are used as ScaleIO SDS and, therefore, contribute to the default storage pool.
+
 
 Select Environment
 ------------------
@@ -38,7 +46,7 @@ Select Environment
 Plugin configuration
 --------------------
 
-#. Go to the Settings tab and scroll down to "ScaleIO Fuel Plugin" section. You need to fill all fields with your preferred ScaleIO configuration. If you don't know the purpose of a field you can leave it with its default value.
+#. Go to the Settings tab and scroll down to "ScaleIO plugin" section. You need to fill all fields with your preferred ScaleIO configuration. If you do not know the purpose of a field you can leave it with its default value.
 
     .. image:: images/settings.png
        :width: 80%
@@ -63,7 +71,7 @@ Finish environment configuration
 
 #. After deployment is done, you will see a message indicating the result of the deployment.
 
-    .. image:: images/deploy_result.png
+    .. image:: images/deploy-result.png
        :width: 80%
 
 
@@ -72,44 +80,36 @@ ScaleIO verification
 
 Once the OpenStack cluster is setup, we can make use of ScaleIO volumes. This is an example about how to attach a volume to a running VM.
 
-#. Login into the OpenStack Cluster:
+#. Login into the OpenStack cluster:
 
-#. Review the block storage services by navigating to the "Admin -> System -> System Information" section. You should see the ScaleIO volume.
+#. Review the block storage services by navigating to the "Admin -> System -> System Information" section. You should see the "@ScaleIO" appended to all cinder-volume hosts.
 
     .. image:: images/block-storage-services.png
        :width: 80%
 
-#. Review the System Volumes by navigating to "Admin -> System -> Volumes". You should see the ScaleIO volume type:
+#. Review the System Volumes by navigating to "Admin -> System -> Volumes". You should see a volume type called "sio_thin" with the following extra specs.
 
     .. image:: images/volume-type.png
        :width: 80%
 
 #. Open the ScaleIO Control Panel and verify that it successfully reflects the ScaleIO resources:
 
-    .. image:: images/scaleio_cp.png
+    .. image:: images/scaleio-cp.png
        :width: 80%
 
 #. Click on the "Backend" tab and verify all SDS nodes:
 
-    .. image:: images/scaleio_sds.png
+    .. image:: images/scaleio-sds.png
        :width: 80%
 
-#. Create a new OpenStack volume using the ScaleIO volume type.
-
-    .. image:: images/new-volume.png
-       :width: 80%
-
-#. Review the newly created volume.
-
-    .. image:: images/review-new-volume.png
-       :width: 80%
+#. Create a new OpenStack volume using the "sio_thin" volume type.
 
 #. In the ScaleIO Control Panel, you will see that there is one volume defined but none have been mapped yet.
 
     .. image:: images/sio-volume-defined.png
-       :width: 80%
+       :width: 40%
 
 #. Once the volume is attached to a VM, the ScaleIO Control Panel will reflect the mapping.
 
     .. image:: images/sio-volume-mapped.png
-       :width: 80%
+       :width: 40%

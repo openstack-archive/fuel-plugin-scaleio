@@ -1,4 +1,8 @@
 
+.. raw:: pdf
+
+   PageBreak
+
 Installation Guide
 ==================
 
@@ -11,14 +15,16 @@ To install the ScaleIO Fuel plugin:
 #. Copy the *rpm* file to the Fuel Master node:
    ::
 
-      [root@home ~]# scp fuel-plugin-scaleio-0.3-0.3.0-1.noarch.rpm root@fuel-master:/tmp
+      [root@home ~]# scp fuel-plugin-scaleio-0.3-0.3.0-1.noarch.rpm
+      root@fuel-master:/tmp
 
 #. Log into Fuel Master node and install the plugin using the
    `Fuel CLI <https://docs.mirantis.com/openstack/fuel/fuel-6.1/user-guide.html#using-fuel-cli>`_:
 
    ::
 
-      [root@fuel-master ~]# fuel plugins --install /tmp/fuel-plugin-scaleio-0.3-0.3.0-1.noarch.rpm
+      [root@fuel-master ~]# fuel plugins --install
+      /tmp/fuel-plugin-scaleio-0.3-0.3.0-1.noarch.rpm
 
 #. Verify that the plugin is installed correctly:
    ::
