@@ -10,6 +10,7 @@ class scaleio_fuel::params
     $storage_pool       = 'sp1'
     $pool_size          = "${scaleio['pool_size']}GB"
     $device             = '/var/sio_device1'
+    $volume_type        = 'sio_thin'
 
     $nodes_hash = $::fuel_settings['nodes']
     $controller_nodes = concat(filter_nodes($nodes_hash,'role','primary-controller'), filter_nodes($nodes_hash,'role','controller'))

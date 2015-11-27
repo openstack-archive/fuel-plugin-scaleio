@@ -1,9 +1,10 @@
-class scaleio_fuel::create_volume_type {
+class scaleio_fuel::create_volume_type
+inherits scaleio_fuel::params {
 
   $scaleio            = $::fuel_settings['scaleio']
-  $protection_domain  = $scaleio['protection_domain']
-  $storage_pool       = $scaleio['storage_pool']
-  $volume_type        = 'sio_thin'
+  $protection_domain  = $scaleio_fuel::params::protection_domain
+  $storage_pool       = $scaleio_fuel::params::storage_pool
+  $volume_type        = $scaleio_fuel::params::volume_type
 
   exec { "Create Cinder volume type \'${volume_type}\'":
     command => "bash -c 'source /root/openrc; cinder type-create ${volume_type}'",
