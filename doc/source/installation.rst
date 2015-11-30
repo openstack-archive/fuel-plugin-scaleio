@@ -1,7 +1,4 @@
-
-.. raw:: pdf
-
-   PageBreak
+.. _installation:
 
 Installation Guide
 ==================

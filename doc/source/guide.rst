@@ -1,12 +1,8 @@
-.. raw:: pdf
-
-   PageBreak
-
 User Guide
 ==========
 
-Once the Fuel ScaleIO plugin has been installed (following
-`Installation Guide`_), you can create an *OpenStack* environments that
+Once the Fuel ScaleIO plugin has been installed (following the
+:ref:`Installation Guide <installation>`), you can create an *OpenStack* environments that
 uses ScaleIO as the block storage backend.
 
 Prepare infrastructure
