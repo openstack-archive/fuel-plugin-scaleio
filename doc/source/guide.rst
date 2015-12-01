@@ -34,7 +34,7 @@ Select Environment
 #. Create a new environment with the Fuel UI wizard. Select "Juno on CentOS 6.5" from OpenStack Release dropdown list and continue until you finish with the wizard.
 
     .. image:: images/wizard.png
-       :width: 80%
+       :width: 60%
 
 #. Add VMs to the new environment according to `Fuel User Guide <https://docs.mirantis.com/openstack/fuel/fuel-6.1/user-guide.html#add-nodes-to-the-environment>`_ and configure them properly.
 
@@ -45,7 +45,7 @@ Plugin configuration
 #. Go to the Settings tab and scroll down to "ScaleIO plugin" section. You need to fill all fields with your preferred ScaleIO configuration. If you do not know the purpose of a field you can leave it with its default value.
 
     .. image:: images/settings.png
-       :width: 80%
+       :width: 70%
 
 #. Take the time to review and configure other environment settings such as the DNS and NTP servers, URLs for the repositories, etc.
 
@@ -63,7 +63,7 @@ Finish environment configuration
 #. Press `Deploy button <https://docs.mirantis.com/openstack/fuel/fuel-6.1/user-guide.html#deploy-changes>`_ to once you are done with environment configuration.
 
     .. image:: images/deploy.png
-       :width: 80%
+       :width: 40%
 
 #. After deployment is done, you will see a message indicating the result of the deployment.
 
@@ -86,7 +86,7 @@ Once the OpenStack cluster is setup, we can make use of ScaleIO volumes. This is
 #. Review the System Volumes by navigating to "Admin -> System -> Volumes". You should see a volume type called "sio_thin" with the following extra specs.
 
     .. image:: images/volume-type.png
-       :width: 80%
+       :width: 50%
 
 #. Open the ScaleIO Control Panel and verify that it successfully reflects the ScaleIO resources:
 
@@ -103,9 +103,9 @@ Once the OpenStack cluster is setup, we can make use of ScaleIO volumes. This is
 #. In the ScaleIO Control Panel, you will see that there is one volume defined but none have been mapped yet.
 
     .. image:: images/sio-volume-defined.png
-       :width: 40%
+       :width: 20%
 
 #. Once the volume is attached to a VM, the ScaleIO Control Panel will reflect the mapping.
 
     .. image:: images/sio-volume-mapped.png
-       :width: 40%
+       :width: 20%
