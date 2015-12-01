@@ -12,7 +12,7 @@ To install the ScaleIO Fuel plugin:
 #. Copy the *rpm* file to the Fuel Master node:
    ::
 
-      [root@home ~]# scp fuel-plugin-scaleio-0.3-0.3.0-1.noarch.rpm
+      [root@home ~]# scp fuel-plugin-scaleio-1.0-1.0.0-1.noarch.rpm
       root@fuel-master:/tmp
 
 #. Log into Fuel Master node and install the plugin using the
@@ -21,7 +21,7 @@ To install the ScaleIO Fuel plugin:
    ::
 
       [root@fuel-master ~]# fuel plugins --install
-      /tmp/fuel-plugin-scaleio-0.3-0.3.0-1.noarch.rpm
+      /tmp/fuel-plugin-scaleio-1.0-1.0.0-1.noarch.rpm
 
 #. Verify that the plugin is installed correctly:
    ::
@@ -29,7 +29,7 @@ To install the ScaleIO Fuel plugin:
      [root@fuel-master ~]# fuel plugins
      id | name                  | version | package_version
      ---|-----------------------|---------|----------------
-     9  | fuel-plugin-scaleio   | 0.3.0   | 2.0.0
+     9  | fuel-plugin-scaleio   | 1.0.0   | 2.0.0
 
 
 .. _Fuel Plugins Catalog: https://www.mirantis.com/products/openstack-drivers-and-plugins/fuel-plugins/
