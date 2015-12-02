@@ -9,7 +9,7 @@
 *.rpm
 
 # Python virtualenv
-venv/
+.venv/
 
 # Sphinx
 _build/
