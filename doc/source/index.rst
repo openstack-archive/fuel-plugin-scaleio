@@ -15,7 +15,4 @@ User documentation
    guide
    appendix
 
-Indices and Tables
-==================
-
 * :ref:`search`

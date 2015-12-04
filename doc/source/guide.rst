@@ -27,6 +27,22 @@ Controllers 1, 2, and 3 will be used as ScaleIO MDMs, being the primary, seconda
 
 All nodes are used as ScaleIO SDS and, therefore, contribute to the default storage pool.
 
+.. _scaleiogui:
+
+Install ScaleIO GUI
+-------------------
+
+It is recommended to install the ScaleIO GUI to easily access and manage the ScaleIO cluster.
+
+#. Make sure the machine in which you will install it will have access to the Controller nodes.
+#. Download the ScaleIO for your operating system from here: http://www.emc.com/products-solutions/trial-software-download/scaleio.htm
+#. Unzip the file and install the ScaleIO GUI component.
+#. Once it is installed, run the application and you will be prompted with the login window. We will use it once the deployment is completed.
+
+.. image:: images/scaleio-login.png
+   :width: 30%
+
+
 
 Select Environment
 ------------------
@@ -88,7 +104,9 @@ Once the OpenStack cluster is setup, we can make use of ScaleIO volumes. This is
     .. image:: images/volume-type.png
        :width: 50%
 
-#. Open the ScaleIO Control Panel and verify that it successfully reflects the ScaleIO resources:
+#. In the ScaleIO GUI (see :ref:`Install ScaleIO GUI section <scaleiogui>`), enter the IP address of the primary controller node, username `admin`, and the password you entered in the Fuel UI.
+
+#. Once logged in, verify that it successfully reflects the ScaleIO resources:
 
     .. image:: images/scaleio-cp.png
        :width: 80%
@@ -100,7 +118,7 @@ Once the OpenStack cluster is setup, we can make use of ScaleIO volumes. This is
 
 #. Create a new OpenStack volume using the "sio_thin" volume type.
 
-#. In the ScaleIO Control Panel, you will see that there is one volume defined but none have been mapped yet.
+#. In the ScaleIO GUI, you will see that there is one volume defined but none have been mapped yet.
 
     .. image:: images/sio-volume-defined.png
        :width: 20%
