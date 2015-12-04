@@ -5,7 +5,7 @@ title: ScaleIO plugin
 # Plugin version
 version: '1.0.0'
 # Description
-description: Deploy and enable EMC ScaleIO as the block storage backend
+description: This plugin deploys and enables EMC ScaleIO as the block storage backend
 # Required fuel version
 fuel_version: ['6.1']
 # Specify license of your plugin
