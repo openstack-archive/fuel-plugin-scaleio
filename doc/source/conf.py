@@ -22,6 +22,12 @@ html_theme = 'classic'
 html_static_path = ['_static']
 
 latex_documents = [
-  ('index', 'ScaleIOPlugin.tex', u'The ScaleIO plugin for Fuel Documentation',
+  ('index', 'ScaleIO-Plugin_Guide.tex', u'The ScaleIO plugin for Fuel Documentation',
    u'EMC Corporation', 'manual'),
 ]
+
+latex_elements = {
+  'fncychap': '\\usepackage[Conny]{fncychap}',
+  'classoptions': ',openany,oneside',
+  'babel' : '\\usepackage[english]{babel}',
+}

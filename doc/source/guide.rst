@@ -76,7 +76,7 @@ Finish environment configuration
     .. image:: images/network.png
        :width: 90%
 
-#. Press `Deploy button <https://docs.mirantis.com/openstack/fuel/fuel-6.1/user-guide.html#deploy-changes>`_ to once you are done with environment configuration.
+#. Press `Deploy button <https://docs.mirantis.com/openstack/fuel/fuel-6.1/user-guide.html#deploy-changes>`_ once you have finished reviewing the environment configuration.
 
     .. image:: images/deploy.png
        :width: 60%
