@@ -2,8 +2,8 @@
 Guide to the ScaleIO Plugin for Fuel 6.1
 ========================================
 
-User documentation
-==================
+Plugin Guide
+============
 
 .. toctree::
    :maxdepth: 2
