@@ -11,8 +11,8 @@ master_doc = 'index'
 project = u'The ScaleIO plugin for Fuel'
 copyright = u'2015, EMC Corporation'
 
-version = '0.3'
-release = '0.3.0'
+version = '1.0'
+release = '1.0-1.0.0-1'
 
 exclude_patterns = []
 
@@ -22,6 +22,12 @@ html_theme = 'classic'
 html_static_path = ['_static']
 
 latex_documents = [
-  ('index', 'ScaleIOPlugin.tex', u'The ScaleIO plugin for Fuel Documentation',
+  ('index', 'ScaleIO-Plugin_Guide.tex', u'The ScaleIO plugin for Fuel Documentation',
    u'EMC Corporation', 'manual'),
 ]
+
+latex_elements = {
+  'fncychap': '\\usepackage[Conny]{fncychap}',
+  'classoptions': ',openany,oneside',
+  'babel' : '\\usepackage[english]{babel}',
+}
