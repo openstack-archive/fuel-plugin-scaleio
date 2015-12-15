@@ -13,8 +13,8 @@ class scaleio_fuel::params
     $volume_type        = 'sio_thin'
 
     $nodes_hash = $::fuel_settings['nodes']
-    $controller_nodes = concat(filter_nodes($nodes_hash,'role','primary-controller'), filter_nodes($nodes_hash,'role','controller'))
-    $controller_hashes = nodes_to_hash($controller_nodes,'name','internal_address')
+    $controller_nodes = concat(filter_nodes($nodes_hash, 'role', 'primary-controller'), filter_nodes($nodes_hash, 'role', 'controller'))
+    $controller_hashes = nodes_to_hash($controller_nodes, 'name', 'storage_address')
     $controller_ips = ipsort(values($controller_hashes))
 
     notify {"Controller Nodes: ${controller_nodes}": }
@@ -29,7 +29,7 @@ class scaleio_fuel::params
 
     $current_node = filter_nodes($nodes_hash,'uid', $::fuel_settings['uid'])
     $node_ip = join(values(
-      nodes_to_hash($current_node,'name','internal_address')))
+      nodes_to_hash($current_node,'name','storage_address')))
 
     notify {"Current Node: ${current_node}": }
 

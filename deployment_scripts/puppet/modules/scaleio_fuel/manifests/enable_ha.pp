@@ -6,21 +6,19 @@ inherits scaleio_fuel::params {
   $gw3_ip = $scaleio_fuel::params::tb_ip
   $nodes_hash = $::fuel_settings['nodes']
 
-  $gw1 = filter_nodes($nodes_hash, 'internal_address', $gw1_ip)
-  $gw2 = filter_nodes($nodes_hash, 'internal_address', $gw2_ip)
-  $gw3 = filter_nodes($nodes_hash, 'internal_address', $gw3_ip)
+  $gw1 = filter_nodes($nodes_hash, 'storage_address', $gw1_ip)
+  $gw2 = filter_nodes($nodes_hash, 'storage_address', $gw2_ip)
+  $gw3 = filter_nodes($nodes_hash, 'storage_address', $gw3_ip)
   $gw_nodes = concat(concat($gw1, $gw2), $gw3)
 
-  notify { "gw_nodes: ${gw_nodes}": }
-  notify { "server_names: ${server_names}": }
-  notify { "ipaddresses: ${ipaddresses}": }
+  notify { "Gateway nodes: ${gw_nodes}": }
 
   Haproxy::Service        { use_include => true }
   Haproxy::Balancermember { use_include => true }
 
   Openstack::Ha::Haproxy_service {
     server_names        => filter_hash($gw_nodes, 'name'),
-    ipaddresses         => filter_hash($gw_nodes, 'internal_address'),
+    ipaddresses         => filter_hash($gw_nodes, 'storage_address'),
     public_virtual_ip   => $::fuel_settings['public_vip'],
     internal_virtual_ip => $::fuel_settings['management_vip'],
   }
