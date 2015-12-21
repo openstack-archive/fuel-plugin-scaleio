@@ -12,7 +12,7 @@ project = u'The ScaleIO plugin for Fuel'
 copyright = u'2015, EMC Corporation'
 
 version = '1.0'
-release = '1.0-1.0.0-1'
+release = '1.0-1.0.1-1'
 
 exclude_patterns = []
 

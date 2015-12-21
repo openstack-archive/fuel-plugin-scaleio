@@ -1,4 +1,4 @@
-# ScaleIO Plugin for Fuel <a href="http://buildserver.emccode.com/viewType.html?-buildTypeId=FuelPluginsForScaleIO_FuelPluginScaleio&guest=1"><img src="http://buildserver.emccode.com/app/rest/builds/buildType:(id:FuelPluginsForScaleIO_FuelPluginScaleio)/statusIcon"/></a>
+# ScaleIO Plugin for Fuel
 
 ## Overview
 
@@ -34,12 +34,12 @@ To install the ScaleIO plugin, follow these steps:
 
 2. Copy the plugin file to the Fuel Master node. Follow the [Quick start guide](https://software.mirantis.com/quick-start/) if you don't have a running Fuel Master node yet.
     ```
-    $ scp scaleio-1.0-1.0.0-1.noarch.rpm root@<Fuel Master node IP address>:/tmp/
+    $ scp scaleio-1.0-1.0.1-1.noarch.rpm root@<Fuel Master node IP address>:/tmp/
     ```
 
 3. Log into the Fuel Master node and install the plugin using the fuel command line.
     ```
-    $ fuel plugins --install /tmp/scaleio-1.0-1.0.0-1.noarch.rpm
+    $ fuel plugins --install /tmp/scaleio-1.0-1.0.1-1.noarch.rpm
     ```
 
 4. Verify that the plugin is installed correctly.
@@ -91,7 +91,7 @@ need further instructions about how to build the Fuel Plugin Builder.*
 
 7. Now you have created an RPM file that you can install using the steps described above. The RPM file will be located in:
     ```
-    $ ./fuel-plugin-scaleio/scaleio-1.0-1.0.0-1.noarch.rpm
+    $ ./fuel-plugin-scaleio/scaleio-1.0-1.0.1-1.noarch.rpm
     ```
 
 # User Guide

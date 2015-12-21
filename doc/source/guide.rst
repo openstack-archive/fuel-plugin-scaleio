@@ -16,12 +16,11 @@ At least 5 nodes are required to successfully deploy Mirantis OpenStack with Sca
 #. OpenStack Controller #3 node
 #. OpenStack Compute node
 
-Each node shall have at least 2 CPUs, 4GB RAM, 200GB disk, 4 Network interfaces. The 4 networks are:
+Each node shall have at least 2 CPUs, 4GB RAM, 200GB disk, 3 Network interfaces. The 3 interfaces will be used for the following purposes:
 
-#. PXE Network
-#. Public Network
-#. Private Network
-#. Management Network
+#. Admin (PXE) network: Mirantis OpenStack uses PXE booting to install the operating system, and then loads the OpenStack packages for you.
+#. Public, Management and Storage networks: All of the OpenStack management traffic will flow over this network (“Management” and “Storage” will be separated by VLANs), and to re-use the network it will also host the public network used by OpenStack service nodes and the floating IP address range.
+#. Private network: This network will be added to Virtual Machines when they boot. It will therefore be the route where traffic flows in and out of the VM.
 
 Controllers 1, 2, and 3 will be used as ScaleIO MDMs, being the primary, secondary, and tie-breaker, respectively. Moreover, they will also host the ScaleIO Gateway in HA mode.
 
