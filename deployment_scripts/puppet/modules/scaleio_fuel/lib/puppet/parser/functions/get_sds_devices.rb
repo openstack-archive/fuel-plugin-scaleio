@@ -9,7 +9,7 @@ module Puppet::Parser::Functions
 
     nodes.each do |node|
       result[node["fqdn"]] = {
-        "ip" => node["internal_address"],
+        "ip" => node["storage_address"],
         "protection_domain" => protection_domain,
         "devices" => {
           device => {

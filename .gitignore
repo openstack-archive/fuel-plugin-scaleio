@@ -13,3 +13,6 @@
 
 # Sphinx
 _build/
+
+# PDF
+*.pdf

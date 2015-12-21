@@ -1,6 +1,12 @@
 Introduction
 ============
 
+Purpose
+-------
+This document will guide you through the steps of install, configure and use of the **ScaleIO Plugin** for Fuel. The ScaleIO Plugin is used to deploy and configure a ScaleIO cluster as a backend for an OpenStack environment.
+
+ScaleIO Overview
+----------------
 EMC ScaleIO is a software-only server-based storage area network (SAN) that converges storage and compute resources to form a single-layer, enterprise-grade storage product. ScaleIO storage is elastic and delivers linearly scalable performance. Its scale-out server SAN architecture can grow from a few to thousands of servers.
 
 ScaleIO uses servers’ direct-attached storage (DAS) and aggregates all disks into a global, shared, block storage. ScaleIO features single-layer compute and storage architecture without requiring additional hardware or cooling/ power/space.
@@ -38,7 +44,6 @@ Mirantis OpenStack        6.1
 ========================= ===============
 
 * This plugin will deploy an EMC ScaleIO 1.32 cluster on the available nodes and replace the default OpenStack volume backend by ScaleIO.
-* A minimum of 3 Controller nodes and 1 Compute node are required.
 
 
 Limitations
