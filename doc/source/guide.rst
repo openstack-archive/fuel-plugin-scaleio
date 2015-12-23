@@ -26,6 +26,8 @@ Controllers 1, 2, and 3 will be used as ScaleIO MDMs, being the primary, seconda
 
 All nodes are used as ScaleIO SDS and, therefore, contribute to the default storage pool.
 
+The ScaleIO cluster will use the storage network for all volume and cluster maintenance operations.
+
 .. _scaleiogui:
 
 Install ScaleIO GUI
