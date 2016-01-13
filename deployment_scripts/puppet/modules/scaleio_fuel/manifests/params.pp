@@ -4,7 +4,7 @@ class scaleio_fuel::params
     $scaleio            = $::fuel_settings['scaleio']
     $admin_password     = $scaleio['password']
     $gw_password        = $scaleio['gw_password']
-    $version            = 'latest'
+    $version            = $scaleio['version']
     $cluster_name       = 'cluster1'
     $protection_domain  = 'pd1'
     $storage_pool       = 'sp1'
@@ -22,6 +22,10 @@ class scaleio_fuel::params
 
     if size($controller_nodes) < 3 {
         fail('ScaleIO plugin needs at least 3 controller nodes')
+    }
+
+    if $version != '1.32' and $version != '2.0' {
+        fail("Invalid ScaleIO version '${version}'")
     }
 
     $mdm_ip = [$controller_ips[0], $controller_ips[1]]
