@@ -1,0 +1,8 @@
+Code-Review+2: Adrian Moreno <adrian.moreno@emc.com>
+Workflow+1: Adrian Moreno <adrian.moreno@emc.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Wed, 13 Jan 2016 15:22:04 +0000
+Reviewed-on: https://review.openstack.org/266973
+Project: openstack/fuel-plugin-scaleio
+Branch: refs/heads/master
