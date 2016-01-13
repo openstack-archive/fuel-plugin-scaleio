@@ -7,7 +7,6 @@ class scaleio_fuel::mdm {
     $tb_ip                = $scaleio_fuel::params::tb_ip
     $cluster_name         = $scaleio_fuel::params::cluster_name
     $sio_sds_device       = $scaleio_fuel::params::sio_sds_device
-    $callhome_cfg         = $scaleio_fuel::params::callhome_cfg
 
     class {'::scaleio':
           password       => $admin_password,
@@ -17,7 +16,6 @@ class scaleio_fuel::mdm {
           tb_ip          => $tb_ip,
           cluster_name   => $cluster_name,
           sio_sds_device => $sio_sds_device,
-          callhome_cfg   => $callhome_cfg,
-          components     => ['mdm','gw','sds','sdc','callhome'],
+          components     => ['mdm','gw','sds','sdc'],
     }
 }

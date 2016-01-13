@@ -48,17 +48,4 @@ class scaleio_fuel::params
 
     notify {"SDS devices: ${sio_sds_device}": }
 
-    #TODO: Get callhome information from UI
-    $callhome_cfg = {
-      'email_to'      => 'emailto@address.com',
-      'email_from'    => 'emailfrom@address.com',
-      'username'      => 'monitor_username',
-      'password'      => 'monitor_password',
-      'customer'      => 'customer_name',
-      'smtp_host'     => 'smtp_host',
-      'smtp_port'     => 'smtp_port',
-      'smtp_user'     => 'smtp_user',
-      'smtp_password' => 'smtp_password',
-      'severity'      => 'error',
-    }
 }
