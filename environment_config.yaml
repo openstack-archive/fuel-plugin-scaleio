@@ -30,7 +30,7 @@ attributes:
       source: '^([1-9]\d\d|[1-9]\d{3,})$'
       error: 'You must provide a number greater than 100'
 
-   version:
+  version:
     type: "select"
     weight: 60
     value: "1.32"
