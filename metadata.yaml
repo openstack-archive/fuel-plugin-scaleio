@@ -3,7 +3,7 @@ name: scaleio
 # Human-readable name for your plugin
 title: ScaleIO plugin
 # Plugin version
-version: '1.0.1'
+version: '1.0.2'
 # Description
 description: This plugin deploys and enables EMC ScaleIO as the block storage backend
 # Required fuel version
