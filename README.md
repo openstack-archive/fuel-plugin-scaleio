@@ -21,8 +21,11 @@ None.
 
 ## Limitations
 
-Due to some software limitations, this plugin is currently only compatible with Mirantis 6.1 and CentOS.
+Due to some software limitations, this plugin is currently only compatible with Mirantis 6.1 and CentOS. Though, future releases of the plugin will support newer versions of Mirantis OpenStack and Ubuntu as base OS.
 
+Below is the support matrix of this plugin and the [ScaleIO-Cinder](https://github.com/openstack/fuel-plugin-scaleio-cinder) plugin.
+
+![ScaleIOSupport](doc/source/images/SIO_Support.png)
 
 # Installation Guide
 
