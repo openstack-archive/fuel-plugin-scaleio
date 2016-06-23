@@ -1,2 +1,0 @@
-[Filters]
-drv_cfg: CommandFilter, /opt/emc/scaleio/sdc/bin/drv_cfg, root

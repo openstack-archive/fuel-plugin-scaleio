@@ -1,7 +1,7 @@
 # Always use the default theme for Readthedocs
 RTD_NEW_THEME = True
 
-extensions = []
+extensions = ['rst2pdf.pdfbuilder']
 templates_path = ['_templates']
 
 source_suffix = '.rst'
@@ -9,10 +9,10 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 project = u'The ScaleIO plugin for Fuel'
-copyright = u'2015, EMC Corporation'
+copyright = u'2016, EMC Corporation'
 
-version = '1.0'
-release = '1.0-1.0.1-1'
+version = '2.1-2.1.0-1'
+release = '2.1-2.1.0-1'
 
 exclude_patterns = []
 
@@ -31,3 +31,9 @@ latex_elements = {
   'classoptions': ',openany,oneside',
   'babel' : '\\usepackage[english]{babel}',
 }
+
+pdf_documents = [
+  ('index', 'ScaleIO-Plugin_Guide', u'ScaleIO plugin for Fuel Documentation',
+   u'EMC Corporation', 'manual'),
+]
+

@@ -1,30 +1,48 @@
 # Plugin name
 name: scaleio
+
 # Human-readable name for your plugin
-title: ScaleIO plugin
+title: ScaleIOv2.0 plugin
+
 # Plugin version
-version: '1.0.2'
+version: '2.1.0'
+
 # Description
-description: This plugin deploys and enables EMC ScaleIO as the block storage backend
+description: This plugin deploys and enables EMC ScaleIO ver. 2.0 as the block storage backend
+
 # Required fuel version
-fuel_version: ['6.1']
+fuel_version: ['7.0', '8.0']
+
 # Specify license of your plugin
 licenses: ['Apache License Version 2.0']
+
 # Specify author or company name
-authors: ['Adrian Moreno Martinez, EMC', 'Magdy Salem, EMC']
+authors: ['EMC']
+
 # A link to the plugin's page
-homepage: 'https://github.com/openstack/fuel-plugin-scaleio'
+homepage: 'https://github.com/cloudscaling/fuel-plugin-scaleio'
+
 # Specify a group which your plugin implements, possible options:
 # network, storage, storage::cinder, storage::glance, hypervisor
 groups: ['storage']
 
 # The plugin is compatible with releases in the list
 releases:
-  - os: centos
+  - os: ubuntu
     version: 2014.2.2-6.1
     mode: ['ha', 'multinode']
     deployment_scripts_path: deployment_scripts/
-    repository_path: repositories/centos
+    repository_path: repositories/ubuntu
+  - os: ubuntu
+    version: 2015.1.0-7.0
+    mode: ['ha']
+    deployment_scripts_path: deployment_scripts/
+    repository_path: repositories/ubuntu
+  - os: ubuntu
+    version: liberty-8.0
+    mode: ['ha']
+    deployment_scripts_path: deployment_scripts/
+    repository_path: repositories/ubuntu
 
 # Version of plugin package
-package_version: '2.0.0'
+package_version: "3.0.0"

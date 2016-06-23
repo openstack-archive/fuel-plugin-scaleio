@@ -3,15 +3,78 @@
 # Add here any the actions which are required before plugin build
 # like packages building, packages downloading from mirrors and so on.
 # The script should return 0 if there were no errors.
+#
+# Define environment variable:
+#  - FORCE_DOWNLOAD - to force package downloading
+#  - FORCE_CLONE    - to force re-cloning of puppet git reposintories 
+
 
 set -eux
 
-ROOT="$(dirname `readlink -f $0`)"
-RPM_REPO="${ROOT}"/repositories/centos/
+RELEASE=${RELEASE_TAG:-"v0.3"}
 
-# Download ScaleIO for RHEL6 (zip file)
-wget -nv ftp://ftp.emc.com/Downloads/ScaleIO/ScaleIO_RHEL6_Download.zip -O /tmp/ScaleIO_RHEL6_Download.zip
-# Unzip files
-unzip -o /tmp/ScaleIO_RHEL6_Download.zip -d /tmp/scaleio/
-# Copy RPM files to the repository
-cp /tmp/scaleio/ScaleIO_*_RHEL6*/*.rpm /tmp/scaleio/ScaleIO_*_Gateway_for_Linux*/*.rpm /tmp/scaleio/ScaleIO_*_GUI_for_Linux*/*.rpm "${RPM_REPO}"
+#TODO: use ftp.emc.com
+BASE_REPO_URL="http://ec2-52-37-140-129.us-west-2.compute.amazonaws.com"
+BASE_PUPPET_URL="https://github.com/cloudscaling"
+
+##############################################################################
+# Download packages for plugin
+##############################################################################
+PLATFORMS=(ubuntu centos)
+PLATFORMS_PKG_SUFFIX=(deb rpm)
+PLATFORMS_REPO_URL_SUFFIX=("pool/main/e" "centos/x86_64/RPMS")
+
+for r in {0..1}
+do
+    platform=${PLATFORMS[$r]}
+    repo_suffix=${PLATFORMS_REPO_URL_SUFFIX[$r]}
+    pkg_suffix=${PLATFORMS_PKG_SUFFIX[$r]}
+    
+    repo_url="$BASE_REPO_URL/$platform/$repo_suffix/"
+    destination="./repositories/$platform"
+    
+    components=`curl --silent "$repo_url" | grep -o 'emc-scaleio-\w\+' | sort| uniq`
+    
+    for i in $components;
+    do
+        packages=`curl --silent "$repo_url$i/" | grep -o "$i[a-zA-Z0-9_.-]\+\.$pkg_suffix" | sort | uniq`
+        for p in $packages
+        do
+            if [[ ! -f "$destination/$p" || ! -z "${FORCE_DOWNLOAD+x}" ]]
+            then
+                wget -P "$destination/" "$repo_url/$i/$p"
+            fi
+        done
+    done
+done
+
+##############################################################################
+# Download required puppet modules
+##############################################################################
+GIT_REPOS=(puppet-scaleio puppet-scaleio-openstack)
+DESTINATIONS=(scaleio scaleio_openstack)
+
+for r in {0..1}
+do
+    puppet_url="$BASE_PUPPET_URL/${GIT_REPOS[$r]}"
+    destination="./deployment_scripts/puppet/modules/${DESTINATIONS[$r]}"
+    if [[ ! -d "$destination" || ! -z "${FORCE_CLONE+x}" ]]
+    then
+        if [ ! -z "${FORCE_CLONE+x}" ]
+        then
+            rm -rf "$destination"
+        fi
+        
+        git clone "$puppet_url" "$destination"
+        pushd "$destination"
+        git checkout "tags/$RELEASE"
+        popd
+    else
+        if [ -z "${SKIP_PULL+x}" ]
+        then
+            pushd "$destination"
+            git checkout "tags/$RELEASE"
+            popd
+        fi
+    fi
+done

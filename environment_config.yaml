@@ -1,8 +1,57 @@
 attributes:
+  metadata:
+    # Settings group can be one of "general", "security", "compute", "network",
+    # "storage", "logging", "openstack_services" and "other".
+    group: 'storage'
+    
+  existing_cluster:
+    type: "checkbox"
+    value: false
+    label: "Use existing ScaleIO."
+    description: "Do not deploy ScaleIO cluster, just use existing cluster."
+    weight: 10
+
+  gateway_ip:
+    type: "text"
+    value: ""
+    label: "Gateway IP address"
+    description: "Cinder and Nova use it for requests to ScaleIO."
+    weight: 20
+    regex:
+        source: '^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$'
+        error: "Gateway address is requried parameter"
+    restrictions:
+      - condition: "settings:scaleio.existing_cluster.value == false"
+        action: hide
+
+  gateway_port:
+    type: "text"
+    value: "4443"
+    label: "Gateway port"
+    description: "Cinder and Nova use it for requests to ScaleIO."
+    weight: 25
+    regex:
+        source: '^[0-9]+$'
+        error: "Gateway port is required parameter"
+    restrictions:
+      - condition: "settings:scaleio.existing_cluster.value == false"
+        action: hide
+       
+  gateway_user:
+    type: "text"
+    value: "admin"
+    label: "Gateway user"
+    description: "Type a user name for the gateway"
+    weight: 30
+    regex:
+        source: '^\w+$'
+    restrictions:
+      - condition: "settings:scaleio.existing_cluster.value == false"
+        action: hide
 
   password:
     type: "password"
-    weight: 10
+    weight: 40
     value: ""
     label: "Admin password"
     description: "Type ScaleIO Admin password"
@@ -10,34 +59,204 @@ attributes:
       source: '^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,15}$'
       error: "You must provide a password with between 8 and 15 characters, one uppercase, and one number"
 
-  gw_password:
-    type: "password"
-    weight: 30
-    value: ""
-    label: "Gateway password"
-    description: "Type a password for the gateway"
+  protection_domain:
+    type: "text"
+    value: "default"
+    label: "Protection domain"
+    description: "Name of first protection domain. Next domains will get names like default_2, default_3."
+    weight: 70
     regex:
-      source: '^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,15}$'
-      error: "You must provide a password with between 8 and 15 characters, one uppercase, and one number"
+      source: '^(\w+){1}((,){1}(?=\w+))*'
+      error: "Can contain characters, numbers and underlines"
 
-  pool_size:
+  protection_domain_nodes:
     type: "text"
     value: "100"
-    label: "Storage pool size (in GB)"
-    description: "Amount in GB that each node will contribute to the storage pool. Please make sure all nodes have enough disk space to allocate the provided amount."
-    weight: 55
+    label: "Maximum number of nodes in one protection domain"
+    description: 
+        If number of nodes gets lasrgert than this threshould new protection domain will be created.
+        Note, in that case it is needed to add at least 3 new nodes with Storage role to make new domain operationable.
+    weight: 75
     regex:
-      source: '^([1-9]\d\d|[1-9]\d{3,})$'
-      error: 'You must provide a number greater than 100'
+      source: '^[1-9]{1}[0-9]*$'
+      error: "Should be number that equal or larger than 1"
+    restrictions:
+      - condition: "settings:scaleio.existing_cluster.value == true"
+        action: hide
+
+  storage_pools:
+    type: "text"
+    value: "default"
+    label: "Storage pools"
+    description:
+        Comma separated list for splitting devices between them.
+        It could be just one element if all devices are belong to the one pool.
+    weight: 80
+    regex:
+      source: '^(\w+){1}((,){1}(?=\w+))*'
+      error: "Can contain characters, numbers and underlines"
+    restrictions:
+      - condition: "settings:scaleio.existing_cluster.value == true or cluster:fuel_version == '9.0'"
+        action: hide
+
+  existing_storage_pools:
+    type: "text"
+    value: "default"
+    label: "Storage pools"
+    description: "Storage pools which are allowed to be used in new Cloud."
+    weight: 90
+    regex:
+      source: '^(\w+){1}((,){1}(?=\w+))*'
+      error: "Can contain characters, numbers and underlines"
+    restrictions:
+      - condition: "settings:scaleio.existing_cluster.value == false"
+        action: hide
+
+  device_paths:
+    type: "text"
+    value: ""
+    label: "Storage devices"
+    description: "Comma separated list of devices, e.g. /dev/sdb,/dev/sdc."
+    weight: 100
+    regex:
+      source: '^(/[a-zA-Z0-9:-_]+)+(,(/[a-zA-Z0-9:-_]+)+)*$'
+      error: 'List of path is incorrect. It is comma separated list aka /dev/sdb,/dev/sdc'
+    restrictions:
+      - condition: "settings:scaleio.existing_cluster.value == true or cluster:fuel_version == '9.0'"
+        action: hide
+
+  sds_on_controller:
+    type: "checkbox"
+    value: true
+    label: "Controller as Storage"
+    description: "Setup SDS-es on controller nodes."
+    weight: 105
+    restrictions:
+      - condition: "settings:scaleio.existing_cluster.value == true or cluster:fuel_version == '9.0'"
+        action: hide
+
+  provisioning_type:
+    type: "radio"
+    value: "thin"
+    label: "Provisioning type"
+    description: "Thin/Thick provisioning for ephemeral and persistent volumes."
+    weight: 110
+    values:
+      - data: 'thin'
+        label: 'Thin provisioning'
+        description: "Thin provisioning for ephemeral and persistent volumes."
+      - data: 'thick'
+        label: 'Thick provisioning'
+        description: "Thick provisioning for ephemeral and persistent volumes."
+    restrictions:
+      - condition: "settings:scaleio.existing_cluster.value == true"
+        action: hide
+
+  checksum_mode:
+    type: "checkbox"
+    value: false
+    label: "Checksum mode"
+    description:
+        Checksum protection. ScaleIO protects data in-flight by calculating and validating the checksum value for the payload at both ends.
+        Note, the checksum feature may have a minor effect on performance.
+        ScaleIO utilizes hardware capabilities for this feature, where possible.
+    weight: 120
+    restrictions:
+      - condition: "settings:scaleio.existing_cluster.value == true"
+        action: hide
+
+  spare_policy:
+    type: "text"
+    value: '10'
+    label: "Spare policy"
+    description: "% out of total space"
+    weight: 130
+    regex:
+        source: '^[0-9]{1,2}$'
+        error: "Value could be between 0 and 99"
+    restrictions:
+      - condition: "settings:scaleio.existing_cluster.value == true"
+        action: hide
+
+  zero_padding:
+    type: "checkbox"
+    value: true
+    label: "Enable Zero Padding for Storage Pools"
+    description: "New volumes will be zeroed if the option enabled."
+    weight: 140
+    restrictions:
+      - condition: "settings:scaleio.existing_cluster.value == true"
+        action: hide
+
+  scanner_mode:
+    type: "checkbox"
+    value: false
+    label: "Background device scanner"
+    description: "This options enables the background device scanner on the devices in device only mode."
+    weight: 150
+    restrictions:
+      - condition: "settings:scaleio.existing_cluster.value == true"
+        action: hide
+
+  rfcache_devices:
+    type: "text"
+    value: ""
+    label: "XtremCache devices"
+    description: "List of SDS devices for SSD caching. Cache is disabled if list empty."
+    weight: 160
+    regex:
+      source: '^(/[a-zA-Z0-9:-_]+)*(,(/[a-zA-Z0-9:-_]+)+)*$'
+      error: 'List of path is incorrect. It could be either empty or the comma separated list e.g. /dev/sdb,/dev/sdc'
+    restrictions:
+      - condition: "settings:scaleio.existing_cluster.value == true or cluster:fuel_version == '9.0'"
+        action: hide
+
+  cached_storage_pools:
+    type: "text"
+    value: ""
+    label: "XtremCache storage pools"
+    description: "List of storage pools which should be cached with XtremCache."
+    weight: 170
+    regex:
+      source: '^(\w+)*((,){1}(?=\w+))*'
+      error: 'List of storage pools incorrect. It could be either empty or the comma separated list e.g. pool1,pool2'
+    restrictions:
+      - condition: "settings:scaleio.existing_cluster.value == true or cluster:fuel_version == '9.0'"
+        action: hide
+
+  capacity_high_alert_threshold:
+    type: "text"
+    value: '80'
+    label: "Capacity high priority alert"
+    description: "Threshold of the non-spare capacity of the Storage Pool that will trigger a high-priority alert, in percentage format"
+    weight: 180
+    regex:
+        source: '^[0-9]{1,2}$'
+        error: "Value could be between 0 and 99"
+    restrictions:
+      - condition: "settings:scaleio.existing_cluster.value == true"
+        action: hide
+
+  capacity_critical_alert_threshold:
+    type: "text"
+    value: '90'
+    label: "Capacity critical priority alert"
+    description: "Threshold of the non-spare capacity of the Storage Pool that will trigger a critical-priority alert, in percentage format"
+    weight: 190
+    regex:
+        source: '^[0-9]{1,2}$'
+        error: "Value could be between 0 and 99"
+    restrictions:
+      - condition: "settings:scaleio.existing_cluster.value == true"
+        action: hide
 
   version:
     type: "select"
-    weight: 60
-    value: "1.32"
+    weight: 200
+    value: "2.0"
     label: "Version"
-    description: "Select the ScaleIO version you wish to install"
+    description: "Select the ScaleIO version you wish to install. The only version 2.0 is supported for now."
     values:
-      - data: "1.32"
-        label: "1.32"
       - data: "2.0"
-        label: "2.0 (Beta)"
+        label: "2.0"
+

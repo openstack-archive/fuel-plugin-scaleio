@@ -16,3 +16,8 @@ _build/
 
 # PDF
 *.pdf
+
+.project
+.doctrees
+.buildpath
+.pydevproject

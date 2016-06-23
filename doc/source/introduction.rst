@@ -3,7 +3,11 @@ Introduction
 
 Purpose
 -------
-This document will guide you through the steps of install, configure and use of the **ScaleIO Plugin** for Fuel. The ScaleIO Plugin is used to deploy and configure a ScaleIO cluster as a backend for an OpenStack environment.
+This document will guide you through the steps of install, configure and use of the **ScaleIOv2.0 Plugin** for Fuel.
+The ScaleIO Plugin is used to:
+ ** deploy and configure a ScaleIO cluster as a volume backend for an OpenStack environment
+ ** configure an Openstack environment to use existing ScaleIO cluster as a volume backend
+
 
 ScaleIO Overview
 ----------------
@@ -17,6 +21,7 @@ With ScaleIO, any administrator can add, move, or remove servers and capacity on
 
 ScaleIO natively supports all leading Linux distributions and hypervisors. It works agnostically with any solid-state drive (SSD) or hard disk drive (HDD) regardless of type, model, or speed.
 
+
 ScaleIO Components
 ------------------
 **ScaleIO Data Client (SDC)** is a lightweight block device driver that exposes ScaleIO shared block volumes to applications. The SDS runs on the same server as the application. This enables the application to issue a IO request and the SDC fulfills it regardless of where the particular blocks physically reside. The SDC communicates with other nodes over TCP/IP-based protocol, so it is fully routable.
@@ -27,11 +32,11 @@ ScaleIO Components
 
 **ScaleIO Gateway** is the HTTP/HTTPS REST endpoint. It is the primary endpoint used by OpenStack to actuate commands against ScaleIO. Due to its stateless nature, we can have multiples instances and easily balance the load.
 
+**Xtrem Cache (RFCache)** is the component enabling caching on PCI flash cards and/or SSDs thus accelerating the reads of SDS's HDD devices. It is deployed together with SDS component. 
 
-ScaleIO Cinder Driver
----------------------
-
-ScaleIO includes a Cinder driver, which interfaces between ScaleIO and OpenStack, and presents volumes to OpenStack as block devices which are available for block storage. It also includes an OpenStack Nova driver, for handling compute and instance volume related operations. The ScaleIO driver executes the volume operations by communicating with the backend ScaleIO MDM through the ScaleIO Gateway.
+ScaleIO Cinder and Nova Drivers
+-------------------------------
+ScaleIO includes Cinder driver, which interfaces between ScaleIO and OpenStack, and presents volumes to OpenStack as block devices which are available for block storage. It also includes an OpenStack Nova driver, for handling compute and instance volume related operations. The ScaleIO driver executes the volume operations by communicating with the backend ScaleIO MDM through the ScaleIO Gateway.
 
 
 Requirements
@@ -40,13 +45,19 @@ Requirements
 ========================= ===============
 Requirement               Version/Comment
 ========================= ===============
-Mirantis OpenStack        6.1
+Mirantis OpenStack        8.0
 ========================= ===============
-
-* This plugin will deploy an EMC ScaleIO 1.32 cluster on the available nodes and replace the default OpenStack volume backend by ScaleIO.
 
 
 Limitations
 -----------
 
-Currently, this plugin is **only** compatible with Mirantis OpenStack 6.1 and CentOS 6.5 as the base OS.
+1. Plugin is only compatible with Mirantis Fuel 8.0.
+2. Plugin supports only Ubuntu environment.
+3. Only hyper converged environment is supported - there is no separate ScaleIO Storage nodes.
+4. Multi storage backend is not supported.
+5. It is not possible to use different backends for persistent and ephemeral volumes.
+6. Disks for SDS-es should be unallocated before deployment via FUEL UI or cli.
+7. MDMs and Gateways are deployed together and only onto controller nodes.
+8. Adding and removing node(s) to/from the OpenStack cluster won't re-configure the ScaleIO.
+
