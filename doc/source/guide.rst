@@ -51,21 +51,18 @@ Select Environment
 ------------------
 
 #. Create a new environment with the Fuel UI wizard.
-From OpenStack Release dropdown list select "Liberty on Ubunu 14.04" and continue until you finish with the wizard.
+From OpenStack Release dropdown list select “Juno on Ubunu 14.04” if you are using MOS 6.1 or “Kilo on Ubunu 14.04” for MOS 7.0 and continue until you finish with the wizard.
 
     .. image:: images/wizard.png
        :width: 80%
 
-#. Add VMs to the new environment according to `Fuel User Guide <https://docs.mirantis.com/openstack/fuel/fuel-8.0/operations.html#adding-redeploying-and-replacing-nodes>`_ and configure them properly.
+#. Add VMs to the new environment according to `Fuel User Guide <https://docs.mirantis.com/openstack/fuel/fuel-6.1/user-guide.html#add-nodes-to-the-environment>`_ and configure them properly.
 
 
 Plugin configuration
 --------------------
 
-\1. Go to the Settings tab and then go to the section Storage. You need to fill all fields with your preferred ScaleIO configuration. If you do not know the purpose of a field you can leave it with its default value.
-
-    .. image:: images/settings1.png
-       :width: 80%
+\1. Go to the Settings tab and scroll down to "ScaleIO plugin" section. You need to fill all fields with your preferred ScaleIO configuration. If you do not know the purpose of a field you can leave it with its default value.
 
 \2. In order to deploy new ScaleIO cluster together with OpenStack
 
@@ -73,10 +70,7 @@ Plugin configuration
 
   \b. Provide Admin passwords for ScaleIO MDM and Gateway, list of Storage devices to be used as ScaleIO SDS storage devices. Optionally you can provide protection domain name and storage pool names.
 
-    .. image:: images/settings2.png
-       :width: 80%
-
-    .. image:: images/settings3.png
+    .. image:: images/settings.png
        :width: 80%
 
   \c. In case you want to specify different storage pools for different devices provide a list of pools corresponding to device paths, e.g. 'pool1,pool2' and '/dev/sdb,/dev/sdc' will assign /dev/sdb for the pool1 and /dev/sdc for the pool2.
@@ -106,12 +100,12 @@ Finish environment configuration
 
 #. Go to the Network tab and configure the network according to your environment.
 
-#. Run `network verification check <https://docs.mirantis.com/openstack/fuel/fuel-8.0/pdf/Fuel-8.0-UserGuide.pdf#Verify network configuration>`_
+#. Run `network verification check <https://docs.mirantis.com/openstack/fuel/fuel-6.1/user-guide.html#verify-networks>`_
 
     .. image:: images/network.png
        :width: 90%
 
-#. Press `Deploy button <https://docs.mirantis.com/openstack/fuel/fuel-8.0/pdf/Fuel-8.0-UserGuide.pdf#Deploy changes>`_ once you have finished reviewing the environment configuration.
+#. Press `Deploy button <https://docs.mirantis.com/openstack/fuel/fuel-6.1/user-guide.html#deploy-changes>`_ once you have finished reviewing the environment configuration.
 
     .. image:: images/deploy.png
        :width: 60%

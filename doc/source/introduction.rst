@@ -45,14 +45,15 @@ Requirements
 ========================= ===============
 Requirement               Version/Comment
 ========================= ===============
-Mirantis OpenStack        8.0
+Mirantis OpenStack        6.1
+Mirantis OpenStack        7.0
 ========================= ===============
 
 
 Limitations
 -----------
 
-1. Plugin is only compatible with Mirantis Fuel 8.0.
+1. Plugin is only compatible with Mirantis Fuel6.1/7.0.
 2. Plugin supports only Ubuntu environment.
 3. Only hyper converged environment is supported - there is no separate ScaleIO Storage nodes.
 4. Multi storage backend is not supported.

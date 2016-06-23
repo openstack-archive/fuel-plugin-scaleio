@@ -1,0 +1,117 @@
+##############################################################################
+# ScaleIO prerequisites tasks
+##############################################################################
+- role: ['primary-controller', 'controller', 'compute', 'cinder']
+  stage: post_deployment/2000
+  type: puppet
+  parameters:
+    puppet_manifest: puppet/manifests/environment.pp
+    puppet_modules: puppet/modules:/etc/puppet/modules
+    timeout: 600
+
+- role: ['primary-controller', 'controller']
+  stage: post_deployment/2005
+  type: puppet
+  parameters:
+    puppet_manifest: puppet/manifests/mdm_package.pp
+    puppet_modules: puppet/modules:/etc/puppet/modules
+    timeout: 600
+
+- role: ['primary-controller', 'controller']
+  stage: post_deployment/2010
+  type: puppet
+  parameters:
+    puppet_manifest: puppet/manifests/discovery_cluster.pp
+    puppet_modules: puppet/modules:/etc/puppet/modules
+    timeout: 600
+
+- role: ['primary-controller', 'controller']
+  stage: post_deployment/2015
+  type: puppet
+  parameters:
+    puppet_manifest: puppet/manifests/resize_cluster.pp
+    puppet_modules: puppet/modules:/etc/puppet/modules
+    timeout: 600
+
+- role: ['compute', 'cinder']
+  stage: post_deployment/2020
+  type: puppet
+  parameters:
+    puppet_manifest: puppet/manifests/environment_existing_mdm_ips.pp
+    puppet_modules: puppet/modules:/etc/puppet/modules
+    timeout: 600
+
+##############################################################################
+# ScaleIO installation tasks
+##############################################################################
+- role: ['primary-controller', 'controller']
+  stage: post_deployment/2050
+  type: puppet
+  parameters:
+    puppet_manifest: puppet/manifests/mdm_server.pp
+    puppet_modules: puppet/modules:/etc/puppet/modules
+    timeout: 1800
+
+- role: ['primary-controller', 'controller']
+  stage: post_deployment/2100
+  type: puppet
+  parameters:
+    puppet_manifest: puppet/manifests/gateway_server.pp
+    puppet_modules: puppet/modules:/etc/puppet/modules
+    timeout: 1800
+    
+- role: ['primary-controller', 'controller', 'compute', 'cinder']
+  stage: post_deployment/2110
+  type: puppet
+  parameters:
+    puppet_manifest: puppet/manifests/sds_server.pp
+    puppet_modules: puppet/modules:/etc/puppet/modules
+    timeout: 1800
+
+- role: ['compute', 'cinder']
+  stage: post_deployment/2120
+  type: puppet
+  parameters:
+    puppet_manifest: puppet/manifests/sdc_server.pp
+    puppet_modules: puppet/modules:/etc/puppet/modules
+    timeout: 1800
+
+
+##############################################################################
+# ScaleIO cluster configuration tasks
+##############################################################################
+- role: ['cinder', 'compute']
+  stage: post_deployment/2150
+  type: puppet
+  parameters:
+    puppet_manifest: puppet/manifests/sdc.pp
+    puppet_modules: puppet/modules:/etc/puppet/modules
+    timeout: 1800
+
+- role: ['primary-controller', 'controller']
+  stage: post_deployment/2200
+  type: puppet
+  parameters:
+    puppet_manifest: puppet/manifests/cluster.pp
+    puppet_modules: puppet/modules:/etc/puppet/modules
+    timeout: 1800
+
+
+##############################################################################
+# Openstack components (Cinder, Nova) configuration tasks
+##############################################################################
+- role: ['compute']
+  stage: post_deployment/2250
+  type: puppet
+  parameters:
+    puppet_manifest: puppet/manifests/nova.pp
+    puppet_modules: puppet/modules:/etc/puppet/modules
+    timeout: 600
+
+- role: ['cinder']
+  stage: post_deployment/2250
+  type: puppet
+  parameters:
+    puppet_manifest: puppet/manifests/cinder.pp
+    puppet_modules: puppet/modules:/etc/puppet/modules
+    timeout: 600
