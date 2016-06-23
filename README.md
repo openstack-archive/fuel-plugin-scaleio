@@ -16,8 +16,6 @@ The `ScaleIO` plugin allows to:
 
 | Requirement                      | Version/Comment |
 |----------------------------------|-----------------|
-| Mirantis OpenStack               | 6.1             |
-| Mirantis OpenStack               | 7.0             |
 | Mirantis OpenStack               | 8.0             |
 
 ## Recommendations
@@ -78,13 +76,6 @@ need further instructions about how to build the Fuel Plugin Builder.*
 
 4. Clone the ScaleIO Plugin git repository:
     ```
-    FUEL6.1/7.0:
-    $ git clone https://github.com/cloudscaling/fuel-plugin-scaleio.git
-    $ git checkout "tags/v0.3.1"
-    $ cd fuel-plugin-scaleio
-    ```
-    ```
-    FUEL8.0:
     $ git clone https://github.com/cloudscaling/fuel-plugin-scaleio.git
     $ git checkout "tags/v0.3.2"
     $ cd fuel-plugin-scaleio
@@ -102,11 +93,6 @@ need further instructions about how to build the Fuel Plugin Builder.*
 
 7. Install plugin:
     ```
-    FUEL6.1/7.0:
-    $ fuel plugins --install ./scaleio-2.0-2.0.0-1.noarch.rpm
-    ```
-    ```
-    FUEL8.0:
     $ fuel plugins --install ./scaleio-2.1-2.1.0-1.noarch.rpm
     ```
 
@@ -118,34 +104,16 @@ To install the ScaleIOv2.0 Fuel plugin:
 
 2. Copy the rpm file to the Fuel Master node
     ```
-    FUEL6.1/7.0
-    [root@home ~]# scp scaleio-2.0-2.0.0-1.noarch.rpm root@fuel-master:/tmp
-    ```
-    ```
-    FUEL8.0
     [root@home ~]# scp scaleio-2.1-2.1.0-1.noarch.rpm root@fuel-master:/tmp
     ```
 
 3. Log into Fuel Master node and install the plugin using the Fuel CLI
     ```
-    FUEL6.1/7.0:
-    $ fuel plugins --install ./scaleio-2.0-2.0.0-1.noarch.rpm
-    ```
-    ```
-    FUEL8.0:
     $ fuel plugins --install ./scaleio-2.1-2.1.0-1.noarch.rpm
     ```
 
 4. Verify that the plugin is installed correctly
     ```
-    FUEL6.1/7.0
-    [root@fuel-master ~]# fuel plugins
-    id | name                  | version | package_version
-    ---|-----------------------|---------|----------------
-     1 | scaleio               | 2.0.0   | 2.0.0
-    ```
-    ```
-    FUEL8.0
     [root@fuel-master ~]# fuel plugins
     id | name                  | version | package_version
     ---|-----------------------|---------|----------------
