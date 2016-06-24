@@ -76,8 +76,8 @@ need further instructions about how to build the Fuel Plugin Builder.*
 
 4. Clone the ScaleIO Plugin git repository:
     ```
-    $ git clone https://github.com/cloudscaling/fuel-plugin-scaleio.git
-    $ git checkout "tags/v0.3.2"
+    $ git clone https://github.com/openstack/fuel-plugin-scaleio.git
+    $ git checkout "tags/v1.0.1"
     $ cd fuel-plugin-scaleio
     ```
 

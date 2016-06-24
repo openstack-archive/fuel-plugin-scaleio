@@ -15,7 +15,7 @@ RELEASE=${RELEASE_TAG:-"v0.3"}
 
 #TODO: use ftp.emc.com
 BASE_REPO_URL="http://ec2-52-37-140-129.us-west-2.compute.amazonaws.com"
-BASE_PUPPET_URL="https://github.com/cloudscaling"
+BASE_PUPPET_URL="https://github.com/emccode"
 
 ##############################################################################
 # Download packages for plugin
