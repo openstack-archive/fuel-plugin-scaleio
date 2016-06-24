@@ -11,11 +11,11 @@
 
 set -eux
 
-RELEASE=${RELEASE_TAG:-"v0.3"}
+RELEASE=${RELEASE_TAG:-"v1.0.0"}
 
 #TODO: use ftp.emc.com
-BASE_REPO_URL="http://ec2-52-37-140-129.us-west-2.compute.amazonaws.com"
-BASE_PUPPET_URL="https://github.com/cloudscaling"
+BASE_REPO_URL="http://scaleio-packages.s3-website-us-east-1.amazonaws.com"
+BASE_PUPPET_URL="https://github.com/emccode"
 
 ##############################################################################
 # Download packages for plugin
