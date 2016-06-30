@@ -1,3 +1,5 @@
+# UUID                                  	Group Name
+#
 0a3c06b704bb2dad5e31920d91f653abe9ce9eae	fuel-plugins-ci
-8be4cf9f5db02cae2fe71f776fc345a1d82f9681	fuel-plugin-scaleio-core
 6f2bff16a6766ce7f922b16c7276ec373a975c64	fuel-plugin-scaleio-release
+8be4cf9f5db02cae2fe71f776fc345a1d82f9681	fuel-plugin-scaleio-core
