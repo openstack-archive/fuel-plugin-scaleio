@@ -42,7 +42,7 @@ do
         do
             if [[ ! -f "$destination/$p" || ! -z "${FORCE_DOWNLOAD+x}" ]]
             then
-                wget -P "$destination/" "$repo_url/$i/$p"
+                wget -P "$destination/" "$repo_url$i/$p"
             fi
         done
     done
