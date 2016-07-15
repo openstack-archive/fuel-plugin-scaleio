@@ -120,7 +120,7 @@
 #  role: [scaleio-storage-tier1, scaleio-storage-tier2]
   role: [primary-controller, controller, compute]
   required_for: [post_deployment_end]
-  requires: [scaleio-gateway-server]
+  requires: [scaleio-gateway-server, scaleio-environment-existing-mdm-ips]
   type: puppet
   parameters:
     puppet_manifest: puppet/manifests/sds_server.pp
@@ -129,7 +129,7 @@
     
 - id: scaleio-sdc-server
   required_for: [post_deployment_end]
-  requires: [scaleio-sds-server]
+  requires: [scaleio-sds-server, scaleio-environment-existing-mdm-ips]
   role: [compute, cinder]
   type: puppet
   parameters:
@@ -151,6 +151,9 @@
   role: [primary-controller, controller]
   required_for: [post_deployment_end]
   requires: [scaleio-sdc]
+  cross-depends:
+    - name: scaleio-sds-server
+    - name: scaleio-sdc
   type: puppet
   parameters:
     puppet_manifest: puppet/manifests/cluster.pp
@@ -165,6 +168,8 @@
   required_for: [post_deployment_end]
   requires: [scaleio-configure-cluster]
   role: [compute]
+  cross-depends:
+    - name: scaleio-configure-cluster
   type: puppet
   parameters:
     puppet_manifest: puppet/manifests/nova.pp
@@ -174,6 +179,8 @@
 - id: scaleio-cinder
   required_for: [post_deployment_end]
   requires: [scaleio-configure-cluster]
+  cross-depends:
+    - name: scaleio-configure-cluster
   role: [cinder]
   type: puppet
   parameters:
