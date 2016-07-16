@@ -159,8 +159,8 @@ if $scaleio['metadata']['enabled'] {
       $all_nodes = hiera('nodes')
       # primary controller configures cluster
       if ! empty(filter_nodes(filter_nodes($all_nodes, 'name', $::hostname), 'role', 'primary-controller')) {
-        $fuel_version = hiera('fuel_version')
-        if $fuel_version <= '8.0' {
+        $use_plugin_roles = $scaleio['enable_sds_role']
+        if ! $use_plugin_roles {
           $storage_nodes = filter_nodes($all_nodes, 'role', 'compute')
           if $scaleio['sds_on_controller'] {    
             $controller_nodes  = filter_nodes($all_nodes, 'role', 'controller')   

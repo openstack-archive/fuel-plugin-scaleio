@@ -3,6 +3,16 @@ attributes:
     # Settings group can be one of "general", "security", "compute", "network",
     # "storage", "logging", "openstack_services" and "other".
     group: 'storage'
+
+  enable_sds_role:
+    type: "checkbox"
+    value: false
+    label: "Use ScaleIO SDS role."
+    description: "Enables role based deployment."
+    weight: 5
+    restrictions:
+      - condition: "true"
+        action: hide
     
   existing_cluster:
     type: "checkbox"
@@ -96,7 +106,7 @@ attributes:
       source: '^(\w+){1}((,){1}(?=\w+))*'
       error: "Can contain characters, numbers and underlines"
     restrictions:
-      - condition: "settings:scaleio.existing_cluster.value == true or cluster:fuel_version == '10.0'"
+      - condition: "settings:scaleio.existing_cluster.value == true or settings:scaleio.enable_sds_role.value == true"
         action: hide
 
   existing_storage_pools:
@@ -122,7 +132,7 @@ attributes:
       source: '^(/[a-zA-Z0-9:-_]+)+(,(/[a-zA-Z0-9:-_]+)+)*$'
       error: 'List of path is incorrect. It is comma separated list aka /dev/sdb,/dev/sdc'
     restrictions:
-      - condition: "settings:scaleio.existing_cluster.value == true or cluster:fuel_version == '10.0'"
+      - condition: "settings:scaleio.existing_cluster.value == true or settings:scaleio.enable_sds_role.value == true"
         action: hide
 
   sds_on_controller:
@@ -132,7 +142,7 @@ attributes:
     description: "Setup SDS-es on controller nodes."
     weight: 105
     restrictions:
-      - condition: "settings:scaleio.existing_cluster.value == true or cluster:fuel_version == '10.0'"
+      - condition: "settings:scaleio.existing_cluster.value == true or settings:scaleio.enable_sds_role.value == true"
         action: hide
 
   provisioning_type:
@@ -208,7 +218,7 @@ attributes:
       source: '^(/[a-zA-Z0-9:-_]+)*(,(/[a-zA-Z0-9:-_]+)+)*$'
       error: 'List of path is incorrect. It could be either empty or the comma separated list e.g. /dev/sdb,/dev/sdc'
     restrictions:
-      - condition: "settings:scaleio.existing_cluster.value == true or cluster:fuel_version == '10.0'"
+      - condition: "settings:scaleio.existing_cluster.value == true or settings:scaleio.enable_sds_role.value == true"
         action: hide
 
   cached_storage_pools:
@@ -221,7 +231,7 @@ attributes:
       source: '^(\w+)*((,){1}(?=\w+))*'
       error: 'List of storage pools incorrect. It could be either empty or the comma separated list e.g. pool1,pool2'
     restrictions:
-      - condition: "settings:scaleio.existing_cluster.value == true or cluster:fuel_version == '10.0'"
+      - condition: "settings:scaleio.existing_cluster.value == true or settings:scaleio.enable_sds_role.value == true"
         action: hide
 
   capacity_high_alert_threshold:

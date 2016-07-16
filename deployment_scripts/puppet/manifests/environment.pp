@@ -82,8 +82,8 @@ if $scaleio['metadata']['enabled'] {
     $ctrl_ips = join($controller_ips_array, ',')
     notify{"ScaleIO cluster: ctrl_ips=${ctrl_ips}": }
     # Check SDS count
-    $fuel_version = hiera('fuel_version')
-    if $fuel_version <= '8.0' {
+    $use_plugin_roles = $scaleio['enable_sds_role']
+    if ! $use_plugin_roles {
       $controller_sds_count = $scaleio['sds_on_controller'] ? {
         true    => count($controller_ips_array),
         default => 0  
