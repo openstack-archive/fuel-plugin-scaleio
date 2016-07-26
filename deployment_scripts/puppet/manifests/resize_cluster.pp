@@ -6,7 +6,7 @@ define cleanup_mdm () {
   $mdm_name = $title
   scaleio::mdm {"Remove MDM ${mdm_name}":
     ensure             => 'absent',
-    name               => $mdm_name,
+    sio_name           => $mdm_name,
   }
 }
 
