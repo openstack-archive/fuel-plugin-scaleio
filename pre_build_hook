@@ -29,12 +29,12 @@ do
     platform=${PLATFORMS[$r]}
     repo_suffix=${PLATFORMS_REPO_URL_SUFFIX[$r]}
     pkg_suffix=${PLATFORMS_PKG_SUFFIX[$r]}
-    
+
     repo_url="$BASE_REPO_URL/$platform/$repo_suffix/"
     destination="./repositories/$platform"
-    
+
     components=`curl --silent "$repo_url" | grep -o 'emc-scaleio-\w\+' | sort| uniq`
-    
+
     for i in $components;
     do
         packages=`curl --silent "$repo_url$i/" | grep -o "$i[a-zA-Z0-9_.-]\+\.$pkg_suffix" | sort | uniq`
@@ -64,16 +64,24 @@ do
         then
             rm -rf "$destination"
         fi
-        
+
         git clone "$puppet_url" "$destination"
         pushd "$destination"
-        git checkout "tags/$RELEASE"
+        if git tag -l | grep -q "$RELEASE" ; then
+            git checkout "tags/$RELEASE"
+        else
+            git checkout "$RELEASE"
+        fi
         popd
     else
         if [ -z "${SKIP_PULL+x}" ]
         then
             pushd "$destination"
-            git checkout "tags/$RELEASE"
+            if git tag -l | grep -q "$RELEASE" ; then
+                git checkout "tags/$RELEASE"
+            else
+                git checkout "$RELEASE"
+            fi
             popd
         fi
     fi
