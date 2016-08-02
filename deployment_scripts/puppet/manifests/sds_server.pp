@@ -3,7 +3,7 @@
 # helping define for array processing
 define sds_device_cleanup() {
   $device = $title
-  exec { "device ${device} cleaup":
+  exec { "device ${device} cleanup":
     command => "bash -c 'for i in \$(parted ${device} print | awk \"/^ [0-9]+/ {print(\\\$1)}\"); do parted ${device} rm \$i; done'",
     path => [ '/bin/', '/sbin/' , '/usr/bin/', '/usr/sbin/' ],
   }
