@@ -55,7 +55,7 @@ Prepare an environment for building the plugin on the **Fuel Master node**.
 
 1. Install the standard Linux development tools:
     ```
-    $ yum install createrepo rpm rpm-build dpkg-devel git
+    $ yum install createrepo rpm rpm-build dpkg-devel dpkg-dev git
     ```
 
 2. Install the Fuel Plugin Builder. To do that, you should first get pip:
@@ -77,8 +77,8 @@ need further instructions about how to build the Fuel Plugin Builder.*
 4. Clone the ScaleIO Plugin git repository:
     ```
     $ git clone https://github.com/openstack/fuel-plugin-scaleio.git
-    $ git checkout "tags/v2.1.0"
     $ cd fuel-plugin-scaleio
+    $ git checkout "tags/v2.1.0"
     ```
 
 5. Check that the plugin is valid:
