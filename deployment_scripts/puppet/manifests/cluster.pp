@@ -34,7 +34,9 @@ define storage_pool_ensure(
   $scanner_mode,
   $checksum_mode,
   $spare_policy,
-  $cached_storage_pools_array,
+  $rfcache_storage_pools_array,
+  $rmcache_passthrough_pools,
+  $rmcache_cached_pools,
 ) {
   $sp_name = $title
   if $::scaleio_storage_pools and $::scaleio_storage_pools != '' {
@@ -43,7 +45,18 @@ define storage_pool_ensure(
     $current_pools = []
   }
   if ! ("${protection_domain}:${sp_name}" in $current_pools) {
-    if $sp_name in $cached_storage_pools_array {
+    if $sp_name in $rmcache_passthrough_pools or $sp_name in $rmcache_cached_pools {
+      $rmcache_usage = 'use'
+      if $sp_name in $rmcache_passthrough_pools {
+        $rmcache_write_handling_mode = 'passthrough'
+      } else {
+        $rmcache_write_handling_mode = 'cached'
+      }
+    } else {
+      $rmcache_usage = 'dont_use'
+      $rmcache_write_handling_mode = undef
+    }
+    if $sp_name in $rfcache_storage_pools_array {
       $rfcache_usage = 'use'
     } else {
       $rfcache_usage = 'dont_use'
@@ -51,13 +64,15 @@ define storage_pool_ensure(
     notify {"storage_pool_ensure ${protection_domain}:${sp_name}: zero_padding=${zero_padding}, checksum=${checksum_mode}, scanner=${scanner_mode}, spare=${spare_policy}, rfcache=${rfcache_usage}":
     } ->
     scaleio::storage_pool {"Storage Pool ${protection_domain}:${sp_name}":
-      sio_name            => $sp_name,
-      protection_domain   => $protection_domain,
-      zero_padding_policy => $zero_padding,
-      checksum_mode       => $checksum_mode,
-      scanner_mode        => $scanner_mode,
-      spare_percentage    => $spare_policy,
-      rfcache_usage       => $rfcache_usage,
+      sio_name                    => $sp_name,
+      protection_domain           => $protection_domain,
+      zero_padding_policy         => $zero_padding,
+      checksum_mode               => $checksum_mode,
+      scanner_mode                => $scanner_mode,
+      spare_percentage            => $spare_policy,
+      rfcache_usage               => $rfcache_usage,
+      rmcache_usage               => $rmcache_usage,
+      rmcache_write_handling_mode => $rmcache_write_handling_mode,
     }
   } else {
     notify {"Skip storage pool ${sp_name} because it is already exists in ${::scaleio_storage_pools}": }
@@ -251,15 +266,30 @@ if $scaleio['metadata']['enabled'] {
           false   => undef,
           default => $scaleio['spare_policy']
         }
+        if $scaleio['rmcache_usage'] {
+          if $scaleio['rmcache_passthrough_pools'] and $scaleio['rmcache_passthrough_pools'] != '' {
+            $rmcache_passthrough_pools = split($scaleio['rmcache_passthrough_pools'], ',')
+          } else {
+            $rmcache_passthrough_pools = []
+          }
+          if $scaleio['rmcache_cached_pools'] and $scaleio['rmcache_cached_pools'] != '' {
+            $rmcache_cached_pools = split($scaleio['rmcache_cached_pools'], ',')
+          } else {
+            $rmcache_cached_pools = []
+          }
+        } else {
+          $rmcache_passthrough_pools = []
+          $rmcache_cached_pools = []
+        }
         if $scaleio['rfcache_devices'] and $scaleio['rfcache_devices'] != '' {
           $rfcache_devices = $scaleio['rfcache_devices']
         } else {
           $rfcache_devices = undef
         }
         if $scaleio['cached_storage_pools'] and $scaleio['cached_storage_pools'] != '' {
-          $cached_storage_pools_array = split($scaleio['cached_storage_pools'], ',')
+          $rfcache_storage_pools_array = split($scaleio['cached_storage_pools'], ',')
         } else {
-          $cached_storage_pools_array = []
+          $rfcache_storage_pools_array = []
         }
         if $scaleio['capacity_high_alert_threshold'] and $scaleio['capacity_high_alert_threshold'] != '' {
           $capacity_high_alert_threshold = $scaleio['capacity_high_alert_threshold']
@@ -324,7 +354,9 @@ if $scaleio['metadata']['enabled'] {
           scanner_mode                => $scanner_mode,
           checksum_mode               => $checksum_mode,
           spare_policy                => $spare_policy,
-          cached_storage_pools_array  => $cached_storage_pools_array,
+          rfcache_storage_pools_array => $rfcache_storage_pools_array,
+          rmcache_passthrough_pools   => $rmcache_passthrough_pools,
+          rmcache_cached_pools        => $rmcache_cached_pools,
         } ->
         sds_ensure {$to_add_sds_names:
           sds_nodes           => $sds_nodes,

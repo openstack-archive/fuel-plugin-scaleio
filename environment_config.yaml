@@ -198,6 +198,42 @@ attributes:
       - condition: "settings:scaleio.existing_cluster.value == true"
         action: hide
 
+  rmcache_usage:
+    type: "checkbox"
+    value: false
+    label: "Use RAM cache (RMCache)"
+    description: "SDS Server RAM is reserved for caching storage devices in a Storage Pool."
+    weight: 155
+    restrictions:
+      - condition: "settings:scaleio.existing_cluster.value == true"
+        action: hide
+
+  rmcache_passthrough_pools:
+    type: "text"
+    value: ""
+    label: "Passthrough RMCache storage pools"
+    description: "List of Storage pools which should be cached in RAM in passthrough mode (writes to storage only)."
+    weight: 157
+    regex:
+      source: '^(\w+)*((,){1}(?=\w+))*'
+      error: 'List of storage pools incorrect. It could be either empty or the comma separated list e.g. pool1,pool2'
+    restrictions:
+      - condition: "settings:scaleio.existing_cluster.value == true or settings:scaleio.rmcache_usage.value == false"
+        action: hide
+
+  rmcache_cached_pools:
+    type: "text"
+    value: ""
+    label: "Cached RMCache storage pools"
+    description: "List of Storage pools which should be cached in RAM in cached mode (writes both to cache and to storage)."
+    weight: 158
+    regex:
+      source: '^(\w+)*((,){1}(?=\w+))*'
+      error: 'List of storage pools incorrect. It could be either empty or the comma separated list e.g. pool1,pool2'
+    restrictions:
+      - condition: "settings:scaleio.existing_cluster.value == true or settings:scaleio.rmcache_usage.value == false"
+        action: hide
+
   rfcache_devices:
     type: "text"
     value: ""
