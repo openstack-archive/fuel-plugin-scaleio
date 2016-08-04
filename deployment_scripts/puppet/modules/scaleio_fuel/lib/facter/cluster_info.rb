@@ -175,6 +175,27 @@ if $discovery_allowed == 'yes' and $mdm_ips and $mdm_ips != '' and $mdm_password
       result
     end
   end
+
+  Facter.add(:scaleio_sds_with_protection_domain_list) do
+    setcode do
+      mdm_opts = "--mdm_ip %s" % $mdm_ips
+      login_cmd = "scli %s --approve_certificate --login --username admin --password %s 1>/dev/null 2>>%s" % [mdm_opts, $mdm_password, $scaleio_log_file]
+      query_cmd = "scli %s --approve_certificate --query_all_sds 2>>%s" % [mdm_opts, $scaleio_log_file]
+      fiter_cmd = "awk '/Protection Domain/ {domain=$5} /SDS ID:/ {print($5\",\"domain)}'"
+      cmd = "%s && %s | %s" % [login_cmd, query_cmd, fiter_cmd]
+      debug_log(cmd)
+      result = Facter::Util::Resolution.exec(cmd)
+      if result
+        result = result.split(' ')
+        if result.count() > 0
+          result = result.join(',')
+        end
+      end
+      debug_log("%s='%s'" % ['scaleio_sds_with_protection_domain_list', result])
+      result
+    end
+  end
+
 end
 
 
