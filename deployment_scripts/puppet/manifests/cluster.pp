@@ -29,7 +29,6 @@ define mdm_tb() {
 }
 
 define storage_pool_ensure(
-  $protection_domain,
   $zero_padding,
   $scanner_mode,
   $checksum_mode,
@@ -38,7 +37,9 @@ define storage_pool_ensure(
   $rmcache_passthrough_pools,
   $rmcache_cached_pools,
 ) {
-  $sp_name = $title
+  $parsed_pool_name = split($title, ":")
+  $protection_domain = $parsed_pool_name[0]
+  $sp_name = $parsed_pool_name[1]
   if $::scaleio_storage_pools and $::scaleio_storage_pools != '' {
     $current_pools = split($::scaleio_storage_pools, ',')
   } else {
@@ -79,15 +80,42 @@ define storage_pool_ensure(
   } 
 }
 
+define protection_domain_ensure(
+  $pools_array,
+  $zero_padding,
+  $scanner_mode,
+  $checksum_mode,
+  $spare_policy,
+  $rfcache_storage_pools_array,
+  $rmcache_passthrough_pools,
+  $rmcache_cached_pools,
+) {
+  $protection_domain = $title
+  $full_name_pools_array = prefix($pools_array, "${protection_domain}:")
+  scaleio::protection_domain {"Ensure protection domain ${protection_domain}":
+    sio_name => $protection_domain,
+  } ->
+  storage_pool_ensure {$full_name_pools_array:
+    zero_padding                => $zero_padding,
+    scanner_mode                => $scanner_mode,
+    checksum_mode               => $checksum_mode,
+    spare_policy                => $spare_policy,
+    rfcache_storage_pools_array => $rfcache_storage_pools_array,
+    rmcache_passthrough_pools   => $rmcache_passthrough_pools,
+    rmcache_cached_pools        => $rmcache_cached_pools,
+  }
+}
+
 define sds_ensure(
   $sds_nodes,
-  $protection_domain,
+  $sds_to_pd_map,       # map of SDSes to Protection domains
   $storage_pools,       # if sds_devices_config==undef then storage_pools and device_paths are used,
   $device_paths,        #   this is FUELs w/o plugin's roles support, so all SDSes have the same config
   $rfcache_devices,
   $sds_devices_config,  # for FUELs with plugin's roles support, config could be different for SDSes
 ) {
   $sds_name = $title
+  $protection_domain = $sds_to_pd_map[$sds_name]
   $sds_node_ = filter_nodes($sds_nodes, 'name', $sds_name) 
   $sds_node = $sds_node_[0]
   #ips for data path traffic
@@ -219,16 +247,6 @@ if $scaleio['metadata']['enabled'] {
           }
         }
         $password = $scaleio['password']
-        if $scaleio['protection_domain_nodes'] {
-          $protection_domain_number = ($sds_nodes_count + $scaleio['protection_domain_nodes'] - 1) / $scaleio['protection_domain_nodes']
-        } else {
-          $protection_domain_number = 1
-        }
-        $protection_domain =  $protection_domain_number ? {
-          0       => $scaleio['protection_domain'],
-          1       => $scaleio['protection_domain'],
-          default => "${scaleio['protection_domain']}_${protection_domain_number}"
-        }
         # parse config from centralized DB if exists
         if $::scaleio_sds_config and $::scaleio_sds_config != '' {
           $sds_devices_config = parsejson($::scaleio_sds_config)
@@ -330,6 +348,17 @@ if $scaleio['metadata']['enabled'] {
         } else {
           $to_add_sds_names = $sds_nodes_names
         }
+        if $::scaleio_sds_with_protection_domain_list and $::scaleio_sds_with_protection_domain_list != '' {
+          $scaleio_sds_to_pd_map = hash(split($::scaleio_sds_with_protection_domain_list, ','))
+        } else {
+          $scaleio_sds_to_pd_map = {}
+        }
+        $sds_pd_limit = $scaleio['protection_domain_nodes'] ? {
+          undef   => 0, # unlimited
+          default => $scaleio['protection_domain_nodes']
+        }
+        $sds_to_pd_map = update_sds_to_pd_map($scaleio_sds_to_pd_map, $scaleio['protection_domain'], $sds_pd_limit, $to_add_sds_names)
+        $protection_domain_array = unique(values($sds_to_pd_map))
         if $cluster_mode != 1 {
           mdm_standby {$standby_ips:
             require             => Scaleio::Login['Normal'],
@@ -343,13 +372,8 @@ if $scaleio['metadata']['enabled'] {
             require             => Scaleio::Login['Normal'],
           }
         }
-        $protection_domain_resource_name = "Ensure protection domain ${protection_domain}"
-        scaleio::protection_domain {$protection_domain_resource_name:
-          sio_name            => $protection_domain,
-          require             => Scaleio::Login['Normal'],
-        } ->
-        storage_pool_ensure {$pools_array:
-          protection_domain           => $protection_domain,
+        protection_domain_ensure {$protection_domain_array:
+          pools_array                 => $pools_array,
           zero_padding                => $zero_padding,
           scanner_mode                => $scanner_mode,
           checksum_mode               => $checksum_mode,
@@ -357,22 +381,23 @@ if $scaleio['metadata']['enabled'] {
           rfcache_storage_pools_array => $rfcache_storage_pools_array,
           rmcache_passthrough_pools   => $rmcache_passthrough_pools,
           rmcache_cached_pools        => $rmcache_cached_pools,
+          require                     => Scaleio::Login['Normal'],
         } ->
         sds_ensure {$to_add_sds_names:
           sds_nodes           => $sds_nodes,
-          protection_domain   => $protection_domain,
+          sds_to_pd_map       => $sds_to_pd_map,
           storage_pools       => $pools,
           device_paths        => $paths,
           rfcache_devices     => $rfcache_devices,
           sds_devices_config  => $sds_devices_config,
-          require             => Scaleio::Protection_domain[$protection_domain_resource_name],
+          require             => Protection_domain_ensure[$protection_domain_array],
         }
         if $capacity_high_alert_threshold and $capacity_critical_alert_threshold {
           scaleio::cluster {'Configure alerts':
             ensure                            => 'present',
             capacity_high_alert_threshold     => $capacity_high_alert_threshold,
             capacity_critical_alert_threshold => $capacity_critical_alert_threshold,
-            require                           => Scaleio::Protection_domain[$protection_domain_resource_name],
+            require                           => Protection_domain_ensure[$protection_domain_array],
           }
         }
         # Apply high performance profile to SDC-es
@@ -380,7 +405,7 @@ if $scaleio['metadata']['enabled'] {
         if ! empty($sdc_nodes_ips) {
           scaleio::sdc {'Set performance settings for all available SDCs':
             ip      => $sdc_nodes_ips[0],
-            require => Scaleio::Protection_domain[$protection_domain_resource_name],
+            require => Protection_domain_ensure[$protection_domain_array],
           }
         }
       } else {
