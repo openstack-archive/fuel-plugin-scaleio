@@ -3,11 +3,11 @@
 
 define env_fact($role, $fact, $value) {
   file_line { "Append a SCALEIO_${role}_${fact} line to /etc/environment":
-    ensure  => present,
-    path    => '/etc/environment',
-    match   => "^SCALEIO_${role}_${fact}=",
-    line    => "SCALEIO_${role}_${fact}=${value}",
-  }  
+    ensure => present,
+    path   => '/etc/environment',
+    match  => "^SCALEIO_${role}_${fact}=",
+    line   => "SCALEIO_${role}_${fact}=${value}",
+  }
 }
 
 $scaleio = hiera('scaleio')
@@ -19,10 +19,10 @@ if $scaleio['metadata']['enabled'] {
   # can be found for example in astute docker container during deloyment) should be set to high values.
   # It'll be invoked only if /tmp/scaleio_debug file exists on particular node and you can use 
   # "touch /tmp/go" when you're ready to resume.
-  exec { "Wait on debug interrupt: use touch /tmp/go to resume":
+  exec { 'Wait on debug interrupt: use touch /tmp/go to resume':
     command => "bash -c 'while [ ! -f /tmp/go ]; do :; done'",
-    path => [ '/bin/' ],
-    onlyif => "ls /tmp/scaleio_debug",
+    path    => [ '/bin/' ],
+    onlyif  => 'ls /tmp/scaleio_debug',
   }
   case $::osfamily {
     'RedHat': {
@@ -43,32 +43,32 @@ if $scaleio['metadata']['enabled'] {
     # Existing ScaleIO cluster attaching
     notify{'Use existing ScaleIO cluster': }
     env_fact{"Environment fact: role gateway, ips: ${scaleio['gateway_ip']}":
-      role => 'gateway',
-      fact => 'ips',
+      role  => 'gateway',
+      fact  => 'ips',
       value => $scaleio['gateway_ip']
     } ->
     env_fact{"Environment fact: role gateway, user: ${scaleio['gateway_user']}":
-      role => 'gateway',
-      fact => 'user',
+      role  => 'gateway',
+      fact  => 'user',
       value => $scaleio['gateway_user']
     } ->
     env_fact{"Environment fact: role gateway, password: ${scaleio['password']}":
-      role => 'gateway',
-      fact => 'password',
+      role  => 'gateway',
+      fact  => 'password',
       value => $scaleio['password']
     } ->
     env_fact{"Environment fact: role gateway, port: ${scaleio['gateway_port']}":
-      role => 'gateway',
-      fact => 'port',
+      role  => 'gateway',
+      fact  => 'port',
       value => $scaleio['gateway_port']
     } ->
     env_fact{"Environment fact: role storage, pools: ${scaleio['existing_storage_pools']}":
-      role => 'storage',
-      fact => 'pools',
+      role  => 'storage',
+      fact  => 'pools',
       value => $scaleio['existing_storage_pools']
     }
     # mdm_ips are requested from gateways in separate manifest because no way to pass args to facter
-  } 
+  }
   else {
     # New ScaleIO cluster deployment
     notify{'Deploy ScaleIO cluster': }
@@ -86,7 +86,7 @@ if $scaleio['metadata']['enabled'] {
     if ! $use_plugin_roles {
       $controller_sds_count = $scaleio['sds_on_controller'] ? {
         true    => count($controller_ips_array),
-        default => 0  
+        default => 0
       }
       $total_sds_count = count(filter_nodes($all_nodes, 'role', 'compute')) + $controller_sds_count
       if $total_sds_count < 3 {
@@ -94,7 +94,7 @@ if $scaleio['metadata']['enabled'] {
       }
     } else {
       $tier1_sds_count = count(filter_nodes($all_nodes, 'role', 'scaleio-storage-tier1'))
-      $tier2_sds_count = count(filter_nodes($all_nodes, 'role', 'scaleio-storage-tier2'))      
+      $tier2_sds_count = count(filter_nodes($all_nodes, 'role', 'scaleio-storage-tier2'))
       if $tier1_sds_count != 0 and $tier1_sds_count < 3 {
         $sds_check_msg = 'There are less than 3 nodes with Scaleio Storage Tier1 role.'
       }
@@ -103,11 +103,11 @@ if $scaleio['metadata']['enabled'] {
       }
     }
     if $sds_check_msg {
-      if ! $scaleio['skip_checks'] { 
+      if ! $scaleio['skip_checks'] {
         fail($sds_check_msg)
       } else{
         warning($sds_check_msg)
-      }        
+      }
     }
     $nodes = filter_nodes($all_nodes, 'name', $::hostname)
     if ! empty(concat(filter_nodes($nodes, 'role', 'controller'), filter_nodes($nodes, 'role', 'primary-controller'))) {
@@ -121,51 +121,51 @@ if $scaleio['metadata']['enabled'] {
     }
     if $::sds_storage_small_devices {
       if ! $scaleio['skip_checks'] {
-        fail("Storage devices minimal size is 100GB. The following devices do not meet this requirement ${::sds_storage_small_devices}")      
+        fail("Storage devices minimal size is 100GB. The following devices do not meet this requirement ${::sds_storage_small_devices}")
       } else {
-        warning("Storage devices minimal size is 100GB. The following devices do not meet this requirement ${::sds_storage_small_devices}")      
+        warning("Storage devices minimal size is 100GB. The following devices do not meet this requirement ${::sds_storage_small_devices}")
       }
     }
     # mdm ips  and tb ips must be emtpy to avoid queries from ScaleIO about SDC/SDS,
     # the next task (cluster discovering) will set them into correct values.
     env_fact{'Environment fact: mdm ips':
-      role => 'mdm',
-      fact => 'ips',
+      role  => 'mdm',
+      fact  => 'ips',
       value => ''
     } ->
       env_fact{'Environment fact: managers ips':
-        role => 'managers',
-        fact => 'ips',
+        role  => 'managers',
+        fact  => 'ips',
         value => ''
       } ->
     env_fact{'Environment fact: tb ips':
-      role => 'tb',
-      fact => 'ips',
+      role  => 'tb',
+      fact  => 'ips',
       value => ''
     } ->
     env_fact{'Environment fact: gateway ips':
-      role => 'gateway',
-      fact => 'ips',
+      role  => 'gateway',
+      fact  => 'ips',
       value => $ctrl_ips
     } ->
     env_fact{'Environment fact: controller ips':
-      role => 'controller',
-      fact => 'ips',
+      role  => 'controller',
+      fact  => 'ips',
       value => $ctrl_ips
     } ->
     env_fact{'Environment fact: role gateway, user: admin':
-      role => 'gateway',
-      fact => 'user',
+      role  => 'gateway',
+      fact  => 'user',
       value => 'admin'
     } ->
     env_fact{'Environment fact: role gateway, port: 4443':
-      role => 'gateway',
-      fact => 'port',
+      role  => 'gateway',
+      fact  => 'port',
       value => 4443
     } ->
     env_fact{"Environment fact: role storage, pools: ${scaleio['storage_pools']}":
-      role => 'storage',
-      fact => 'pools',
+      role  => 'storage',
+      fact  => 'pools',
       value => $scaleio['storage_pools']
     }
   }

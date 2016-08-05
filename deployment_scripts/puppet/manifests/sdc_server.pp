@@ -2,8 +2,8 @@
 
 $scaleio = hiera('scaleio')
 if $scaleio['metadata']['enabled'] {
-  class {'scaleio::sdc_server':
-    ensure   => 'present',
-    mdm_ip   => undef,
+  class {'::scaleio::sdc_server':
+    ensure => 'present',
+    mdm_ip => undef,
   }
 }
