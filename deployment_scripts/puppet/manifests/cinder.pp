@@ -16,14 +16,14 @@ if $scaleio['metadata']['enabled'] {
     true  => $scaleio['gateway_ip'],
     default => hiera('management_vip')
   }
-  class {'scaleio_openstack::cinder':
-    ensure                     => present,
-    gateway_user               => $::gateway_user,
-    gateway_password           => $scaleio['password'],
-    gateway_ip                 => $gateway_ip,
-    gateway_port               => $::gateway_port,
-    protection_domains         => $scaleio['protection_domain'],
-    storage_pools              => $::storage_pools,
-    provisioning_type          => $provisioning_type,
+  class {'::scaleio_openstack::cinder':
+    ensure             => present,
+    gateway_user       => $::gateway_user,
+    gateway_password   => $scaleio['password'],
+    gateway_ip         => $gateway_ip,
+    gateway_port       => $::gateway_port,
+    protection_domains => $scaleio['protection_domain'],
+    storage_pools      => $::storage_pools,
+    provisioning_type  => $provisioning_type,
   }
 }

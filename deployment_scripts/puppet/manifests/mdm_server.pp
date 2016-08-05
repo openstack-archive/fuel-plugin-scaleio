@@ -31,11 +31,11 @@ if $scaleio['metadata']['enabled'] {
       }
       $password = $scaleio['password']
       notify {"Controller server is_manager=${is_manager} master_mdm_name=${master_mdm_name} master_ip=${master_ip}": } ->
-      class {'scaleio::mdm_server':
-        ensure                   => 'present',
-        is_manager               => $is_manager,
-        master_mdm_name          => $master_mdm_name,
-        mdm_ips                  => $master_ip,
+      class {'::scaleio::mdm_server':
+        ensure          => 'present',
+        is_manager      => $is_manager,
+        master_mdm_name => $master_mdm_name,
+        mdm_ips         => $master_ip,
       }
       if $old_password != $password {
         if $master_mdm_name {
@@ -44,16 +44,16 @@ if $scaleio['metadata']['enabled'] {
             require  => Class['scaleio::mdm_server']
           } ->
           scaleio::cluster {'Set password':
-            password      => $old_password,
-            new_password  => $password,
-            before        => File_line['Append a SCALEIO_mdm_password line to /etc/environment']
+            password     => $old_password,
+            new_password => $password,
+            before       => File_line['Append a SCALEIO_mdm_password line to /etc/environment']
           }
         }
         file_line {'Append a SCALEIO_mdm_password line to /etc/environment':
-          ensure  => present,
-          path    => '/etc/environment',
-          match   => "^SCALEIO_mdm_password=",
-          line    => "SCALEIO_mdm_password=${password}",
+          ensure => present,
+          path   => '/etc/environment',
+          match  => '^SCALEIO_mdm_password=',
+          line   => "SCALEIO_mdm_password=${password}",
         }
       }
     } else {

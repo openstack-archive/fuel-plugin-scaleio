@@ -5,8 +5,8 @@
 define cleanup_mdm () {
   $mdm_name = $title
   scaleio::mdm {"Remove MDM ${mdm_name}":
-    ensure             => 'absent',
-    sio_name           => $mdm_name,
+    ensure   => 'absent',
+    sio_name => $mdm_name,
   }
 }
 
@@ -49,7 +49,7 @@ if $scaleio['metadata']['enabled'] {
       $new_tb_ips = join(concat($tbs_present_tmp, values_at($available_nodes, "${first_tb_index}-${last_tb_index}")), ',')
     } else {
       $new_tb_ips = join($tbs_present, ',')
-    }                  
+    }
     if $to_add_mdm_count > 0 and count($available_nodes) >= $to_add_mdm_count {
       $last_mdm_index = $to_add_mdm_count - 1
       $mdms_present_tmp = intersection($current_mdms, $controller_ips_array) # use tmp because concat modifys first param
@@ -57,7 +57,7 @@ if $scaleio['metadata']['enabled'] {
     } else {
       $new_mdms_ips = join($mdms_present, ',')
     }
-    $is_primary_controller = !empty(filter_nodes(filter_nodes($all_nodes, 'name', $::hostname), 'role', 'primary-controller'))    
+    $is_primary_controller = !empty(filter_nodes(filter_nodes($all_nodes, 'name', $::hostname), 'role', 'primary-controller'))
     notify {"ScaleIO cluster: resize: controller_ips_array='${controller_ips_array}', current_mdms='${current_mdms}', current_tbs='${current_tbs}'": }
     if !empty($mdms_absent) or !empty($tbs_absent) {
       notify {"ScaleIO cluster: change: mdms_present='${mdms_present}', mdms_absent='${mdms_absent}', tbs_present='${tbs_present}', tbs_absent='${tbs_absent}'": }
@@ -70,12 +70,12 @@ if $scaleio['metadata']['enabled'] {
           password => $scaleio['password']
         } ->
         scaleio::cluster {'Resize cluster mode to 1_node and remove other MDMs':
-          ensure              => 'absent',
-          cluster_mode        => 1,
-          slave_names         => $slaves_names,
-          tb_names            => $::scaleio_tb_ips,
-          require             => Scaleio::Login['Normal'],
-          before              => File_line['SCALEIO_mdm_ips']
+          ensure       => 'absent',
+          cluster_mode => 1,
+          slave_names  => $slaves_names,
+          tb_names     => $::scaleio_tb_ips,
+          require      => Scaleio::Login['Normal'],
+          before       => File_line['SCALEIO_mdm_ips']
         } ->
         cleanup_mdm {$to_remove_mdms:
           before              => File_line['SCALEIO_mdm_ips']
@@ -87,31 +87,31 @@ if $scaleio['metadata']['enabled'] {
       notify {'ScaleIO cluster: resize: nothing to resize': }
     }
     file_line {'SCALEIO_mdm_ips':
-      ensure  => present,
-      path    => '/etc/environment',
-      match   => "^SCALEIO_mdm_ips=",
-      line    => "SCALEIO_mdm_ips=${mdms_present_str}",
+      ensure => present,
+      path   => '/etc/environment',
+      match  => '^SCALEIO_mdm_ips=',
+      line   => "SCALEIO_mdm_ips=${mdms_present_str}",
     } ->
     file_line {'SCALEIO_managers_ips':
-      ensure  => present,
-      path    => '/etc/environment',
-      match   => "^SCALEIO_managers_ips=",
-      line    => "SCALEIO_managers_ips=${new_mdms_ips}",
+      ensure => present,
+      path   => '/etc/environment',
+      match  => '^SCALEIO_managers_ips=',
+      line   => "SCALEIO_managers_ips=${new_mdms_ips}",
     } ->
     file_line {'SCALEIO_tb_ips':
-      ensure  => present,
-      path    => '/etc/environment',
-      match   => "^SCALEIO_tb_ips=",
-      line    => "SCALEIO_tb_ips=${new_tb_ips}",
+      ensure => present,
+      path   => '/etc/environment',
+      match  => '^SCALEIO_tb_ips=',
+      line   => "SCALEIO_tb_ips=${new_tb_ips}",
     }
     # only primary-controller needs discovery of sds/sdc
     if $is_primary_controller {
       file_line {'SCALEIO_discovery_allowed':
-        ensure    => present,
-        path      => '/etc/environment',
-        match     => "^SCALEIO_discovery_allowed=",
-        line      => "SCALEIO_discovery_allowed=yes",
-        require   => File_line['SCALEIO_tb_ips']
+        ensure  => present,
+        path    => '/etc/environment',
+        match   => '^SCALEIO_discovery_allowed=',
+        line    => 'SCALEIO_discovery_allowed=yes',
+        require => File_line['SCALEIO_tb_ips']
       }
     }
   } else {

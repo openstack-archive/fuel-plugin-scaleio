@@ -6,12 +6,12 @@ define mdm_standby() {
   $ip = $title
   notify {"Configure Standby MDM ${ip}": } ->
   scaleio::mdm {"Standby MDM ${ip}":
-      ensure              => 'present',
-      ensure_properties   => 'present',
-      sio_name            => $ip,
-      role                => 'manager',
-      ips                 => $ip,
-      management_ips      => $ip,
+      ensure            => 'present',
+      ensure_properties => 'present',
+      sio_name          => $ip,
+      role              => 'manager',
+      ips               => $ip,
+      management_ips    => $ip,
   }
 }
 
@@ -19,12 +19,12 @@ define mdm_tb() {
   $ip = $title
   notify {"Configure Tie-Breaker MDM ${ip}": } ->
   scaleio::mdm {"Tie-Breaker MDM ${ip}":
-      ensure              => 'present',
-      ensure_properties   => 'present',
-      sio_name            => $ip,
-      role                => 'tb',
-      ips                 => $ip,
-      management_ips      => undef,
+      ensure            => 'present',
+      ensure_properties => 'present',
+      sio_name          => $ip,
+      role              => 'tb',
+      ips               => $ip,
+      management_ips    => undef,
   }
 }
 
@@ -37,7 +37,7 @@ define storage_pool_ensure(
   $rmcache_passthrough_pools,
   $rmcache_cached_pools,
 ) {
-  $parsed_pool_name = split($title, ":")
+  $parsed_pool_name = split($title, ':')
   $protection_domain = $parsed_pool_name[0]
   $sp_name = $parsed_pool_name[1]
   if $::scaleio_storage_pools and $::scaleio_storage_pools != '' {
@@ -77,7 +77,7 @@ define storage_pool_ensure(
     }
   } else {
     notify {"Skip storage pool ${sp_name} because it is already exists in ${::scaleio_storage_pools}": }
-  } 
+  }
 }
 
 define protection_domain_ensure(
@@ -116,7 +116,7 @@ define sds_ensure(
 ) {
   $sds_name = $title
   $protection_domain = $sds_to_pd_map[$sds_name]
-  $sds_node_ = filter_nodes($sds_nodes, 'name', $sds_name) 
+  $sds_node_ = filter_nodes($sds_nodes, 'name', $sds_name)
   $sds_node = $sds_node_[0]
   #ips for data path traffic
   $storage_ips      = $sds_node['storage_address']
@@ -128,7 +128,7 @@ define sds_ensure(
     fail("TODO: behaviour changed: address becomes comma-separated list ${storage_ips} or ${mgmt_ips}, so it is needed to add the generation of ip roles")
   }
   if $mgmt_ips == $storage_ips {
-    $sds_ips      = "${storage_ips}"
+    $sds_ips      = $storage_ips
     $sds_ip_roles = 'all'
   }
   else {
@@ -166,30 +166,30 @@ define sds_ensure(
   }
   notify { "sds ${sds_name}: pools:devices:rfcache: '${sds_pools}': '${sds_device}': '${sds_rfcache_devices}'": } ->
   scaleio::sds {$sds_name:
-    ensure             => 'present',
-    sio_name           => $sds_name,
-    protection_domain  => $protection_domain,
-    ips                => $sds_ips,
-    ip_roles           => $sds_ip_roles,
-    storage_pools      => $sds_pools,
-    device_paths       => $sds_device,
-    rfcache_devices    => $sds_rfcache_devices,
+    ensure            => 'present',
+    sio_name          => $sds_name,
+    protection_domain => $protection_domain,
+    ips               => $sds_ips,
+    ip_roles          => $sds_ip_roles,
+    storage_pools     => $sds_pools,
+    device_paths      => $sds_device,
+    rfcache_devices   => $sds_rfcache_devices,
   }
 }
 
 define cleanup_sdc () {
   $sdc_ip = $title
   scaleio::sdc {"Remove SDC ${sdc_ip}":
-    ensure             => 'absent',
-    ip                 => $sdc_ip,
+    ensure => 'absent',
+    ip     => $sdc_ip,
   }
 }
 
 define cleanup_sds () {
   $sds_name = $title
   scaleio::sds {"Remove SDS ${sds_name}":
-    ensure             => 'absent',
-    sio_name           => $sds_name,
+    ensure   => 'absent',
+    sio_name => $sds_name,
   }
 }
 
@@ -205,11 +205,11 @@ if $scaleio['metadata']['enabled'] {
         $use_plugin_roles = $scaleio['enable_sds_role']
         if ! $use_plugin_roles {
           $storage_nodes = filter_nodes($all_nodes, 'role', 'compute')
-          if $scaleio['sds_on_controller'] {    
-            $controller_nodes  = filter_nodes($all_nodes, 'role', 'controller')   
+          if $scaleio['sds_on_controller'] {
+            $controller_nodes  = filter_nodes($all_nodes, 'role', 'controller')
             $pr_controller_nodes = filter_nodes($all_nodes, 'role', 'primary-controller')
             $sds_nodes = concat(concat($pr_controller_nodes, $controller_nodes), $storage_nodes)
-          } else {    
+          } else {
             $sds_nodes = $storage_nodes
           }
         } else {
@@ -235,13 +235,13 @@ if $scaleio['metadata']['enabled'] {
           $standby_ips = delete($mdm_ip_array, $mdm_ip_array[0])
           if $mdm_count < 3 or $tb_count == 1 {
             $cluster_mode = 3
-            $slave_names = join(values_at($standby_ips, "0-0"), ',')
-            $tb_names    = join(values_at($tb_ip_array, "0-0"), ',')
+            $slave_names = join(values_at($standby_ips, '0-0'), ',')
+            $tb_names    = join(values_at($tb_ip_array, '0-0'), ',')
           } else {
             $cluster_mode = 5
             # incase of switch 3 to 5 nodes add only standby mdm/tb
-            $to_add_slaves = difference(values_at($standby_ips, "0-1"), intersection(values_at($standby_ips, "0-1"), split($::scaleio_mdm_ips, ',')))
-            $to_add_tb = difference(values_at($tb_ip_array, "0-1"), intersection(values_at($tb_ip_array, "0-1"), split($::scaleio_tb_ips, ',')))
+            $to_add_slaves = difference(values_at($standby_ips, '0-1'), intersection(values_at($standby_ips, '0-1'), split($::scaleio_mdm_ips, ',')))
+            $to_add_tb = difference(values_at($tb_ip_array, '0-1'), intersection(values_at($tb_ip_array, '0-1'), split($::scaleio_tb_ips, ',')))
             $slave_names = join($to_add_slaves, ',')
             $tb_names    = join($to_add_tb, ',')
           }
@@ -262,7 +262,7 @@ if $scaleio['metadata']['enabled'] {
         }
         if $scaleio['storage_pools'] and $scaleio['storage_pools'] != '' {
           # if storage pools come from settings remove probable trailing commas
-          $pools_array = split($scaleio['storage_pools'], ',') 
+          $pools_array = split($scaleio['storage_pools'], ',')
           $pools = join($pools_array, ',')
         } else {
           $pools_array = get_pools_from_sds_config($sds_devices_config)
@@ -365,11 +365,11 @@ if $scaleio['metadata']['enabled'] {
           } ->
           mdm_tb{$tb_ip_array:} ->
           scaleio::cluster {'Configure cluster mode':
-            ensure              => 'present',
-            cluster_mode        => $cluster_mode,
-            slave_names         => $slave_names,
-            tb_names            => $tb_names,
-            require             => Scaleio::Login['Normal'],
+            ensure       => 'present',
+            cluster_mode => $cluster_mode,
+            slave_names  => $slave_names,
+            tb_names     => $tb_names,
+            require      => Scaleio::Login['Normal'],
           }
         }
         protection_domain_ensure {$protection_domain_array:
@@ -384,13 +384,13 @@ if $scaleio['metadata']['enabled'] {
           require                     => Scaleio::Login['Normal'],
         } ->
         sds_ensure {$to_add_sds_names:
-          sds_nodes           => $sds_nodes,
-          sds_to_pd_map       => $sds_to_pd_map,
-          storage_pools       => $pools,
-          device_paths        => $paths,
-          rfcache_devices     => $rfcache_devices,
-          sds_devices_config  => $sds_devices_config,
-          require             => Protection_domain_ensure[$protection_domain_array],
+          sds_nodes          => $sds_nodes,
+          sds_to_pd_map      => $sds_to_pd_map,
+          storage_pools      => $pools,
+          device_paths       => $paths,
+          rfcache_devices    => $rfcache_devices,
+          sds_devices_config => $sds_devices_config,
+          require            => Protection_domain_ensure[$protection_domain_array],
         }
         if $capacity_high_alert_threshold and $capacity_critical_alert_threshold {
           scaleio::cluster {'Configure alerts':
@@ -412,19 +412,19 @@ if $scaleio['metadata']['enabled'] {
         notify {"Not Master MDM IP ${master_mdm}": }
       }
       file_line {'SCALEIO_mdm_ips':
-        ensure  => present,
-        path    => '/etc/environment',
-        match   => "^SCALEIO_mdm_ips=",
-        line    => "SCALEIO_mdm_ips=${::managers_ips}",
+        ensure => present,
+        path   => '/etc/environment',
+        match  => '^SCALEIO_mdm_ips=',
+        line   => "SCALEIO_mdm_ips=${::managers_ips}",
       } ->
       # forbid requesting sdc/sds from discovery facters,
       # this is a workaround of the ScaleIO problem -
       # these requests hangs in some reason if cluster is in degraded state
       file_line {'SCALEIO_discovery_allowed':
-        ensure  => present,
-        path    => '/etc/environment',
-        match   => "^SCALEIO_discovery_allowed=",
-        line    => "SCALEIO_discovery_allowed=no",
+        ensure => present,
+        path   => '/etc/environment',
+        match  => '^SCALEIO_discovery_allowed=',
+        line   => 'SCALEIO_discovery_allowed=no',
       }
 
     } else {
