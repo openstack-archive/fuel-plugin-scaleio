@@ -12,29 +12,29 @@ if $scaleio['metadata']['enabled'] {
       }
       Haproxy::Service        { use_include => true }
       Haproxy::Balancermember { use_include => true }
-      class {'scaleio::gateway_server':
+      class {'::scaleio::gateway_server':
         ensure   => 'present',
         mdm_ips  => $::managers_ips,
         password => $scaleio['password'],
       } ->
       notify { "Configure Haproxy for Gateway nodes: ${gw_ips}": } ->
       openstack::ha::haproxy_service { 'scaleio-gateway':
-        order                   => 201,
-        server_names            => $gw_ips,
-        ipaddresses             => $gw_ips,
-        listen_port             => $::gateway_port,
-        public_virtual_ip       => hiera('public_vip'),
-        internal_virtual_ip     => hiera('management_vip'),
-        define_backups          => true,
-        public                  => true,
-        haproxy_config_options  => $haproxy_config_options,
-        balancermember_options  => 'check inter 10s fastinter 2s downinter 3s rise 3 fall 3',
-      }      
+        order                  => 201,
+        server_names           => $gw_ips,
+        ipaddresses            => $gw_ips,
+        listen_port            => $::gateway_port,
+        public_virtual_ip      => hiera('public_vip'),
+        internal_virtual_ip    => hiera('management_vip'),
+        define_backups         => true,
+        public                 => true,
+        haproxy_config_options => $haproxy_config_options,
+        balancermember_options => 'check inter 10s fastinter 2s downinter 3s rise 3 fall 3',
+      }
     } else {
       fail('Empty MDM IPs configuration')
-    }  
+    }
   } else {
     notify{'Skip deploying gateway server because of using existing cluster': }
   }
-  
+
 }

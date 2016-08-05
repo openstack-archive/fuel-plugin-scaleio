@@ -12,23 +12,23 @@ if $scaleio['metadata']['enabled'] {
     $discovered_tbs_ips = join($current_tbs, ',')
     notify {"ScaleIO cluster: discovery: discovered_managers_ips='${discovered_managers_ips}', discovered_tbs_ips='${discovered_tbs_ips}'": } ->
     file_line {'SCALEIO_mdm_ips':
-      ensure  => present,
-      path    => '/etc/environment',
-      match   => "^SCALEIO_mdm_ips=",
-      line    => "SCALEIO_mdm_ips=${discovered_mdms_ips}",
+      ensure => present,
+      path   => '/etc/environment',
+      match  => '^SCALEIO_mdm_ips=',
+      line   => "SCALEIO_mdm_ips=${discovered_mdms_ips}",
     } ->
     file_line {'SCALEIO_managers_ips':
-      ensure  => present,
-      path    => '/etc/environment',
-      match   => "^SCALEIO_managers_ips=",
-      line    => "SCALEIO_managers_ips=${discovered_managers_ips}",
+      ensure => present,
+      path   => '/etc/environment',
+      match  => '^SCALEIO_managers_ips=',
+      line   => "SCALEIO_managers_ips=${discovered_managers_ips}",
     } ->
     file_line {'SCALEIO_tb_ips':
-      ensure  => present,
-      path    => '/etc/environment',
-      match   => "^SCALEIO_tb_ips=",
-      line    => "SCALEIO_tb_ips=${discovered_tbs_ips}",
-    }    
+      ensure => present,
+      path   => '/etc/environment',
+      match  => '^SCALEIO_tb_ips=',
+      line   => "SCALEIO_tb_ips=${discovered_tbs_ips}",
+    }
   } else {
     notify{'Skip configuring cluster because of using existing cluster': }
   }

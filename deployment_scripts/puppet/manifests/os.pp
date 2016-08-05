@@ -10,25 +10,25 @@ define apply_flavor(
     $flavor_name = $parsed_name[0]
     $flavor = $flavors_hash[$flavor_name]
     scaleio_openstack::flavor {$resource_name:
-      ensure          => present,
-      name            => $resource_name,
-      storage_pool    => $flavor['storage_pool'],
-      id              => $flavor['id'],
-      ram_size        => $flavor['ram_size'],
-      vcpus           => $flavor['vcpus'],
-      disk_size       => $flavor['disk_size'],
-      ephemeral_size  => $flavor['ephemeral_size'],
-      swap_size       => $flavor['swap_size'],
-      rxtx_factor     => $flavor['rxtx_factor'],
-      is_public       => $flavor['is_public'],
-      provisioning    => $flavor['provisioning'],
+      ensure         => present,
+      name           => $resource_name,
+      storage_pool   => $flavor['storage_pool'],
+      id             => $flavor['id'],
+      ram_size       => $flavor['ram_size'],
+      vcpus          => $flavor['vcpus'],
+      disk_size      => $flavor['disk_size'],
+      ephemeral_size => $flavor['ephemeral_size'],
+      swap_size      => $flavor['swap_size'],
+      rxtx_factor    => $flavor['rxtx_factor'],
+      is_public      => $flavor['is_public'],
+      provisioning   => $flavor['provisioning'],
     }
   } else {
     scaleio_openstack::flavor {$resource_name:
-      ensure          => absent,
-      name            => $resource_name,
+      ensure => absent,
+      name   => $resource_name,
     }
-  } 
+  }
 }
 
 $scaleio = hiera('scaleio')
@@ -37,7 +37,7 @@ if $scaleio['metadata']['enabled'] {
   if ! empty(filter_nodes(filter_nodes($all_nodes, 'name', $::hostname), 'role', 'primary-controller')) {
     if $scaleio['storage_pools'] and $scaleio['storage_pools'] != '' {
       # if storage pools come from settings remove probable trailing commas
-      $pools_array = split($scaleio['storage_pools'], ',') 
+      $pools_array = split($scaleio['storage_pools'], ',')
     } else {
       $pools_array = get_pools_from_sds_config($sds_devices_config)
     }
