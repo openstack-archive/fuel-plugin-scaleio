@@ -1,0 +1,8 @@
+Code-Review+2: Alexey Morlang <alexey.morlang@gmail.com>
+Workflow+1: Alexey Morlang <alexey.morlang@gmail.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Fri, 05 Aug 2016 18:28:53 +0000
+Reviewed-on: https://review.openstack.org/351746
+Project: openstack/fuel-plugin-scaleio
+Branch: refs/heads/master
