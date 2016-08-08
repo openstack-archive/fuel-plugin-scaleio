@@ -130,7 +130,7 @@
 - id: scaleio-sdc-server
   required_for: [post_deployment_end]
   requires: [scaleio-sds-server, scaleio-environment-existing-mdm-ips]
-  role: [compute, cinder]
+  role: [primary-controller, controller, compute, cinder]
   type: puppet
   parameters:
     puppet_manifest: puppet/manifests/sdc_server.pp
@@ -140,7 +140,7 @@
 - id: scaleio-sdc
   required_for: [post_deployment_end]
   requires: [scaleio-sdc-server]
-  role: [compute, cinder]
+  role: [primary-controller, controller, compute, cinder]
   type: puppet
   parameters:
     puppet_manifest: puppet/manifests/sdc.pp
@@ -188,3 +188,38 @@
     puppet_modules: puppet/modules:/etc/puppet/modules
     timeout: 600
 
+- id: scaleio-glance-cleanup
+  required_for: [post_deployment_end]
+  requires: [scaleio-configure-cluster]
+  cross-depends:
+    - name: scaleio-configure-cluster
+  role: [primary-controller]
+  type: puppet
+  parameters:
+    puppet_manifest: puppet/manifests/glance_delete_test_image.pp
+    puppet_modules: puppet/modules:/etc/puppet/modules
+    timeout: 600
+
+- id: scaleio-glance
+  required_for: [post_deployment_end]
+  requires: [scaleio-glance-cleanup]
+  cross-depends:
+    - name: scaleio-glance-cleanup
+  role: [primary-controller, controller]
+  type: puppet
+  parameters:
+    puppet_manifest: puppet/manifests/glance.pp
+    puppet_modules: puppet/modules:/etc/puppet/modules
+    timeout: 600
+
+- id: scaleio-glance-test-image
+  required_for: [post_deployment_end]
+  requires: [scaleio-glance]
+  cross-depends:
+    - name: scaleio-glance
+  role: [primary-controller]
+  type: puppet
+  parameters:
+    puppet_manifest: puppet/manifests/glance_create_test_image.pp
+    puppet_modules: puppet/modules:/etc/puppet/modules
+    timeout: 600
