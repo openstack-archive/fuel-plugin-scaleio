@@ -296,6 +296,16 @@ attributes:
       - condition: "settings:scaleio.existing_cluster.value == true"
         action: hide
 
+  use_scaleio_for_glance:
+    type: "checkbox"
+    value: false
+    label: "Glance images on ScaleIO"
+    description: "Glance uses ScaleIO as a backend for images if the option enabled."
+    weight: 195
+    restrictions:
+      - condition: "settings:scaleio.existing_cluster.value == true or cluster:fuel_version == '6.1' or cluster:fuel_version == '7.0' or cluster:fuel_version == '8.0'"
+        action: hide
+
   version:
     type: "select"
     weight: 200
