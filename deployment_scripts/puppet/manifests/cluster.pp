@@ -319,6 +319,8 @@ if $scaleio['metadata']['enabled'] {
         } else {
           $capacity_critical_alert_threshold = undef
         }
+        $client_password_str = base64('encode', pw_hash($password, 'SHA-512', 'scaleio.client.access'))
+        $client_password = inline_template('Sio-<%= @client_password_str[33..40] %>-<%= @client_password_str[41..48] %>')
         notify {"Configure cluster MDM: ${master_mdm}": } ->
         scaleio::login {'Normal':
           password => $password,
@@ -391,6 +393,7 @@ if $scaleio['metadata']['enabled'] {
           rfcache_devices    => $rfcache_devices,
           sds_devices_config => $sds_devices_config,
           require            => Protection_domain_ensure[$protection_domain_array],
+          before             => Scaleio::Cluster['Create scaleio client user'],
         }
         if $capacity_high_alert_threshold and $capacity_critical_alert_threshold {
           scaleio::cluster {'Configure alerts':
@@ -398,6 +401,7 @@ if $scaleio['metadata']['enabled'] {
             capacity_high_alert_threshold     => $capacity_high_alert_threshold,
             capacity_critical_alert_threshold => $capacity_critical_alert_threshold,
             require                           => Protection_domain_ensure[$protection_domain_array],
+            before                            => Scaleio::Cluster['Create scaleio client user'],
           }
         }
         # Apply high performance profile to SDC-es
@@ -406,7 +410,13 @@ if $scaleio['metadata']['enabled'] {
           scaleio::sdc {'Set performance settings for all available SDCs':
             ip      => $sdc_nodes_ips[0],
             require => Protection_domain_ensure[$protection_domain_array],
+            before  => Scaleio::Cluster['Create scaleio client user'],
           }
+        }
+        scaleio::cluster {'Create scaleio client user':
+          ensure          => 'present',
+          client_password => $client_password,
+          require         => [Protection_domain_ensure[$protection_domain_array], Sds_ensure[$to_add_sds_names]],
         }
       } else {
         notify {"Not Master MDM IP ${master_mdm}": }
@@ -426,7 +436,6 @@ if $scaleio['metadata']['enabled'] {
         match  => '^SCALEIO_discovery_allowed=',
         line   => 'SCALEIO_discovery_allowed=no',
       }
-
     } else {
       fail('Empty MDM IPs configuration')
     }
