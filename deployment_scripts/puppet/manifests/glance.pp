@@ -3,18 +3,20 @@
 define glance_config(
   $config_file,
 ) {
-  Ini_setting {
-    ensure  => 'present',
-    section => 'glance_store',
-    path    => $config_file,
-  }
+  ini_subsetting { "${config_file}: stores":
+    ensure               => 'present',
+    path                 => $config_file,
+    section              => 'glance_store',
+    setting              => 'stores',
+    subsetting           => 'glance.store.cinder.Store',
+    subsetting_separator => ',',
+  } ->
   ini_setting { "${config_file}: default_store":
+    ensure  => 'present',
+    path    => $config_file,
+    section => 'glance_store',
     setting => 'default_store',
     value   => 'cinder',
-  } ->
-  ini_setting { "${config_file}: stores":
-    setting => 'stores',
-    value   => 'glance.store.cinder.Store',
   }
 }
 
