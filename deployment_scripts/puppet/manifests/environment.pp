@@ -153,10 +153,10 @@ if $scaleio['metadata']['enabled'] {
       fact  => 'ips',
       value => $ctrl_ips
     } ->
-    env_fact{'Environment fact: role gateway, user: admin':
+    env_fact{'Environment fact: role gateway, user: scaleio_client':
       role  => 'gateway',
       fact  => 'user',
-      value => 'admin'
+      value => 'scaleio_client'
     } ->
     env_fact{'Environment fact: role gateway, port: 4443':
       role  => 'gateway',

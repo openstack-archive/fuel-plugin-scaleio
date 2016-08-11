@@ -16,10 +16,17 @@ if $scaleio['metadata']['enabled'] {
     true => $scaleio['gateway_ip'],
     default => hiera('management_vip')
   }
+  $password = $scaleio['password']
+  if $scaleio['existing_cluster'] {
+    $client_password = $password
+  } else {
+    $client_password_str = base64('encode', pw_hash($password, 'SHA-512', 'scaleio.client.access'))
+    $client_password = inline_template('Sio-<%= @client_password_str[33..40] %>-<%= @client_password_str[41..48] %>')
+  }
   class {'::scaleio_openstack::nova':
     ensure             => present,
     gateway_user       => $::gateway_user,
-    gateway_password   => $scaleio['password'],
+    gateway_password   => $client_password,
     gateway_ip         => $gateway_ip,
     gateway_port       => $::gateway_port,
     protection_domains => $scaleio['protection_domain'],
