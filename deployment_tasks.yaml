@@ -193,6 +193,7 @@
   requires: [scaleio-cinder]
   cross-depends:
     - name: scaleio-cinder
+  cross-depended-by:
     - name: upload_cirros
   role: [primary-controller, controller]
   type: puppet
