@@ -194,7 +194,8 @@ define cleanup_sds () {
 }
 
 
-# The only first mdm which is proposed to be the first master does cluster configuration
+notice('MODULAR: scaleio: cluster')
+
 $scaleio = hiera('scaleio')
 if $scaleio['metadata']['enabled'] {
   if ! $scaleio['existing_cluster'] {

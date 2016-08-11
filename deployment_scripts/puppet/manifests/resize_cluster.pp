@@ -10,6 +10,9 @@ define cleanup_mdm () {
   }
 }
 
+
+notice('MODULAR: scaleio: resize_cluster')
+
 # The only mdm with minimal IP from current MDMs does cleaunp
 $scaleio = hiera('scaleio')
 if $scaleio['metadata']['enabled'] {

@@ -1,6 +1,8 @@
 # The puppet installs ScaleIO SDC packages and connect to MDMs.
 # It expects that any controller could be MDM
 
+notice('MODULAR: scaleio: sdc')
+
 $scaleio = hiera('scaleio')
 if $scaleio['metadata']['enabled'] {
   if ! $::controller_ips {

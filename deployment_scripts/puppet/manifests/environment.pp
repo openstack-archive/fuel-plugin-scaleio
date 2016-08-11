@@ -10,6 +10,8 @@ define env_fact($role, $fact, $value) {
   }
 }
 
+notice('MODULAR: scaleio: environment')
+
 $scaleio = hiera('scaleio')
 if $scaleio['metadata']['enabled'] {
   notify{'ScaleIO plugin enabled': }

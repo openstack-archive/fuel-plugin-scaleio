@@ -31,6 +31,8 @@ define apply_flavor(
   }
 }
 
+notice('MODULAR: scaleio: os')
+
 $scaleio = hiera('scaleio')
 if $scaleio['metadata']['enabled'] {
   $all_nodes = hiera('nodes')
