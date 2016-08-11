@@ -13,8 +13,7 @@ define sds_device_cleanup() {
 $scaleio = hiera('scaleio')
 if $scaleio['metadata']['enabled'] {
   if ! $scaleio['existing_cluster'] {      
-    $fuel_version = hiera('fuel_version')
-    $use_plugin_roles = $fuel_version > '8.0'
+    $use_plugin_roles = $scaleio['enable_sds_role']
     if ! $use_plugin_roles {
       #it is supposed that task is run on compute or controller
       $node_ips = split($::ip_address_array, ',')

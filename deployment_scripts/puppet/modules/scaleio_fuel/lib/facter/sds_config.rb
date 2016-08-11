@@ -14,7 +14,7 @@ if File.exists?($astute_config)
     setcode do
       result = nil
       config = YAML.load_file($astute_config)
-      if config and config.key('fuel_version') and config.key('fuel_version') > '8.0'
+      if config and config.key('scaleio') and config['scaleio'].key('enable_sds_role')
         galera_host = config['management_vip']
         mysql_opts = config['mysql']
         password = mysql_opts['root_password']
