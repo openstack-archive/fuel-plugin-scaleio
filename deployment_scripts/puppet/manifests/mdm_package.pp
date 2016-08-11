@@ -4,10 +4,10 @@ $scaleio = hiera('scaleio')
 if $scaleio['metadata']['enabled'] {
   if ! $scaleio['existing_cluster'] {
     $node_ips = split($::ip_address_array, ',')
-    if ! empty(intersection(split($::controller_ips, ','), $node_ips))    
+    if ! empty(intersection(split($::controller_ips, ','), $node_ips))
     {
-      notify {"Mdm server installation": } ->
-      class {'scaleio::mdm_server':
+      notify {'Mdm server installation': } ->
+      class {'::scaleio::mdm_server':
         ensure                   => 'present',
       }
     } else {
