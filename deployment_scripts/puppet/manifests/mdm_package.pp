@@ -1,5 +1,7 @@
 # The puppet installs ScaleIO MDM packages.
 
+notice('MODULAR: scaleio: mdm_package')
+
 $scaleio = hiera('scaleio')
 if $scaleio['metadata']['enabled'] {
   if ! $scaleio['existing_cluster'] {

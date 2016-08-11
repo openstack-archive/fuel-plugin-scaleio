@@ -1,5 +1,7 @@
 # The puppet configures OpenStack nova to use ScaleIO.
 
+notice('MODULAR: scaleio: nova')
+
 $scaleio = hiera('scaleio')
 if $scaleio['metadata']['enabled'] {
   $all_nodes = hiera('nodes')

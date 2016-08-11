@@ -1,5 +1,7 @@
 # The puppet create new OpenStack Glance's test image.
 
+notice('MODULAR: scaleio: glance_create_test_image')
+
 $scaleio = hiera('scaleio')
 if $scaleio['metadata']['enabled'] {
   $all_nodes = hiera('nodes')

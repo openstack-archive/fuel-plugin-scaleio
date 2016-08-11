@@ -18,6 +18,9 @@ define glance_config(
   }
 }
 
+
+notice('MODULAR: scaleio: glance')
+
 $scaleio = hiera('scaleio')
 if $scaleio['metadata']['enabled'] {
   $all_nodes = hiera('nodes')

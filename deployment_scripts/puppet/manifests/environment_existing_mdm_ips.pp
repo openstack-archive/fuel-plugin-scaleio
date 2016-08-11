@@ -10,6 +10,8 @@ define env_fact($role, $fact, $value) {
   }
 }
 
+notice('MODULAR: scaleio: environment_existing_mdm_ips')
+
 $scaleio = hiera('scaleio')
 if $scaleio['metadata']['enabled'] {
   if $scaleio['existing_cluster'] {

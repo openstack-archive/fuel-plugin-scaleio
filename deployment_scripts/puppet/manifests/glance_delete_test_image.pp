@@ -1,6 +1,8 @@
 # The puppet removes OpenStack Glance's test image if it exists.
 # It's needed to change default backend for images.
 
+notice('MODULAR: scaleio: glance_delete_test_image')
+
 $scaleio = hiera('scaleio')
 if $scaleio['metadata']['enabled'] {
   $all_nodes = hiera('nodes')

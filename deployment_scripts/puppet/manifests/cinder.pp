@@ -1,5 +1,7 @@
 # The puppet configures OpenStack cinder to use ScaleIO.
 
+notice('MODULAR: scaleio: cinder')
+
 $scaleio = hiera('scaleio')
 if $scaleio['metadata']['enabled'] {
   $all_nodes = hiera('nodes')

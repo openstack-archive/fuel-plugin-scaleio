@@ -1,5 +1,7 @@
 # The puppet discovers cluster and updates mdm_ips and tb_ips values for next cluster task.
 
+notice('MODULAR: scaleio: discovery_cluster')
+
 $scaleio = hiera('scaleio')
 if $scaleio['metadata']['enabled'] {
   if ! $scaleio['existing_cluster'] {

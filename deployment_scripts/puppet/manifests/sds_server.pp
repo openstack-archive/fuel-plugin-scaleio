@@ -9,6 +9,8 @@ define sds_device_cleanup() {
   }
 }
 
+notice('MODULAR: scaleio: sds_server')
+
 # Just install packages
 $scaleio = hiera('scaleio')
 if $scaleio['metadata']['enabled'] {

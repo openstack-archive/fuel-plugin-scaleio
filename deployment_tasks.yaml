@@ -188,11 +188,12 @@
     puppet_modules: puppet/modules:/etc/puppet/modules
     timeout: 600
 
-- id: scaleio-glance-cleanup
+- id: scaleio-glance-delete-test-image
   required_for: [post_deployment_end]
-  requires: [scaleio-configure-cluster]
+  requires: [scaleio-configure-cluster, upload_cirros]
   cross-depends:
     - name: scaleio-configure-cluster
+    - name: upload_cirros
   role: [primary-controller]
   type: puppet
   parameters:
@@ -202,9 +203,9 @@
 
 - id: scaleio-glance
   required_for: [post_deployment_end]
-  requires: [scaleio-glance-cleanup]
+  requires: [scaleio-glance-delete-test-image]
   cross-depends:
-    - name: scaleio-glance-cleanup
+    - name: scaleio-glance-delete-test-image
   role: [primary-controller, controller]
   type: puppet
   parameters:
@@ -212,7 +213,7 @@
     puppet_modules: puppet/modules:/etc/puppet/modules
     timeout: 600
 
-- id: scaleio-glance-test-image
+- id: scaleio-glance-create-test-image
   required_for: [post_deployment_end]
   requires: [scaleio-glance]
   cross-depends:
