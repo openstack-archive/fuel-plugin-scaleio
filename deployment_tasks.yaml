@@ -188,39 +188,15 @@
     puppet_modules: puppet/modules:/etc/puppet/modules
     timeout: 600
 
-- id: scaleio-glance-delete-test-image
-  required_for: [post_deployment_end]
-  requires: [scaleio-configure-cluster, upload_cirros]
-  cross-depends:
-    - name: scaleio-configure-cluster
-    - name: upload_cirros
-  role: [primary-controller]
-  type: puppet
-  parameters:
-    puppet_manifest: puppet/manifests/glance_delete_test_image.pp
-    puppet_modules: puppet/modules:/etc/puppet/modules
-    timeout: 600
-
 - id: scaleio-glance
-  required_for: [post_deployment_end]
-  requires: [scaleio-glance-delete-test-image]
+  required_for: [upload_cirros, post_deployment_end]
+  requires: [scaleio-cinder]
   cross-depends:
-    - name: scaleio-glance-delete-test-image
+    - name: scaleio-cinder
+    - name: upload_cirros
   role: [primary-controller, controller]
   type: puppet
   parameters:
     puppet_manifest: puppet/manifests/glance.pp
-    puppet_modules: puppet/modules:/etc/puppet/modules
-    timeout: 600
-
-- id: scaleio-glance-create-test-image
-  required_for: [post_deployment_end]
-  requires: [scaleio-glance]
-  cross-depends:
-    - name: scaleio-glance
-  role: [primary-controller]
-  type: puppet
-  parameters:
-    puppet_manifest: puppet/manifests/glance_create_test_image.pp
     puppet_modules: puppet/modules:/etc/puppet/modules
     timeout: 600
