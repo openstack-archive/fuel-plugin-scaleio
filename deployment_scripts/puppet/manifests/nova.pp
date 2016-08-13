@@ -25,13 +25,23 @@ if $scaleio['metadata']['enabled'] {
     $client_password_str = base64('encode', pw_hash($password, 'SHA-512', 'scaleio.client.access'))
     $client_password = inline_template('Sio-<%= @client_password_str[33..40] %>-<%= @client_password_str[41..48] %>')
   }
+  if $::scaleio_sds_with_protection_domain_list and $::scaleio_sds_with_protection_domain_list != '' {
+    $scaleio_sds_to_pd_map = hash(split($::scaleio_sds_with_protection_domain_list, ','))
+  } else {
+    $scaleio_sds_to_pd_map = {}
+  }
+  if $::hostname in $scaleio_sds_to_pd_map {
+    $pd_name = $scaleio_sds_to_pd_map[$::hostname]
+  } else {
+    $pd_name = $scaleio['protection_domain']
+  }
   class {'::scaleio_openstack::nova':
     ensure             => present,
     gateway_user       => $::gateway_user,
     gateway_password   => $client_password,
     gateway_ip         => $gateway_ip,
     gateway_port       => $::gateway_port,
-    protection_domains => $scaleio['protection_domain'],
+    protection_domains => $pd_name,
     storage_pools      => $::storage_pools,
     provisioning_type  => $provisioning_type,
   }
