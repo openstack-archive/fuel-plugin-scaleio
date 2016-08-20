@@ -1,5 +1,5 @@
 ===================================================
-Guide to the ScaleIOv2.0 Plugin for Fuel 8.0
+Guide to the ScaleIOv2.0 Plugin for Fuel 8.0, 9.0
 ===================================================
 
 Plugin Guide

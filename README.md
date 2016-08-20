@@ -17,6 +17,7 @@ The `ScaleIO` plugin allows to:
 | Requirement                      | Version/Comment |
 |----------------------------------|-----------------|
 | Mirantis OpenStack               | 8.0             |
+| Mirantis OpenStack               | 9.0             |
 
 ## Recommendations
 
