@@ -79,7 +79,7 @@ need further instructions about how to build the Fuel Plugin Builder.*
     ```
     $ git clone https://github.com/openstack/fuel-plugin-scaleio.git
     $ cd fuel-plugin-scaleio
-    $ git checkout "tags/v2.1.0"
+    $ git checkout "tags/v2.1.1"
     ```
 
 5. Check that the plugin is valid:
@@ -94,7 +94,7 @@ need further instructions about how to build the Fuel Plugin Builder.*
 
 7. Install plugin:
     ```
-    $ fuel plugins --install ./scaleio-2.1-2.1.0-1.noarch.rpm
+    $ fuel plugins --install ./scaleio-2.1-2.1.1-1.noarch.rpm
     ```
 
 ## ScaleIO Plugin install from Fuel Plugins Catalog
@@ -105,12 +105,12 @@ To install the ScaleIOv2.0 Fuel plugin:
 
 2. Copy the rpm file to the Fuel Master node
     ```
-    [root@home ~]# scp scaleio-2.1-2.1.0-1.noarch.rpm root@fuel-master:/tmp
+    [root@home ~]# scp scaleio-2.1-2.1.1-1.noarch.rpm root@fuel-master:/tmp
     ```
 
 3. Log into Fuel Master node and install the plugin using the Fuel CLI
     ```
-    $ fuel plugins --install ./scaleio-2.1-2.1.0-1.noarch.rpm
+    $ fuel plugins --install ./scaleio-2.1-2.1.1-1.noarch.rpm
     ```
 
 4. Verify that the plugin is installed correctly
@@ -118,7 +118,7 @@ To install the ScaleIOv2.0 Fuel plugin:
     [root@fuel-master ~]# fuel plugins
     id | name                  | version | package_version
     ---|-----------------------|---------|----------------
-     1 | scaleio               | 2.1.0   | 3.0.0
+     1 | scaleio               | 2.1.1   | 3.0.0
     ```
 
 # User Guide
