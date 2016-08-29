@@ -70,7 +70,10 @@ Plugin configuration
 
   \b. Provide Admin passwords for ScaleIO MDM and Gateway, list of Storage devices to be used as ScaleIO SDS storage devices. Optionally you can provide protection domain name and storage pool names.
 
-    .. image:: images/settings.png
+    .. image:: images/settings1.png
+       :width: 80%
+
+    .. image:: images/settings2.png
        :width: 80%
 
   \c. In case you want to specify different storage pools for different devices provide a list of pools corresponding to device paths, e.g. 'pool1,pool2' and '/dev/sdb,/dev/sdc' will assign /dev/sdb for the pool1 and /dev/sdc for the pool2.

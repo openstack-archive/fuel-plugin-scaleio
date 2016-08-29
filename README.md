@@ -136,7 +136,7 @@ ScaleIO section contains the following info to fill in:
  * Gateway IP address - IP address of ScaleIO gateway
  * Gateway port - Port of ScaleIO gateway
  * Gateway user - User to access ScaleIO gateway
- * Gateway password - Password to access ScaleIO gateway
+ * Admin password - Password to access ScaleIO gateway
  * Protection domain - The protection domain to use
  * Storage pools - Comma-separated list of storage pools
 
@@ -160,6 +160,9 @@ ScaleIO section contains the following info to fill in:
  * XtremCache storage pools - List of storage pools which should be cached with XtremCache.
  * Capacity high priority alert - Threshold of the non-spare capacity of the Storage Pool that will trigger a high-priority alert, in percentage format.
  * Capacity critical priority alert - Threshold of the non-spare capacity of the Storage Pool that will trigger a critical-priority alert, in percentage format.
+ * Use RAM cache (RMCache) - Enable/Disable use of SDS Servers RAM for caching storage devices in a Storage Pool.
+ * Passthrough RMCache storage pools - List of Storage Pools to be cached in SDS Servers RAM in passthrough mode (if the 'Use RAM cache (RMCache)' option is enabled)
+ * Cached RMCache storage pools - List od Storage Pools to be cached in SDS Servers RAM in cached mode (if the 'Use RAM cache (RMCache)' option is enabled)
  
  Configuration of disks for allocated nodes:
  The devices listed in the "Storage devices" and "XtremCache devices" should be left unallocated for ScaleIO SDS to work.
