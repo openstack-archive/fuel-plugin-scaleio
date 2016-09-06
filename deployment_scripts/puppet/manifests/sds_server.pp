@@ -15,14 +15,19 @@ notice('MODULAR: scaleio: sds_server')
 $scaleio = hiera('scaleio')
 if $scaleio['metadata']['enabled'] {
   if ! $scaleio['existing_cluster'] {
+    $all_nodes = hiera('nodes')
+    $nodes = filter_nodes($all_nodes, 'name', $::hostname)
     $use_plugin_roles = $scaleio['enable_sds_role']
     if ! $use_plugin_roles {
-      #it is supposed that task is run on compute or controller
-      $node_ips = split($::ip_address_array, ',')
-      $is_sds_server = empty(intersection(split($::controller_ips, ','), $node_ips)) or $scaleio['sds_on_controller']
+      if $scaleio['hyper_converged_deployment'] {
+        $is_controller = !empty(concat(filter_nodes($nodes, 'role', 'primary-controller'), filter_nodes($nodes, 'role', 'controller')))
+        $is_sds_on_controller = $is_controller and $scaleio['sds_on_controller']
+        $is_sds_on_compute = !empty(filter_nodes($nodes, 'role', 'compute'))
+        $is_sds_server = $is_sds_on_controller or $is_sds_on_compute
+      } else {
+        $is_sds_server = !empty(filter_nodes($nodes, 'role', 'scaleio'))
+      }
     } else {
-      $all_nodes = hiera('nodes')
-      $nodes = filter_nodes($all_nodes, 'name', $::hostname)
       $is_sds_server = ! empty(concat(
         concat(filter_nodes($nodes, 'role', 'scaleio-storage-tier1'), filter_nodes($nodes, 'role', 'scaleio-storage-tier2')),
         filter_nodes($nodes, 'role', 'scaleio-storage-tier3')))

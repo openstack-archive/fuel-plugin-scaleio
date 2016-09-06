@@ -1,16 +1,19 @@
 require 'date'
 require 'facter'
 
-$scaleio_tier1_guid   = 'f2e81bdc-99b3-4bf6-a68f-dc794da6cd8e'
-$scaleio_tier2_guid   = 'd5321bb3-1098-433e-b4f5-216712fcd06f'
-$scaleio_tier3_guid   = '97987bfc-a9ba-40f3-afea-13e1a228e492'
-$scaleio_rfcache_guid = '163ddeea-95dd-4af0-a329-140623590c47'
+$scaleio_storage_guid = '5e9bd278-9919-4db3-9756-4b82c7e9df52'
+## Experimental:
+#$scaleio_tier1_guid   = 'f2e81bdc-99b3-4bf6-a68f-dc794da6cd8e'
+#$scaleio_tier2_guid   = 'd5321bb3-1098-433e-b4f5-216712fcd06f'
+#$scaleio_tier3_guid   = '97987bfc-a9ba-40f3-afea-13e1a228e492'
+#$scaleio_rfcache_guid = '163ddeea-95dd-4af0-a329-140623590c47'
 
 $scaleio_tiers = {
-  'tier1'   => $scaleio_tier1_guid,
-  'tier2'   => $scaleio_tier2_guid,
-  'tier3'   => $scaleio_tier3_guid,
-  'rfcache' => $scaleio_rfcache_guid,
+  'all'     => $scaleio_storage_guid,
+#  'tier1'   => $scaleio_tier1_guid,
+#  'tier2'   => $scaleio_tier2_guid,
+#  'tier3'   => $scaleio_tier3_guid,
+#  'rfcache' => $scaleio_rfcache_guid,
 }
 
 $scaleio_log_file = "/var/log/fuel-plugin-scaleio.log"
@@ -47,11 +50,12 @@ end
 Facter.add('sds_storage_small_devices') do
   setcode do
     result = nil
+    disks0 = Facter.value('sds_storage_devices_all')
     disks1 = Facter.value('sds_storage_devices_tier1')
     disks2 = Facter.value('sds_storage_devices_tier2')
     disks3 = Facter.value('sds_storage_devices_tier3')
     if disks1 or disks2 or disks3
-      disks = [disks1, disks2, disks3].join(',')
+      disks = [disks0, disks1, disks2, disks3].join(',')
     end
     if disks
       devices = disks.split(',')

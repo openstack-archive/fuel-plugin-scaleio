@@ -205,13 +205,17 @@ if $scaleio['metadata']['enabled'] {
       if ! empty(filter_nodes(filter_nodes($all_nodes, 'name', $::hostname), 'role', 'primary-controller')) {
         $use_plugin_roles = $scaleio['enable_sds_role']
         if ! $use_plugin_roles {
-          $storage_nodes = filter_nodes($all_nodes, 'role', 'compute')
-          if $scaleio['sds_on_controller'] {
-            $controller_nodes  = filter_nodes($all_nodes, 'role', 'controller')
-            $pr_controller_nodes = filter_nodes($all_nodes, 'role', 'primary-controller')
-            $sds_nodes = concat(concat($pr_controller_nodes, $controller_nodes), $storage_nodes)
+          if $scaleio['hyper_converged_deployment'] {
+            $storage_nodes = filter_nodes($all_nodes, 'role', 'compute')
+            if $scaleio['sds_on_controller'] {
+              $controller_nodes  = filter_nodes($all_nodes, 'role', 'controller')
+              $pr_controller_nodes = filter_nodes($all_nodes, 'role', 'primary-controller')
+              $sds_nodes = concat(concat($pr_controller_nodes, $controller_nodes), $storage_nodes)
+            } else {
+              $sds_nodes = $storage_nodes
+            }
           } else {
-            $sds_nodes = $storage_nodes
+            $sds_nodes = filter_nodes($all_nodes, 'role', 'scaleio')
           }
         } else {
           $sds_nodes = concat(filter_nodes($all_nodes, 'role', 'scaleio-storage-tier1'), filter_nodes($all_nodes, 'role', 'scaleio-storage-tier2'))
