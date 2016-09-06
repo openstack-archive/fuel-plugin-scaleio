@@ -3,16 +3,6 @@ attributes:
     # Settings group can be one of "general", "security", "compute", "network",
     # "storage", "logging", "openstack_services" and "other".
     group: 'storage'
-
-  enable_sds_role:
-    type: "checkbox"
-    value: false
-    label: "Use ScaleIO SDS role."
-    description: "Enables role based deployment."
-    weight: 5
-    restrictions:
-      - condition: "true"
-        action: hide
     
   existing_cluster:
     type: "checkbox"
@@ -73,7 +63,10 @@ attributes:
     type: "text"
     value: "default"
     label: "Protection domain"
-    description: "Name of first protection domain. Next domains will get names like default_2, default_3."
+    description:
+      Name of first protection domain. In case of auto-scaling next domains will get names like default_2, default_3.
+      Auto-scaling works if the Use Existing Cluster option is disabled. Next domain is created
+      if number of SDS-es reaches the limit in the setting Maximum number of nodes in one protection domain.
     weight: 70
     regex:
       source: '^(\w+){1}((,){1}(?=\w+))*'
@@ -84,14 +77,25 @@ attributes:
     value: "100"
     label: "Maximum number of nodes in one protection domain"
     description: 
-        If number of nodes gets lasrgert than this threshould new protection domain will be created.
-        Note, in that case it is needed to add at least 3 new nodes with Storage role to make new domain operationable.
+        If number of nodes gets larger than this threshold then new protection domain will be created.
+        Note, in that case it is needed to add at least 3 new nodes to make new domain operationable.
+        In case of hyper-converged deployment they should be compute nodes, otherwise - the ScaleIO nodes.
     weight: 75
     regex:
       source: '^[1-9]{1}[0-9]*$'
       error: "Should be number that equal or larger than 1"
     restrictions:
       - condition: "settings:scaleio.existing_cluster.value == true"
+        action: hide
+
+  enable_sds_role:
+    type: "checkbox"
+    value: false
+    label: "Experimental role-based deployment"
+    description: "Hidden option to disable experimental feature"
+    weight: 5
+    restrictions:
+      - condition: "true"
         action: hide
 
   storage_pools:
@@ -135,6 +139,18 @@ attributes:
       - condition: "settings:scaleio.existing_cluster.value == true or settings:scaleio.enable_sds_role.value == true"
         action: hide
 
+  hyper_converged_deployment:
+    type: "checkbox"
+    value: true
+    label: "Hyper-converged deployment"
+    description:
+      Deploy SDS component on all compute nodes automatically and optionally on controller nodes.
+      If the option disabled then SDS will be deployed only on the nodes with the ScaleIO role.
+    weight: 103
+    restrictions:
+      - condition: "settings:scaleio.existing_cluster.value == true"
+        action: hide
+
   sds_on_controller:
     type: "checkbox"
     value: true
@@ -142,7 +158,7 @@ attributes:
     description: "Setup SDS-es on controller nodes."
     weight: 105
     restrictions:
-      - condition: "settings:scaleio.existing_cluster.value == true or settings:scaleio.enable_sds_role.value == true"
+      - condition: "settings:scaleio.existing_cluster.value == true  or settings:scaleio.hyper_converged_deployment.value == false or settings:scaleio.enable_sds_role.value == true"
         action: hide
 
   provisioning_type:

@@ -86,11 +86,15 @@ if $scaleio['metadata']['enabled'] {
     # Check SDS count
     $use_plugin_roles = $scaleio['enable_sds_role']
     if ! $use_plugin_roles {
-      $controller_sds_count = $scaleio['sds_on_controller'] ? {
-        true    => count($controller_ips_array),
-        default => 0
+      if $scaleio['hyper_converged_deployment'] {
+        $controller_sds_count = $scaleio['sds_on_controller'] ? {
+          true    => count($controller_ips_array),
+          default => 0
+        }
+        $total_sds_count = count(filter_nodes($all_nodes, 'role', 'compute')) + $controller_sds_count
+      } else {
+        $total_sds_count = count(filter_nodes($all_nodes, 'role', 'scaleio'))
       }
-      $total_sds_count = count(filter_nodes($all_nodes, 'role', 'compute')) + $controller_sds_count
       if $total_sds_count < 3 {
         $sds_check_msg = 'There should be at least 3 nodes with SDSs, either add Compute node or use Controllers as SDS.'
       }

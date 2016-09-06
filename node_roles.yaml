@@ -1,0 +1,30 @@
+scaleio:
+  name: "ScaleIO"
+  description: "ScaleIO"
+  update_required:
+    - primary-controller
+  restrictions:
+    - condition: "settings:scaleio.hyper_converged_deployment.value == true"
+      message:
+        ScaleIO role is available only in the non hyper-converged deployment mode.
+        To select non hyper-converged mode navigate to the ScaleIO plugin settings and un-check appropriate checkbox.
+  metadata:
+    group: 'storage'
+## Experimental features: disabled in production
+# scaleio-storage-tier1:
+#   name: "ScaleIO Storage Tier1"
+#   description: "Devices of a node with this role will be assigned to the storage poll tier1. If both tier roles are assigned, devices will be slit according to plugin settings."
+#   limits:
+#     min: 3
+#   update_required:
+#     - controller
+#     - primary-controller
+# 
+# scaleio-storage-tier2:
+#   name: "ScaleIO Storage Tier2"
+#   description: "Devices of a node with this role will be assigned to the storage poll tier2. If both tier roles are assigned, devices will be slit according to plugin settings."
+#   limits:
+#     min: 3
+#   update_required:
+#     - controller
+#     - primary-controller

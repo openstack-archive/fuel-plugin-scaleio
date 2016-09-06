@@ -23,11 +23,12 @@
 # ---------------------------------------------------------------------------------
 # |    Name                       | Description
 # |--------------------------------------------------------------------------------
-# | scaleio_sds_ips               | Comma separated list of SDS IPs.
-# | scaleio_sds_names             | Comma separated list of SDS names.
-# | scaleio_sdc_ips               | Comma separated list of SDC IPs,
-# |                               | it is list of management IPs, not storage IPs.
-
+# | scaleio_sds_ips                         | Comma separated list of SDS IPs.
+# | scaleio_sds_names                       | Comma separated list of SDS names.
+# | scaleio_sdc_ips                         | Comma separated list of SDC IPs,
+# |                                         | it is list of management IPs, not storage IPs.
+# | scaleio_sds_with_protection_domain_list | Comma separated list of SDS
+# |                                         | with its Protection domains: sds1,pd1,sds2,pd2,..
 # Facts about MDM from Gateway:
 # (It requests them from Gateway via curl and requires the fact 'gateway_ips'.
 #  An user is 'admin' by default or the fact 'gateway_user' if it exists.
