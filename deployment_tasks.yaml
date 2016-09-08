@@ -27,7 +27,7 @@
 ##############################################################################
 - id: scaleio-environment-check
 #  groups: [scaleio-storage-tier1, scaleio-storage-tier2, primary-controller, controller, compute, cinder]
-  groups: [primary-controller, controller, compute, cinder]
+  groups: [primary-controller, controller, compute, cinder, scaleio]
   required_for: [deploy_end, hosts]
   requires: [deploy_start] #, netconfig]
   type: puppet
@@ -42,7 +42,7 @@
 ##############################################################################
 - id: scaleio-environment
 #  role: [scaleio-storage-tier1, scaleio-storage-tier2, primary-controller, controller, compute, cinder]
-  role: [primary-controller, controller, compute, cinder]
+  role: [primary-controller, controller, compute, cinder, scaleio]
   required_for: [post_deployment_end]
   requires: [post_deployment_start]
   type: puppet
@@ -118,7 +118,7 @@
 
 - id: scaleio-sds-server
 #  role: [scaleio-storage-tier1, scaleio-storage-tier2]
-  role: [primary-controller, controller, compute]
+  role: [primary-controller, controller, compute, scaleio]
   required_for: [post_deployment_end]
   requires: [scaleio-gateway-server, scaleio-environment-existing-mdm-ips]
   type: puppet
