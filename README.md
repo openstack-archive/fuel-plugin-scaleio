@@ -2,8 +2,6 @@
 
 ## Overview
 
-Disclaimer: Current version is RC1.
-
 The `ScaleIO` plugin allows to:
   * Deploy an EMC ScaleIO v.2.0 cluster together with OpenStack and configure OpenStack to use ScaleIO
     as the storage for persistent and ephemeral volumes
