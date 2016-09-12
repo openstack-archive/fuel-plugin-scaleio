@@ -8,6 +8,7 @@ Plugin Guide
 .. toctree::
    :maxdepth: 2
 
+   release_notes
    introduction
    installation
    guide
