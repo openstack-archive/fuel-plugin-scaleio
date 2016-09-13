@@ -22,6 +22,17 @@
 #     strategy:
 #       type: parallel
 
+- id: scaleio
+  type: group
+  role: [scaleio]
+  tasks: [hiera, globals, tools, logging, netconfig, hosts, firewall, deploy_start]
+  required_for: [deploy_end]
+  requires: [deploy_start]
+  parameters:
+    strategy:
+      type: parallel
+
+
 ##############################################################################
 # ScaleIO environment check
 ##############################################################################
