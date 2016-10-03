@@ -15,7 +15,7 @@ RELEASE=${RELEASE_TAG:-"v1.1.0"}
 
 #TODO: use ftp.emc.com
 BASE_REPO_URL="http://scaleio-packages.s3-website-us-east-1.amazonaws.com"
-BASE_PUPPET_URL="https://github.com/emccode"
+BASE_PUPPET_URL="https://github.com/codedellemc"
 
 ##############################################################################
 # Download packages for plugin
