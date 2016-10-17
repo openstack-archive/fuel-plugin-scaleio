@@ -87,6 +87,12 @@ Plugin configuration
       'XtremCache devices' (it is expected that user is aware which device are SSD actually,
       the plugin does not perform such check).
 
+    .. image:: images/settings2_nh.png
+       :width: 80%
+
+    .. image:: images/role_scaleio.png
+       :width: 80%
+
     .. image:: images/devices_scaleio.png
        :width: 80%
 
