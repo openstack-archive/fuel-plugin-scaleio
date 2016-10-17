@@ -79,15 +79,28 @@ Plugin configuration
     .. image:: images/settings3.png
        :width: 80%
 
-  \c. In case you want to specify different storage pools for different devices provide a list of pools corresponding to device paths, e.g. 'pool1,pool2' and '/dev/sdb,/dev/sdc' will assign /dev/sdb for the pool1 and /dev/sdc for the pool2.
+  \c. In order to use separate ScaleIO storage nodes disable check-box 'Hyper-converged deployment'.
+      In such kind of depllyment ScaleIO SDS component will be deployed only on the nodes with ScaleIO role.
+      Although there is a role for ScaleIO Storage the user still has to point devices in the 'Storage devices' settings.
+      The role frees user from making ScaleIO disks unassigned. User can use devices with ScaleIO
+      role as 'Storage devices' (with mapping to different storage pools as described below) as well as
+      'XtremCache devices' (it is expected that user is aware which device are SSD actually,
+      the plugin does not perform such check).
 
-  \d. Make disks for ScaleIO SDS devices unallocated. These disks will be cleaned up and added to SDSs as storage devices. Note, that because of current Fuel framework limitation it is needed to keep some space for Cinder and Nova roles.
+    .. image:: images/devices_scaleio.png
+       :width: 80%
+
+  \d. In case of hyper-converged deployment enabled make disks for ScaleIO SDS devices unallocated.
+      These disks will be cleaned up and added to SDSs as storage devices.
+      Note, that because of current Fuel framework limitation it is needed to keep some space for Cinder and Nova roles.
 
     .. image:: images/devices_compute.png
        :width: 80%
 
     .. image:: images/devices_controller.png
        :width: 80%
+
+  \e. In case you want to specify different storage pools for different devices provide a list of pools corresponding to device paths, e.g. 'pool1,pool2' and '/dev/sdb,/dev/sdc' will assign /dev/sdb for the pool1 and /dev/sdc for the pool2.
 
 \3. In order to use existing ScaleIO cluster
 

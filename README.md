@@ -35,12 +35,11 @@ The `ScaleIO` plugin allows to:
 ## Limitations
 
 1. Plugin supports Ubuntu environment only.
-2. The only hyper converged environment is supported - there is no separate ScaleIO Storage nodes.
-3. Multi storage backend is not supported.
-4. It is not possible to use different backends for persistent and ephemeral volumes.
-5. Disks for SDS-es should be unallocated before deployment via FUEL UI or cli.
-6. MDMs and Gateways are deployed together and only onto controller nodes.
-7. Adding and removing node(s) to/from the OpenStack cluster won't re-configure the ScaleIO.
+2. Multi storage backend is not supported.
+3. It is not possible to use different backends for persistent and ephemeral volumes.
+4. Disks for SDS-es should be unallocated before deployment via FUEL UI or cli.
+5. MDMs and Gateways are deployed together and only onto controller nodes.
+6. Adding and removing node(s) to/from the OpenStack cluster won't re-configure the ScaleIO.
 
 # Installation Guide
 

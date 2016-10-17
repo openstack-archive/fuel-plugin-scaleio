@@ -1,3 +1,19 @@
+Release Notes v2.1.2
+====================
+
+
+New Features
+----------------
+
+1. Non-hyperconverged deployment support. Separate ScaleIO role for ScaleIO Storage nodes.
+To enable this feature there is appropriate check-box in the plugin's settings.
+Note, that although there is a role for ScaleIO Storage the user still has to point devices
+in the 'Storage devices' settings. The role frees user from making
+ScaleIO disks unassigned. User can use devices with ScaleIO role as 'Storage devices' (with
+mapping to different storage pools) as well as 'XtremCache devices' (it is expected that user
+is aware which device are SSD actually, the plugin does not perform such check).
+
+
 Release Notes v2.1.1
 ====================
 
