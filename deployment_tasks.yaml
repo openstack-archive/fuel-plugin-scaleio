@@ -25,12 +25,12 @@
 - id: scaleio
   type: group
   role: [scaleio]
-  tasks: [hiera, globals, tools, logging, netconfig, hosts, firewall, deploy_start]
+  tasks: [hiera, globals, setup_repositories, tools, logging, netconfig, hosts, deploy_start]
   required_for: [deploy_end]
   requires: [deploy_start]
   parameters:
     strategy:
-      type: parallel
+      type: one_by_one
 
 
 ##############################################################################
@@ -42,6 +42,7 @@
   required_for: [deploy_end, hosts]
   requires: [deploy_start] #, netconfig]
   type: puppet
+  version: 2.0.0
   parameters:
     puppet_manifest: puppet/manifests/environment.pp
     puppet_modules: puppet/modules:/etc/puppet/modules
@@ -57,6 +58,7 @@
   required_for: [post_deployment_end]
   requires: [post_deployment_start]
   type: puppet
+  version: 2.0.0
   parameters:
     puppet_manifest: puppet/manifests/environment.pp
     puppet_modules: puppet/modules:/etc/puppet/modules
@@ -68,6 +70,7 @@
   required_for: [post_deployment_end]
   requires: [scaleio-environment]
   type: puppet
+  version: 2.0.0
   parameters:
     puppet_manifest: puppet/manifests/environment_existing_mdm_ips.pp
     puppet_modules: puppet/modules:/etc/puppet/modules
@@ -82,6 +85,7 @@
   required_for: [post_deployment_end]
   requires: [scaleio-environment-existing-mdm-ips]
   type: puppet
+  version: 2.0.0
   parameters:
     puppet_manifest: puppet/manifests/mdm_package.pp
     puppet_modules: puppet/modules:/etc/puppet/modules
@@ -92,6 +96,7 @@
   required_for: [post_deployment_end]
   requires: [scaleio-mdm-packages]
   type: puppet
+  version: 2.0.0
   parameters:
     puppet_manifest: puppet/manifests/discovery_cluster.pp
     puppet_modules: puppet/modules:/etc/puppet/modules
@@ -102,6 +107,7 @@
   required_for: [post_deployment_end]
   requires: [scaleio-discover-cluster]
   type: puppet
+  version: 2.0.0
   parameters:
     puppet_manifest: puppet/manifests/resize_cluster.pp
     puppet_modules: puppet/modules:/etc/puppet/modules
@@ -112,6 +118,7 @@
   required_for: [post_deployment_end]
   requires: [scaleio-resize-cluster]
   type: puppet
+  version: 2.0.0
   parameters:
     puppet_manifest: puppet/manifests/mdm_server.pp
     puppet_modules: puppet/modules:/etc/puppet/modules
@@ -122,6 +129,7 @@
   required_for: [post_deployment_end]
   requires: [scaleio-mdm-server]
   type: puppet
+  version: 2.0.0
   parameters:
     puppet_manifest: puppet/manifests/gateway_server.pp
     puppet_modules: puppet/modules:/etc/puppet/modules
@@ -133,6 +141,7 @@
   required_for: [post_deployment_end]
   requires: [scaleio-gateway-server, scaleio-environment-existing-mdm-ips]
   type: puppet
+  version: 2.0.0
   parameters:
     puppet_manifest: puppet/manifests/sds_server.pp
     puppet_modules: puppet/modules:/etc/puppet/modules
@@ -143,6 +152,7 @@
   requires: [scaleio-sds-server, scaleio-environment-existing-mdm-ips]
   role: [primary-controller, controller, compute, cinder]
   type: puppet
+  version: 2.0.0
   parameters:
     puppet_manifest: puppet/manifests/sdc_server.pp
     puppet_modules: puppet/modules:/etc/puppet/modules
@@ -153,6 +163,7 @@
   requires: [scaleio-sdc-server]
   role: [primary-controller, controller, compute, cinder]
   type: puppet
+  version: 2.0.0
   parameters:
     puppet_manifest: puppet/manifests/sdc.pp
     puppet_modules: puppet/modules:/etc/puppet/modules
@@ -166,6 +177,7 @@
     - name: scaleio-sds-server
     - name: scaleio-sdc
   type: puppet
+  version: 2.0.0
   parameters:
     puppet_manifest: puppet/manifests/cluster.pp
     puppet_modules: puppet/modules:/etc/puppet/modules
@@ -182,6 +194,7 @@
   cross-depends:
     - name: scaleio-configure-cluster
   type: puppet
+  version: 2.0.0
   parameters:
     puppet_manifest: puppet/manifests/nova.pp
     puppet_modules: puppet/modules:/etc/puppet/modules
@@ -194,6 +207,7 @@
     - name: scaleio-configure-cluster
   role: [cinder]
   type: puppet
+  version: 2.0.0
   parameters:
     puppet_manifest: puppet/manifests/cinder.pp
     puppet_modules: puppet/modules:/etc/puppet/modules
@@ -208,6 +222,7 @@
     - name: upload_cirros
   role: [primary-controller, controller]
   type: puppet
+  version: 2.0.0
   parameters:
     puppet_manifest: puppet/manifests/glance.pp
     puppet_modules: puppet/modules:/etc/puppet/modules
