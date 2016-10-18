@@ -139,7 +139,7 @@
 #  role: [scaleio-storage-tier1, scaleio-storage-tier2]
   role: [primary-controller, controller, compute, scaleio]
   required_for: [post_deployment_end]
-  requires: [scaleio-gateway-server, scaleio-environment-existing-mdm-ips]
+  requires: [post_deployment_start, scaleio-environment, scaleio-environment-existing-mdm-ips, scaleio-gateway-server]
   type: puppet
   version: 2.0.0
   parameters:
@@ -149,7 +149,7 @@
 
 - id: scaleio-sdc-server
   required_for: [post_deployment_end]
-  requires: [scaleio-sds-server, scaleio-environment-existing-mdm-ips]
+  requires: [post_deployment_start, scaleio-environment-existing-mdm-ips, scaleio-sds-server]
   role: [primary-controller, controller, compute, cinder]
   type: puppet
   version: 2.0.0
@@ -172,7 +172,7 @@
 - id: scaleio-configure-cluster
   role: [primary-controller, controller]
   required_for: [post_deployment_end]
-  requires: [scaleio-sdc]
+  requires: [scaleio-sds-server, scaleio-sdc]
   cross-depends:
     - name: scaleio-sds-server
     - name: scaleio-sdc
