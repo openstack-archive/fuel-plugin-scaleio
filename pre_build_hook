@@ -11,7 +11,7 @@
 
 set -eux
 
-RELEASE=${RELEASE_TAG:-"v1.1.0"}
+RELEASE=${RELEASE_TAG:-"v1.1.4"}
 
 #TODO: use ftp.emc.com
 BASE_REPO_URL="http://scaleio-packages.s3-website-us-east-1.amazonaws.com"
