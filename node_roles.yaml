@@ -8,8 +8,7 @@ scaleio:
       message:
         ScaleIO role is available only in the non hyper-converged deployment mode.
         To select non hyper-converged mode navigate to the ScaleIO plugin settings and un-check appropriate checkbox.
-  metadata:
-    group: 'storage'
+  group: "storage"
 ## Experimental features: disabled in production
 # scaleio-storage-tier1:
 #   name: "ScaleIO Storage Tier1"

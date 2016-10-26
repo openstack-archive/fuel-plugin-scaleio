@@ -11,8 +11,8 @@ master_doc = 'index'
 project = u'The ScaleIO plugin for Fuel'
 copyright = u'2016, EMC Corporation'
 
-version = '2.1-2.1.1-1'
-release = '2.1-2.1.1-1'
+version = '2.1-2.1.2-1'
+release = '2.1-2.1.2-1'
 
 exclude_patterns = []
 
