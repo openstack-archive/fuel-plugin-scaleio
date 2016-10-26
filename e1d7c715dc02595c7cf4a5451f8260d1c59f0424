@@ -1,0 +1,8 @@
+Code-Review+2: Andrey Pavlov <andrey.mp@gmail.com>
+Workflow+1: Andrey Pavlov <andrey.mp@gmail.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Wed, 26 Oct 2016 13:24:31 +0000
+Reviewed-on: https://review.openstack.org/390857
+Project: openstack/fuel-plugin-scaleio
+Branch: refs/heads/master
