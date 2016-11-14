@@ -13,40 +13,7 @@ set -eux
 
 RELEASE=${RELEASE_TAG:-"v1.1.4"}
 
-#TODO: use ftp.emc.com
-BASE_REPO_URL="http://scaleio-packages.s3-website-us-east-1.amazonaws.com"
 BASE_PUPPET_URL="https://github.com/codedellemc"
-
-##############################################################################
-# Download packages for plugin
-##############################################################################
-PLATFORMS=(ubuntu centos)
-PLATFORMS_PKG_SUFFIX=(deb rpm)
-PLATFORMS_REPO_URL_SUFFIX=("pool/main/e" "centos/x86_64/RPMS")
-
-for r in {0..1}
-do
-    platform=${PLATFORMS[$r]}
-    repo_suffix=${PLATFORMS_REPO_URL_SUFFIX[$r]}
-    pkg_suffix=${PLATFORMS_PKG_SUFFIX[$r]}
-
-    repo_url="$BASE_REPO_URL/$platform/$repo_suffix/"
-    destination="./repositories/$platform"
-
-    components=`curl --silent "$repo_url" | grep -o 'emc-scaleio-\w\+' | sort| uniq`
-
-    for i in $components;
-    do
-        packages=`curl --silent "$repo_url$i/" | grep -o "$i[a-zA-Z0-9_.-]\+\.$pkg_suffix" | sort | uniq`
-        for p in $packages
-        do
-            if [[ ! -f "$destination/$p" || ! -z "${FORCE_DOWNLOAD+x}" ]]
-            then
-                wget -P "$destination/" "$repo_url$i/$p"
-            fi
-        done
-    done
-done
 
 ##############################################################################
 # Download required puppet modules

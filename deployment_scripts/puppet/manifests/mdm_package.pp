@@ -10,7 +10,8 @@ if $scaleio['metadata']['enabled'] {
     {
       notify {'Mdm server installation': } ->
       class {'::scaleio::mdm_server':
-        ensure                   => 'present',
+        ensure  => 'present',
+        pkg_ftp => $scaleio['pkg_ftp'],
       }
     } else {
       notify{'Skip deploying mdm server because it is not controller': }
