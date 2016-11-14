@@ -51,6 +51,7 @@ if $scaleio['metadata']['enabled'] {
         class {'::scaleio::sds_server':
           ensure => 'present',
           xcache => $use_xcache,
+          pkg_ftp => $scaleio['pkg_ftp'],
         }
       } else {
         # save devices in shared DB
@@ -99,6 +100,7 @@ if $scaleio['metadata']['enabled'] {
         class {'::scaleio::sds_server':
           ensure => 'present',
           xcache => $use_xcache,
+          pkg_ftp => $scaleio['pkg_ftp'],
         } ->
         package {'mysql-client':
           ensure => present,

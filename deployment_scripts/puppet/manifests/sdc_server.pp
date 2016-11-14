@@ -5,7 +5,8 @@ notice('MODULAR: scaleio: sdc_server')
 $scaleio = hiera('scaleio')
 if $scaleio['metadata']['enabled'] {
   class {'::scaleio::sdc_server':
-    ensure => 'present',
-    mdm_ip => undef,
+    ensure  => 'present',
+    mdm_ip  => undef,
+    pkg_ftp => $scaleio['pkg_ftp'],
   }
 }

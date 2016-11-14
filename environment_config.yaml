@@ -296,13 +296,10 @@ attributes:
       - condition: "settings:scaleio.existing_cluster.value == true"
         action: hide
 
-  version:
-    type: "select"
+  pkg_ftp:
+    type: "text"
+    value: "ftp://QNzgdxXix:Aw3wFAwAq3@ftp.emc.com/Ubuntu/2.0.7536.0"
+    label: "FTP server with ScaleIO packages"
+    description: "In case of no internet connection set this option to a local FTP server with appropriate folder structure."
     weight: 200
-    value: "2.0"
-    label: "Version"
-    description: "Select the ScaleIO version you wish to install. The only version 2.0 is supported for now."
-    values:
-      - data: "2.0"
-        label: "2.0"
 
