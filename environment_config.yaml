@@ -322,13 +322,10 @@ attributes:
       - condition: "settings:scaleio.existing_cluster.value == true or cluster:fuel_version == '6.1' or cluster:fuel_version == '7.0' or cluster:fuel_version == '8.0'"
         action: hide
 
-  version:
-    type: "select"
+  pkg_ftp:
+    type: "text"
+    value: "ftp://ftp.emc.com/Ubuntu/2.0.10000.2072"
+    label: "FTP server with ScaleIO packages"
+    description: "In case of no internet connection set this option to a local FTP server with appropriate folder structure."
     weight: 200
-    value: "2.0"
-    label: "Version"
-    description: "Select the ScaleIO version you wish to install. The only version 2.0 is supported for now."
-    values:
-      - data: "2.0"
-        label: "2.0"
 

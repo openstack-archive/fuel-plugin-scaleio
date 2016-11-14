@@ -14,6 +14,7 @@ if $scaleio['metadata']['enabled'] {
     class {'::scaleio::sdc_server':
       ensure => 'present',
       mdm_ip => undef,
+      pkg_ftp => $scaleio['pkg_ftp'],
     }
   } else{
       notify {"Skip SDC server task on the node ${::hostname}": }
