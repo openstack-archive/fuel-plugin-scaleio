@@ -1,3 +1,12 @@
+Release Notes v2.0.2
+====================
+
+New Features
+----------------
+
+1. Use FTP server for downloading ScaleIO packages. Added appropriate parameter into the plugin settings to enable ability use own server.
+
+
 Release Notes v2.0.1
 ====================
 
