@@ -11,7 +11,7 @@
 
 set -eux
 
-RELEASE=${RELEASE_TAG:-"v1.1.4"}
+RELEASE=${RELEASE_TAG:-"v1.2.0"}
 
 BASE_PUPPET_URL="https://github.com/codedellemc"
 
