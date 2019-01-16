@@ -19,7 +19,7 @@ attributes:
     weight: 20
     regex:
         source: '^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$'
-        error: "Gateway address is requried parameter"
+        error: "Gateway address is required parameter"
     restrictions:
       - condition: "settings:scaleio.existing_cluster.value == false"
         action: hide
